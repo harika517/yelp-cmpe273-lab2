@@ -23,7 +23,6 @@ router.post(
             'Please enter password with 6 or more characters',
         ).isLength({ min: 6 }),
     ],
-    // eslint-disable-next-line consistent-return
     async(req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -42,7 +41,7 @@ router.post(
             // see if user exists
             let user = await User.findOne({ userEmail });
             if (user) {
-                res.status(400).json({ errors: [{ msg: 'User Already Exists' }] });
+                return res.status(400).json({ errors: [{ msg: 'User Already Exists' }] });
             }
             // get users gravatar
             const image = gravatar.url(userEmail, {
