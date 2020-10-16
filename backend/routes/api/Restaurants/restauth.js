@@ -2,19 +2,19 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcyrpt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const { auth, checkAuth } = require('../../../config/passportjwt');
-const RestUser = require('./models/RestUser');
+const { restauth, restcheckAuth } = require('../../../config/passportjwt');
+const RestUser = require('../../../models/RestUser');
 const { secret } = require('../../../config/config');
 
 const router = express.Router();
-auth();
+restauth();
 
 // @route  GET /api/restauth
 // @Desc   Get registered restuser with token
 // @access Private
-router.get('/', checkAuth, async(req, res) => {
+router.get('/', restcheckAuth, async(req, res) => {
     try {
-        const restuser = await RestUser.findById(req.user.id).select('-password');
+        const restuser = await RestUser.findById(req.restuser.id).select('-password');
         res.json(restuser);
     } catch (err) {
         console.error(err.message);
@@ -61,7 +61,7 @@ router.post(
             }
 
             const payload = {
-                user: { id: restuser.id },
+                restuser: { id: restuser.id },
             };
 
             jwt.sign(payload, secret, {

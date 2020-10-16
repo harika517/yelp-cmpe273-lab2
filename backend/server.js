@@ -24,7 +24,7 @@ app.use('/api/auth', require('./routes/api/Users/auth'));
 
 // Rest Users
 app.use('/api/restusers', require('./routes/api/Restaurants/restusers'));
-// app.use('/api/restprofile', require('./routes/api/Users/profile'));
+app.use('/api/restprofile', require('./routes/api/Restaurants/restprofile'));
 app.use('/api/restauth', require('./routes/api/Restaurants/restauth'));
 
 const PORT = process.env.PORT || 3001;

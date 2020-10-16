@@ -8,7 +8,7 @@ const bcyrpt = require('bcryptjs');
 const gravatar = require('gravatar');
 const { check, validationResult } = require('express-validator');
 const { secret } = require('../../../config/config');
-const User = require('./models/User');
+const User = require('../../../models/User');
 // const { auth } = require('../../../config/passportjwt');
 
 // @route  POST api/users

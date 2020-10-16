@@ -8,7 +8,7 @@ const bcyrpt = require('bcryptjs');
 const gravatar = require('gravatar');
 const { check, validationResult } = require('express-validator');
 const { secret } = require('../../../config/config');
-const RestUser = require('./models/RestUser');
+const RestUser = require('../../../models/RestUser');
 // const { auth } = require('../../../config/passportjwt');
 
 // @route  POST /api/restusers
@@ -63,7 +63,7 @@ router.post(
             await restuser.save();
 
             const payload = {
-                user: { id: restuser.id },
+                restuser: { id: restuser.id },
             };
 
             jwt.sign(payload, secret, {
