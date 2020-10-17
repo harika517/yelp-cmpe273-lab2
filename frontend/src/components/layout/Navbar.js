@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
@@ -10,6 +11,7 @@ const Navbar = () => {
                 ></img>
 
             </div>
+            <Link className="text-light medium" to='/'>Home</Link>
         </nav>
     )
 }

@@ -22,7 +22,7 @@ const Landing = () => {
                     </ul>
                 </div>
                 <img
-                    class="logo-icon-large"
+                    className="logo-icon-large"
                     src="https://s3-media4.fl.yelpcdn.com/assets/srv0/yelp_styleguide/c3484759c57a/assets/img/logos/logo_desktop_xlarge.png"
                 />
                 <br />

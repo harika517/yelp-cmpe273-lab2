@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import Navbar from '../../../components/layout/Navbar'
+import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Navbar from '../../../components/layout/Navbar';
+import axios from 'axios';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +15,25 @@ const Register = () => {
     const { userName, firstName, lastName, userEmail, password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
+    const onSubmit = async e => {
+        e.preventDefault();
+        const newUser = {
+            userName, firstName, lastName, userEmail, password
+        }
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const body = JSON.stringify(newUser);
+            const res = await axios.post('/api/users', body, config);
+            console.log(res.data)
+        } catch (err) {
+            console.error(err.message.data)
+        }
+    }
 
     return (
         <Fragment>
@@ -23,7 +43,7 @@ const Register = () => {
                 <p className="lead">
                     <i className="fas fa-user"> </i> Sign Up for Yelp{' '}
                 </p>{' '}
-                <form className="form">
+                <form className="form" onSubmit={e => onSubmit(e)}>
                     <div className="form-group">
                         <input
                             type="text"
@@ -32,6 +52,7 @@ const Register = () => {
                             // defaultValue={Cust_Name}
                             value={userName}
                             onChange={(e) => onChange(e)}
+                        // required
                         />{' '}
                     </div>{' '}
                     <div className="form-group">
@@ -59,6 +80,7 @@ const Register = () => {
                             name="userEmail"
                             value={userEmail}
                             onChange={(e) => onChange(e)}
+                        // required
                         />{' '}
                     </div>{' '}
                     <div className="form-group">
@@ -68,6 +90,7 @@ const Register = () => {
                             name="password"
                             value={password}
                             onChange={(e) => onChange(e)}
+                        // required
                         />{' '}
                     </div>{' '}
                     <input type="submit" className="btn btn-dark" value="SignUp" />
