@@ -1,0 +1,17 @@
+import React from 'react'
+
+const Navbar = () => {
+    return (
+        <nav className="navbar bg-dark">
+            <div className="navBar">
+                <img
+                    className="logo-icon"
+                    src="https://s3-media4.fl.yelpcdn.com/assets/srv0/yelp_styleguide/c3484759c57a/assets/img/logos/logo_desktop_xlarge.png"
+                ></img>
+
+            </div>
+        </nav>
+    )
+}
+
+export default Navbar;
