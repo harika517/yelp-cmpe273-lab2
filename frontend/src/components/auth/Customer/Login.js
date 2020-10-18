@@ -64,6 +64,9 @@ const Login = () => {
                         />{' '}
                     </div>{' '}
                     <input type="submit" className="btn btn-dark" value="Login" />
+                    <Link to="/" className="btn btn-light">
+                        Cancel
+                    </Link>
                 </form>{' '}
                 <p className="my-1">
                     Not on yelp ?{' '}

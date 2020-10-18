@@ -21,8 +21,10 @@ const Register = ({ setAlert, register }) => {
     } = formData;
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log('success', formData);
         // if (password !== '123456') {
         //     setAlert('Please enter 123456 as password', 'danger');
         // } else {
@@ -90,6 +92,9 @@ const Register = ({ setAlert, register }) => {
                         />
                     </div>
                     <input type="submit" className="btn btn-dark" value="SignUp" />
+                    <Link to="/" className="btn btn-light">
+                        Cancel
+                    </Link>
                 </form>
                 <p className="my-1">
                     Already on yelp ?

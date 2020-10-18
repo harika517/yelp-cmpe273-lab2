@@ -309,7 +309,7 @@ hr {
 .alert-light {
     background: var(--light-color);
     color: #333;
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
 }
 
 .btn-dark,

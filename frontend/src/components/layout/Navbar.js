@@ -11,7 +11,7 @@ const Navbar = () => {
                 ></img>
 
             </div>
-            <Link className="text-light medium" to='/'>Home</Link>
+
         </nav>
     )
 }
