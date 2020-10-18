@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import CustLogin from './components/auth/Customer/Login';
 import CustSignUp from './components/auth/Customer/Register';
+import Alert from './components/layout/Alert';
 //Redux Setup
 
 import { Provider } from 'react-redux';
@@ -18,10 +19,14 @@ const App = () => (
       <Fragment className="App">
         {/* <Navbar /> */}
         <Route exact path='/' component={Landing} />
-        {/* <section className='container'> */}
-        <Route exact path='/login' component={CustLogin} />
-        <Route exact path='/register' component={CustSignUp} />
-        {/* </section> */}
+        <section >
+          <Alert />
+          <switch>
+            <Route exact path='/login' component={CustLogin} />
+            <Route exact path='/register' component={CustSignUp} />
+          </switch>
+
+        </section>
       </Fragment>
     </Router>
   </Provider>
