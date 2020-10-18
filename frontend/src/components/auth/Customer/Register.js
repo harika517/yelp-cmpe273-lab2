@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../layout/Navbar';
-import { setAlert } from '../../../actions/alert'
-import PropTypes from 'prop-types'
+import { setAlert } from '../../../actions/alert';
+import { register } from '../../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
     const [formData, setFormData] = useState({
         userName: '',
         firstName: '',
@@ -22,37 +23,22 @@ const Register = ({ setAlert }) => {
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = async (e) => {
         e.preventDefault();
-        const newUser = {
-            userName, firstName, lastName, userEmail, password,
-        };
-
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            };
-            const body = JSON.stringify(newUser);
-            const res = await axios.post('/api/users', body, config);
-            console.log(res.data);
-        } catch (err) {
-            console.error(err.message.data);
-        }
-    };
+        // if (password !== '123456') {
+        //     setAlert('Please enter 123456 as password', 'danger');
+        // } else {
+        register({ userName, firstName, lastName, userEmail, password });
+        // };
+    }
 
     return (
         <Fragment>
             <Navbar />
             <section className="container">
                 <h1 className="large text-dark"> Sign Up </h1>
-                {' '}
                 <p className="lead">
                     <i className="fas fa-user"> </i>
-                    {' '}
                 Sign Up for Yelp
-          {' '}
                 </p>
-                {' '}
                 <form className="form" onSubmit={(e) => onSubmit(e)}>
                     <div className="form-group">
                         <input
@@ -62,10 +48,9 @@ const Register = ({ setAlert }) => {
                             // defaultValue={Cust_Name}
                             value={userName}
                             onChange={(e) => onChange(e)}
+                            required
                         />
-                        {' '}
                     </div>
-                    {' '}
                     <div className="form-group">
                         <input
                             type="text"
@@ -74,9 +59,7 @@ const Register = ({ setAlert }) => {
                             value={firstName}
                             onChange={(e) => onChange(e)}
                         />
-                        {' '}
                     </div>
-                    {' '}
                     <div className="form-group">
                         <input
                             type="text"
@@ -85,9 +68,7 @@ const Register = ({ setAlert }) => {
                             value={lastName}
                             onChange={(e) => onChange(e)}
                         />
-                        {' '}
                     </div>
-                    {' '}
                     <div className="form-group">
                         <input
                             type="email"
@@ -95,10 +76,9 @@ const Register = ({ setAlert }) => {
                             name="userEmail"
                             value={userEmail}
                             onChange={(e) => onChange(e)}
+                            required
                         />
-                        {' '}
                     </div>
-                    {' '}
                     <div className="form-group">
                         <input
                             type="password"
@@ -106,23 +86,17 @@ const Register = ({ setAlert }) => {
                             name="password"
                             value={password}
                             onChange={(e) => onChange(e)}
+                            minLength='6'
                         />
-                        {' '}
                     </div>
-                    {' '}
                     <input type="submit" className="btn btn-dark" value="SignUp" />
                 </form>
-                {' '}
                 <p className="my-1">
                     Already on yelp ?
-          {' '}
                     <Link to="/login" className="text-dark">
                         Sign In
-            {' '}
                     </Link>
-                    {' '}
                 </p>
-                {' '}
             </section>
         </Fragment>
     );
@@ -130,6 +104,7 @@ const Register = ({ setAlert }) => {
 
 Register.PropTypes = {
     setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
 }
 
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);

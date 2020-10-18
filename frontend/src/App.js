@@ -19,13 +19,13 @@ const App = () => (
       <Fragment className="App">
         {/* <Navbar /> */}
         <Route exact path='/' component={Landing} />
-        <section >
-          <Alert />
+        <section>
+
           <switch>
             <Route exact path='/login' component={CustLogin} />
             <Route exact path='/register' component={CustSignUp} />
           </switch>
-
+          <Alert />
         </section>
       </Fragment>
     </Router>

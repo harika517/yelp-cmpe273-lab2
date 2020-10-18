@@ -285,9 +285,10 @@ hr {
 }
 
 .alert {
-    padding: 0.8rem;
-    margin: 1rem 0;
+    padding: 0.4rem;
+    margin: 0 20rem;
     opacity: 0.9;
+    width: 20%;
     background: var(--light-color);
     color: #333;
 }
@@ -399,9 +400,9 @@ hr {
 .form select,
 .form textarea {
     display: block;
-    width: 100%;
-    padding: 0.4rem;
-    font-size: 1.2rem;
+    width: 30%;
+    padding: 0.3rem;
+    font-size: 1rem;
     border: 1px solid #ccc;
 }
 
