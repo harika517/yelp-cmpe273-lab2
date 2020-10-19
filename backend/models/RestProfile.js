@@ -18,6 +18,15 @@ const RestProfileSchema = new mongoose.Schema({
     cuisine: {
         type: String,
     },
+    DineIn: {
+        type: String,
+    },
+    curbSidePickUp: {
+        type: String,
+    },
+    yelpDelivery: {
+        type: String,
+    },
     restimages: [String],
     menuItems: [{
         itemName: {

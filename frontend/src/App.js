@@ -11,6 +11,7 @@ import { loadUser, restLoadUser } from './actions/auth';
 import RestDashboard from './components/Dashboard/RestDashboard';
 
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 //Redux Setup
 
 import { Provider } from 'react-redux';
@@ -42,7 +43,7 @@ const App = () => {
               <Route exact path='/register' component={CustSignUp} />
               <Route exact path='/restlogin' component={RestLogin} />
               <Route exact path='/restregister' component={RestRegister} />
-              <Route exact path='/restdashboard' component={RestDashboard} />
+              <PrivateRoute exact path='/restdashboard' component={RestDashboard} />
             </switch>
             <Alert />
           </section>

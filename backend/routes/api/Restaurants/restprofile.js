@@ -32,6 +32,12 @@ router.get('/me', restcheckAuth, async(req, res) => {
 
 router.post('/', [restcheckAuth, [
     check('contact', 'Contact is required.').not().isEmpty(),
+    check('cuisine', 'Restaurant type is required').not().isEmpty(),
+    check('timings', 'Restaurant timings are required').not().isEmpty(),
+    check('DineIn', 'Please mention if this mode of delivery is available').not().isEmpty(),
+    check('curbSidePickUp', 'Please mention if this mode of delivery is available').not().isEmpty(),
+    check('yelpDelivery', 'Please mention if this mode of delivery is available').not().isEmpty(),
+
 ]], async(req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -39,12 +45,24 @@ router.post('/', [restcheckAuth, [
     }
 
     // build profile object
-    const { contact, description, timings } = req.body;
+    const {
+        contact,
+        description,
+        timings,
+        cuisine,
+        DineIn,
+        curbSidePickUp,
+        yelpDelivery,
+    } = req.body;
     const restProfileFields = {};
     restProfileFields.restuser = req.restuser.id;
     if (contact) restProfileFields.contact = contact;
     if (description) restProfileFields.description = description;
     if (timings) restProfileFields.timings = timings;
+    if (cuisine) restProfileFields.timings = cuisine;
+    if (DineIn) restProfileFields.timings = DineIn;
+    if (curbSidePickUp) restProfileFields.timings = curbSidePickUp;
+    if (yelpDelivery) restProfileFields.timings = yelpDelivery;
     try {
         let restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
         if (restprofile) {
@@ -52,7 +70,7 @@ router.post('/', [restcheckAuth, [
             restprofile = await RestProfile.findOneAndUpdate({ restuser: req.restuser.id }, { $set: restProfileFields }, { new: true });
             return res.json(restprofile);
         }
-        //create
+        // create
 
         restprofile = new RestProfile(restProfileFields);
         await restprofile.save();
