@@ -1,26 +1,53 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
-const Landing = () => {
+const Landing = ({ auth: { user, isAuthenticated, loading }, logout }) => {
+
+    const authLinks = (
+        <ul>
+            <li>
+                <Link to="/events">Events</Link>
+            </li>
+            <li>
+                <Link to="/reviews">Write a Review</Link>
+            </li>
+            <li>
+                <Link to='/dashboard'>{(!loading) ? user.firstName : <a href='/'></a>}'s Profile</Link>
+            </li>
+            {/* <li>
+                <Link to="/dashboard">Profile</Link>
+            </li> */}
+            <li>
+                <a onClick={logout} href='/'>
+                    <i className='fas fa-sign-out-alt'></i> {' '} Logout</a>
+            </li>
+        </ul>
+    );
+
+    const guestLinks = (
+        <ul>
+            <li>
+                <Link to="/events">Events</Link>
+            </li>
+            <li>
+                <Link to="/reviews">Write a Review</Link>
+            </li>
+            <li>
+                <Link to="/register">SignUp</Link>
+            </li>
+            <li>
+                <Link to="/login">Login</Link>
+            </li>
+        </ul>
+    );
+
     return (
         <section className="landing ">
             <div className="landing-inner">
-                <div>
-                    <ul>
-                        <li>
-                            <Link to="/events">Events</Link>
-                        </li>
-                        <li>
-                            <Link to="/reviews">Write a Review</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">SignUp</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                    </ul>
-                </div>
+                {!loading && (<Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>)}
                 <img
                     className="logo-icon-large"
                     src="https://s3-media4.fl.yelpcdn.com/assets/srv0/yelp_styleguide/c3484759c57a/assets/img/logos/logo_desktop_xlarge.png"
@@ -75,8 +102,17 @@ const Landing = () => {
                     </ul>
                 </div> */}
             </div>
+
         </section>
     )
 }
-
-export default Landing;
+Landing.PropTypes = {
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    // user: PropTypes.object.isRequired,
+}
+const mapStateToProps = state => ({
+    auth: state.auth,
+    // user: state.user
+})
+export default connect(mapStateToProps, { logout })(Landing);
