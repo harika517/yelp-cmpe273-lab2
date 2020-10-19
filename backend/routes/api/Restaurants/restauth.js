@@ -47,7 +47,6 @@ router.post(
             restpassword,
 
         } = req.body;
-
         try {
             // see if user exists
             const restuser = await RestUser.findOne({ restEmail });
@@ -74,8 +73,6 @@ router.post(
             console.error(err.message);
             res.status(500).send('Server Error');
         }
-
-        // console.log(req.body);
     },
 );
 

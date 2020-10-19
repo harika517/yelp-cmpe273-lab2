@@ -4,8 +4,12 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import CustLogin from './components/auth/Customer/Login';
 import CustSignUp from './components/auth/Customer/Register';
+import RestLogin from './components/auth/Restaurant/RestLogin';
+import RestRegister from './components/auth/Restaurant/RestRegister';
 import Alert from './components/layout/Alert';
-import { loadUser } from './actions/auth';
+import { loadUser, restLoadUser } from './actions/auth';
+import RestDashboard from './components/Dashboard/RestDashboard';
+
 import setAuthToken from './utils/setAuthToken';
 //Redux Setup
 
@@ -22,7 +26,8 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
-  }, []);
+    store.dispatch(restLoadUser());
+  });
 
   return (
     <Provider store={store}>
@@ -35,6 +40,9 @@ const App = () => {
             <switch>
               <Route exact path='/login' component={CustLogin} />
               <Route exact path='/register' component={CustSignUp} />
+              <Route exact path='/restlogin' component={RestLogin} />
+              <Route exact path='/restregister' component={RestRegister} />
+              <Route exact path='/restdashboard' component={RestDashboard} />
             </switch>
             <Alert />
           </section>

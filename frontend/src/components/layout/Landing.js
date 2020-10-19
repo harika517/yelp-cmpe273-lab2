@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 
 const Landing = ({ auth: { user, isAuthenticated, loading }, logout }) => {
+    if (user) {
+        console.log("landing", user.firstName)
+    }
 
     const authLinks = (
         <ul>
@@ -15,7 +18,7 @@ const Landing = ({ auth: { user, isAuthenticated, loading }, logout }) => {
                 <Link to="/reviews">Write a Review</Link>
             </li>
             <li>
-                <Link to='/dashboard'>{(!loading) ? user.firstName : <a href='/'></a>}'s Profile</Link>
+                <Link to='/dashboard'>{(user) ? user.firstName : null}'s Profile</Link>
             </li>
             {/* <li>
                 <Link to="/dashboard">Profile</Link>
@@ -40,6 +43,9 @@ const Landing = ({ auth: { user, isAuthenticated, loading }, logout }) => {
             </li>
             <li>
                 <Link to="/login">Login</Link>
+            </li>
+            <li>
+                <Link to="/restlogin">Restaurant Users</Link>
             </li>
         </ul>
     );

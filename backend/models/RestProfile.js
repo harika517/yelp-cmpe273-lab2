@@ -15,8 +15,10 @@ const RestProfileSchema = new mongoose.Schema({
     timings: {
         type: String,
     },
+    cuisine: {
+        type: String,
+    },
     restimages: [String],
-    dishimages: [String],
     menuItems: [{
         itemName: {
             type: String,
@@ -39,6 +41,7 @@ const RestProfileSchema = new mongoose.Schema({
         itemImage: {
             type: String,
         },
+        dishimages: [String],
 
     }],
 });

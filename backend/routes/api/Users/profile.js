@@ -49,7 +49,7 @@ router.post('/', [checkAuth, [
             profile = await UserProfile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true });
             return res.json(profile);
         }
-        //create
+        // create
 
         profile = new UserProfile(profileFields);
         await profile.save();
