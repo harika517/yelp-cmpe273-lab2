@@ -12,3 +12,5 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const REST_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const REST_LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
+export const GET_REST_PROFILE = 'GET_REST_PROFILE';
+export const REST_PROFILE_ERROR = 'REST_PROFILE_ERROR';
