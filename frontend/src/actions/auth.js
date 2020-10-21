@@ -18,12 +18,13 @@ import {
 import setAuthToken from '../utils/setAuthToken'
 
 //Load user 
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async(dispatch) => {
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }
     try {
-        const res = await axios.get('/api/auth');
+        const res = await axios.get('http://localhost:3001/api/auth');
+        console.log('LoadUser', res.data);
         dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -64,7 +65,7 @@ export const register = ({ userName, firstName, lastName, userEmail, password })
     const body = JSON.stringify({ userName, firstName, lastName, userEmail, password });
     try {
         const res = await axios.post('http://localhost:3001/api/users', body, config);
-        console.log("Register/actions", res)
+        // console.log("Register/actions", res)
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
@@ -83,7 +84,7 @@ export const register = ({ userName, firstName, lastName, userEmail, password })
 }
 
 //Login User
-export const login = (userEmail, password) => async dispatch => {
+export const login = (userEmail, password) => async(dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -92,7 +93,8 @@ export const login = (userEmail, password) => async dispatch => {
 
     const body = JSON.stringify({ userEmail, password });
     try {
-        const res = await axios.post('/api/auth', body, config);
+        const res = await axios.post('http://localhost:3001/api/auth', body, config);
+        console.log('Printing payload', res.data);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
@@ -118,7 +120,7 @@ export const logout = () => dispatch => {
 }
 
 //Resgister Restaurant User
-export const restregister = ({ restName, restEmail, restpassword, location }) => async dispatch => {
+export const restregister = ({ restName, restEmail, restpassword, location }) => async(dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -146,7 +148,7 @@ export const restregister = ({ restName, restEmail, restpassword, location }) =>
 }
 
 //Login Restaurant User
-export const restLogin = (restEmail, restpassword) => async dispatch => {
+export const restLogin = (restEmail, restpassword) => async(dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',

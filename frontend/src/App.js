@@ -9,11 +9,12 @@ import RestRegister from './components/auth/Restaurant/RestRegister';
 import Alert from './components/layout/Alert';
 import { loadUser, restLoadUser } from './actions/auth';
 import RestDashboard from './components/Dashboard/RestDashboard';
+import UserDashboard from './components/Dashboard/UserDashboard';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
-//Redux Setup
 
+//Redux Setup
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -44,6 +45,7 @@ const App = () => {
               <Route exact path='/restlogin' component={RestLogin} />
               <Route exact path='/restregister' component={RestRegister} />
               <PrivateRoute exact path='/restdashboard' component={RestDashboard} />
+              <PrivateRoute exact path='/userdashboard' component={UserDashboard} />
             </switch>
             <Alert />
           </section>

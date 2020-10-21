@@ -11,38 +11,34 @@ const UserProfileSchema = new mongoose.Schema({
     headline: {
         type: String,
     },
-    basicdetails: [{
-        dateOfBirth: {
-            type: String,
-        },
-        city: {
-            type: String,
-        },
-        state: {
-            type: String,
-        },
-        country: {
-            type: String,
-        },
-        nickName: {
-            type: String,
-        }
+    dateOfBirth: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    state: {
+        type: String,
+    },
+    country: {
+        type: String,
+    },
+    nickName: {
+        type: String,
+    },
+    yelpingSince: {
+        type: String,
+    },
+    thingsILove: {
+        type: String,
+    },
+    findmein: {
+        type: String,
+    },
+    myBlog: {
+        type: String,
+    },
 
-    }],
-    about: [{
-        yelpingSince: {
-            type: String,
-        },
-        thingsILove: {
-            type: [String],
-        },
-        findmein: {
-            type: String,
-        },
-        myBlog: {
-            type: String,
-        },
-    }],
 });
 
 const UserProfile = mongoose.model('userprofile', UserProfileSchema);

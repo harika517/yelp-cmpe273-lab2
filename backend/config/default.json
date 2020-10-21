@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://har123:har123@yelp.7ublm.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://har123:har123@yelp.7ublm.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }

@@ -20,9 +20,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         userName, firstName, lastName, userEmail, password,
     } = formData;
 
-    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async (e) => {
+    const onSubmit = async e => {
         e.preventDefault();
         register({ userName, firstName, lastName, userEmail, password });
     }
@@ -30,7 +30,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     //redirect if successfully registered
 
     if (isAuthenticated) {
-        return <Redirect to='/' />
+        return <Redirect to='/userdashboard' />
     }
     return (
         <Fragment>
@@ -41,7 +41,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                     <i className="fas fa-user"> </i>
                 Sign Up for Yelp
                 </p>
-                <form className="form" onSubmit={(e) => onSubmit(e)}>
+                <form className="form" onSubmit={e => onSubmit(e)}>
                     <div className="form-group">
                         <input
                             type="text"
@@ -50,7 +50,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                             // defaultValue={Cust_Name}
                             value={userName}
                             onChange={(e) => onChange(e)}
-                            required
+                        // required
                         />
                     </div>
                     <div className="form-group">
@@ -78,7 +78,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                             name="userEmail"
                             value={userEmail}
                             onChange={(e) => onChange(e)}
-                            required
+                        // required
                         />
                     </div>
                     <div className="form-group">
@@ -88,7 +88,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                             name="password"
                             value={password}
                             onChange={(e) => onChange(e)}
-                            minLength='6'
+                        // minLength='6'
                         />
                     </div>
                     <input type="submit" className="btn btn-dark" value="SignUp" />

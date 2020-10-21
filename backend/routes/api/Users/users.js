@@ -2,12 +2,13 @@
 // registering and adding users
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const router = express.Router();
 const bcyrpt = require('bcryptjs');
 const gravatar = require('gravatar');
 const { check, validationResult } = require('express-validator');
-const { secret } = require('../../../config/config');
+// const { secret } = require('../../../config/config');
 const User = require('../../../models/User');
 // const { auth } = require('../../../config/passportjwt');
 
@@ -69,7 +70,7 @@ router.post(
                 user: { id: user.id },
             };
 
-            jwt.sign(payload, secret, {
+            jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 1008000,
             }, (err, token) => {
                 if (err) throw err;

@@ -18,6 +18,7 @@ function auth() {
         new JwtStrategy(opts, (jwt_payload, callback) => {
             // eslint-disable-next-line no-underscore-dangle
             const userId = jwt_payload._id;
+            // console.log('Inside passportjwt:auth()', userId);
             User.findById(userId, (err, results) => {
                 if (err) {
                     return callback(err, false);
@@ -44,6 +45,7 @@ function checkAuth(req, res, next) {
         passport.authenticate('jwt', { session: false });
         const decoded = jwt.verify(token, secret);
         req.user = decoded.user;
+        console.log('checkAuth', req.user);
         next();
     } catch (err) {
         res.status(401).json({ msg: ' Token is not valid' });

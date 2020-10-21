@@ -1,34 +1,33 @@
 const mongoose = require('mongoose');
 
-const RestProfileSchema = new mongoose.Schema({
+const MenuItemsSchema = new mongoose.Schema({
     restuser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'restuser',
     },
-    description: {
-        type: String,
-    },
-    contact: {
+    itemName: {
         type: String,
         required: true,
     },
-    timings: {
+    itemDescription: {
         type: String,
     },
-    cuisine: {
+    itemIngredients: {
         type: String,
     },
-    DineIn: {
+    itemPrice: {
+        type: String,
+        required: true,
+    },
+    itemCategory: {
+        type: String,
+        required: true,
+    },
+    itemImage: {
         type: String,
     },
-    curbSidePickUp: {
-        type: String,
-    },
-    yelpDelivery: {
-        type: String,
-    },
-    restimages: [String],
+    dishimages: [String],
 });
 
-const RestProfile = mongoose.model('restprofile', RestProfileSchema);
-module.exports = RestProfile;
+const MenuItems = mongoose.model('menuitems', MenuItemsSchema);
+module.exports = MenuItems;

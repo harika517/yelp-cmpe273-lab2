@@ -48,6 +48,7 @@ export default function(state = initialState, action) {
         case LOGIN_FAIL:
         case REST_LOGIN_FAIL:
         case LOGOUT:
+            console.log("123456")
             localStorage.removeItem('token');
             return {
                 ...state,

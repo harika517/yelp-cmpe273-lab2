@@ -2,17 +2,19 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcyrpt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const { restauth, restcheckAuth } = require('../../../config/passportjwt');
+// const { restauth, restcheckAuth } = require('../../../config/passportjwt');
+const config = require('config');
 const RestUser = require('../../../models/RestUser');
-const { secret } = require('../../../config/config');
+// const { secret } = require('../../../config/config');
+const auth = require('../../../middleware/auth');
 
 const router = express.Router();
-restauth();
+// restauth();
 
 // @route  GET /api/restauth
 // @Desc   Get registered restuser with token
 // @access Private
-router.get('/', restcheckAuth, async(req, res) => {
+router.get('/', auth, async(req, res) => {
     try {
         const restuser = await RestUser.findById(req.restuser.id).select('-password');
         res.json(restuser);
@@ -63,7 +65,7 @@ router.post(
                 restuser: { id: restuser.id },
             };
 
-            jwt.sign(payload, secret, {
+            jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 1008000,
             }, (err, token) => {
                 if (err) throw err;

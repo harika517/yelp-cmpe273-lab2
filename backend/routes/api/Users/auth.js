@@ -2,17 +2,20 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcyrpt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const { auth, checkAuth } = require('../../../config/passportjwt');
+const config = require('config');
+const auth = require('../../../middleware/auth');
+
+// const { auth, checkAuth } = require('../../../config/passportjwt');
 const User = require('../../../models/User');
-const { secret } = require('../../../config/config');
+// const { secret } = require('../../../config/config');
 
 const router = express.Router();
-auth();
+// auth();
 
 // @route  GET api/auth
 // @Desc   Get registered user with token
 // @access Private
-router.get('/', checkAuth, async(req, res) => {
+router.get('/', auth, async(req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
@@ -64,7 +67,7 @@ router.post(
                 user: { id: user.id },
             };
 
-            jwt.sign(payload, secret, {
+            jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 1008000,
             }, (err, token) => {
                 if (err) throw err;
