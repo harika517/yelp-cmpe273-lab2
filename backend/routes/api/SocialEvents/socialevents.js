@@ -66,9 +66,23 @@ router.get('/', async(req, res) => {
     }
 });
 
-// @route  GET /api/events/:event_id
+// @route  GET /api/events/:socialevent_id
 // @Desc   Get Eventdetails by event ID
 // @access Public
+
+const { ObjectId } = require('mongodb');
+
+router.get('/:socialevent_id', async(req, res) => {
+    const objId = new ObjectId(req.params.socialevent_id);
+    try {
+        const event = await SocialEvent.find({ _id: objId }).populate('restuser', ['restName', 'location']);
+        if (!event) return res.status(400).json({ msg: 'There is no profile for this user' });
+        res.json(event);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // @route  POST /api/events/restaurant/:cust_id
 // @Desc   Customer registeration for events
