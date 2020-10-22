@@ -56,8 +56,30 @@ router.post('/restaurant', [auth, [
 // @Desc   Get all the events
 // @access Public
 
+router.get('/', async(req, res) => {
+    try {
+        const events = await SocialEvent.find().populate('restuser', ['restName', 'location']);
+        res.json(events);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route  GET /api/events/:event_id
-// @Desc   Get Events by event ID
+// @Desc   Get Eventdetails by event ID
 // @access Public
+
+// @route  POST /api/events/restaurant/:cust_id
+// @Desc   Customer registeration for events
+// @access Private
+
+// @route  GET /api/events/restaurant/:cust_id
+// @Desc   get all the events registered by current customer
+// @access Private
+
+// @route  GET /api/events/restaurant/:event_id
+// @Desc   Customer registeration for events
+// @access Private
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SocialEventsSchema = new mongoose.Schema([{
+const SocialEventsSchema = new mongoose.Schema({
     restuser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'restuser',
@@ -42,7 +42,7 @@ const SocialEventsSchema = new mongoose.Schema([{
             type: String,
         },
     }],
-}]);
+});
 
 const SocialEvent = mongoose.model('socialevent', SocialEventsSchema);
 module.exports = SocialEvent;
