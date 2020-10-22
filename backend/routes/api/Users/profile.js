@@ -93,7 +93,6 @@ router.post('/', [auth, [
 // @Desc   Get all profiles
 // @access Public
 
-// not working
 router.get('/', async(req, res) => {
     try {
         const profiles = await UserProfile.find().populate('user', ['userName', 'image']);

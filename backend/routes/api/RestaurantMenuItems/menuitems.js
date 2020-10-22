@@ -4,11 +4,8 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const RestUser = require('../../../models/RestUser');
-// const MenuItems = require('../../../models/MenuItems');
 const RestProfile = require('../../../models/RestProfile');
 const auth = require('../../../middleware/auth');
-
-// create/edit menuitems
 
 // @route  GET /api/restaurant/menuitems/:restuser_id
 // @Desc   Get all the menu items by restuser_id
@@ -62,6 +59,66 @@ router.put('/menuitems', [auth, [
         restprofile.menuitems.unshift(newMenuItem);
         await restprofile.save();
         res.json(restprofile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route  POST /api/restaurant/:menu_id
+// @Desc   Update menu items by item_id
+// @access Private
+
+// under construction
+router.post('/:menu_id', auth, async(req, res) => {
+    // build profile object
+    const {
+        itemName,
+        itemDescription,
+        itemIngredients,
+        itemPrice,
+        itemCategory,
+    } = req.body;
+    const restMenuItemFields = {};
+    restMenuItemFields.restuser = req.restuser.id;
+    if (itemName) restMenuItemFields.itemName = itemName;
+    if (itemDescription) restMenuItemFields.itemDescription = itemDescription;
+    if (itemIngredients) restMenuItemFields.itemIngredients = itemIngredients;
+    if (itemPrice) restMenuItemFields.itemPrice = itemPrice;
+    if (itemCategory) restMenuItemFields.itemCategory = itemCategory;
+    try {
+        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+
+        // find index of the menu item to update
+        // const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
+        // console.log("update menu item", itemIndex)
+
+        if (restprofile) {
+            // update
+            const updatedItem = await RestProfile.findOneAndUpdate({ _id: req.params.menu_id }, { $set: restMenuItemFields }, { new: true });
+            return res.json(updatedItem);
+        }
+        // create
+        await restprofile.save();
+        res.json(restprofile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route  GET /api/restaurant/menuitems
+// @Desc   Get all the current profile's menu items
+// @access Private
+
+router.get('/menuitems', auth, async(req, res) => {
+    try {
+        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+
+        // const menuitems = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName']);
+        const menuitems = await restprofile.menuitems;
+        if (menuitems.length === 0) return res.status(400).json({ msg: 'There is no menu created for this restaurant' });
+        res.json(menuitems);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

@@ -86,6 +86,16 @@ router.post('/', [auth, [
 // @Desc   get all the restaurant profiles
 // @access Public
 
+router.get('/', async(req, res) => {
+    try {
+        const profiles = await RestProfile.find().populate('restuser', ['restName', 'location']);
+        res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route  GET api/restprofile/restaurant/restuser_id
 // @Desc   get restaurant profile by restuser_id
 // @access Public
