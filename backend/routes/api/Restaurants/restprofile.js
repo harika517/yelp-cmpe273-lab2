@@ -96,7 +96,19 @@ router.get('/', async(req, res) => {
     }
 });
 
-// @route  GET api/restprofile/restaurant/restuser_id
+// @route  GET api/restprofile/restaurant/:restuser_id
 // @Desc   get restaurant profile by restuser_id
 // @access Public
+
+router.get('/restaurant/:restuser_id', async(req, res) => {
+    try {
+        const profile = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName', 'location']);
+        if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
+        res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;
