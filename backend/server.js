@@ -47,5 +47,8 @@ app.use('/api/restusers', require('./routes/api/Restaurants/restusers'));
 app.use('/api/restprofile', require('./routes/api/Restaurants/restprofile'));
 app.use('/api/restauth', require('./routes/api/Restaurants/restauth'));
 
+// Menu Items
+app.use('/api/restaurant', require('./routes/api/RestaurantMenuItems/menuitems'));
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

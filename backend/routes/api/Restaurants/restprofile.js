@@ -81,4 +81,12 @@ router.post('/', [auth, [
         res.status(500).send('Server Error');
     }
 });
+
+// @route  GET api/restprofile
+// @Desc   get all the restaurant profiles
+// @access Public
+
+// @route  GET api/restprofile/restaurant/restuser_id
+// @Desc   get restaurant profile by restuser_id
+// @access Public
 module.exports = router;

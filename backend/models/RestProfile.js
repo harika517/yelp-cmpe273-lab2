@@ -28,6 +28,30 @@ const RestProfileSchema = new mongoose.Schema({
         type: String,
     },
     restimages: [String],
+    menuitems: [{
+        itemName: {
+            type: String,
+            required: true,
+        },
+        itemDescription: {
+            type: String,
+        },
+        itemIngredients: {
+            type: String,
+        },
+        itemPrice: {
+            type: String,
+            required: true,
+        },
+        itemCategory: {
+            type: String,
+            required: true,
+        },
+        itemImage: {
+            type: String,
+        },
+        dishimages: [String],
+    }],
 });
 
 const RestProfile = mongoose.model('restprofile', RestProfileSchema);
