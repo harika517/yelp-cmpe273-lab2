@@ -53,6 +53,8 @@ app.use('/api/restaurant', require('./routes/api/RestaurantMenuItems/menuitems')
 // Events
 app.use('/api/events', require('./routes/api/SocialEvents/socialevents'));
 
+// Reviews
+app.use('/api/reviews', require('./routes/api/RestaurantReviews/restreviews'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

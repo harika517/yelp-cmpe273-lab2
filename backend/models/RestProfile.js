@@ -52,6 +52,19 @@ const RestProfileSchema = new mongoose.Schema({
         },
         dishimages: [String],
     }],
+    reviews: [{
+        rating: {
+            type: Number,
+        },
+        review: {
+            type: String,
+            required: true,
+        },
+        date: {
+            type: Date,
+            default: Date.now,
+        },
+    }]
 });
 
 const RestProfile = mongoose.model('restprofile', RestProfileSchema);
