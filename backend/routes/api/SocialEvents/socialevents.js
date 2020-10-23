@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 const RestUser = require('../../../models/RestUser');
 const RestProfile = require('../../../models/RestProfile');
 const SocialEvent = require('../../../models/SocialEvents');
+const User = require('../../../models/User');
 const auth = require('../../../middleware/auth');
 
 // @route  POST /api/events/restaurant
@@ -84,11 +85,34 @@ router.get('/:socialevent_id', async(req, res) => {
     }
 });
 
-// @route  POST /api/events/restaurant/:cust_id
+// @route  POST /api/events/user/:user_id
 // @Desc   Customer registeration for events
 // @access Private
 
-// @route  GET /api/events/restaurant/:cust_id
+router.put('/user/:event_id', auth, async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        const socialevent = await SocialEvent.findById(req.params.event_id);
+        const neweventAttendee = {
+            userName: user.userName,
+            userEmail: user.userEmail,
+            image: user.image,
+        };
+
+        socialevent.eventAttendees.unshift(neweventAttendee);
+        await socialevent.save();
+        res.json(socialevent);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route  GET /api/events/user/:cust_id
 // @Desc   get all the events registered by current customer
 // @access Private
 
