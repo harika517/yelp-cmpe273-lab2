@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 const express = require('express');
 
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 // const { restauth, restcheckAuth } = require('../../../config/passportjwt');
+const { ObjectId } = require('mongodb');
 const RestUser = require('../../../models/RestUser');
 const RestProfile = require('../../../models/RestProfile');
 const SocialEvent = require('../../../models/SocialEvents');
@@ -71,8 +73,6 @@ router.get('/', async(req, res) => {
 // @Desc   Get Eventdetails by event ID
 // @access Public
 
-const { ObjectId } = require('mongodb');
-
 router.get('/:socialevent_id', async(req, res) => {
     const objId = new ObjectId(req.params.socialevent_id);
     try {
@@ -98,6 +98,7 @@ router.put('/user/:event_id', auth, async(req, res) => {
         const user = await User.findById(req.user.id).select('-password');
         const socialevent = await SocialEvent.findById(req.params.event_id);
         const neweventAttendee = {
+            user: req.user.id,
             userName: user.userName,
             userEmail: user.userEmail,
             image: user.image,
@@ -112,12 +113,49 @@ router.put('/user/:event_id', auth, async(req, res) => {
     }
 });
 
-// @route  GET /api/events/user/:cust_id
+// @route  GET /api/events/user/me
 // @Desc   get all the events registered by current customer
 // @access Private
 
+router.get('/user/me', auth, async(req, res) => {
+    const objId = new ObjectId(req.user.id);
+    try {
+        const socialevent = await SocialEvent.find({ 'eventAttendees.user': objId });
+        if (!socialevent) {
+            return res.status(400).json({ msg: 'You have not registered for any event' });
+        }
+        console.log(socialevent);
+        const var1 = socialevent.map((_i) => ({
+            eventName: _i.eventName,
+            eventDescription: _i.eventDescription,
+            eventTimings: _i.eventTimings,
+            eventDate: _i.eventDate,
+            eventLocation: _i.eventLocation,
+        }));
+        console.log('var1 is ', var1);
+        res.json(var1);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error: Database');
+    }
+});
+
 // @route  GET /api/events/restaurant/:event_id
-// @Desc   Customer registeration for events
+// @Desc   get all the customers registered for an event
 // @access Private
+
+router.get('/restaurant/:event_id', auth, async(req, res) => {
+    try {
+        const socialevent = await SocialEvent.findById(req.params.event_id);
+
+        // const menuitems = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName']);
+        const eventAttendees = await socialevent.eventAttendees;
+        if (eventAttendees.length === 0) return res.status(400).json({ msg: 'No attendees for this event yet' });
+        res.json(eventAttendees);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;
