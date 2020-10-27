@@ -634,6 +634,13 @@ img .logo-icon {
     left: 0;
 }
 
+.info {
+    border: solid 1px #eeeeef;
+    padding: 0 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 
 /******** 2Columns Maps *******/
 

@@ -13,6 +13,7 @@ import RestDashboard from './components/Dashboard/RestDashboard';
 import UserDashboard from './components/Dashboard/UserDashboard';
 import CreateRestProfile from './components/Dashboard/RestProfile';
 import EditRestProfile from './components/Dashboard/EditRestProfile';
+import ViewMenuItems from './components/MenuItems/ViewMenuItems';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -61,6 +62,7 @@ const App = () => {
               <PrivateRoute exact path='/userdashboard' component={UserDashboard} />
               <PrivateRoute exact path='/createprofile' component={CreateRestProfile}/>
               <PrivateRoute exact path='/updateprofile' component ={EditRestProfile}/>
+              <PrivateRoute exact path='/viewmenu' component={ViewMenuItems}/>
             </switch>
             <Alert />
           </section>

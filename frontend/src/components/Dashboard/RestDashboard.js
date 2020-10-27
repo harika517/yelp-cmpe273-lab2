@@ -30,7 +30,7 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <Link to="#" className=" btn btn-light">
               Events
             </Link>
-            <Link to="#" className=" btn btn-light">
+            <Link to="/viewmenu" className=" btn btn-light">
               Menu
             </Link>
             <Link to="#" className=" btn btn-light">
@@ -88,10 +88,13 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <div  className="column2">
                 <div className = "info">
                 <h4>
-                <i className="fa-phone-alt" ></i>{restprofile.contact}
+                <i className="fas fa-phone-alt text-dark" ></i> {' '}{restprofile.contact}
                 </h4>
                 <h4>
-                <i className="fa-map-marked-alt"> </i> {' '}{restprofile.restuser.location}
+                <i className="fas fa-map-marked-alt text-dark"> </i> {' '}{restprofile.restuser.location}
+                </h4>
+                <h4>
+                <i className="fas fa-envelope-open-text text-dark"> </i> {' '}{restprofile.restuser.restEmail}
                 </h4>
                 </div>
 
