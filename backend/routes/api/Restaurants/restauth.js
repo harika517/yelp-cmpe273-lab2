@@ -16,7 +16,9 @@ const router = express.Router();
 // @access Private
 router.get('/', auth, async(req, res) => {
     try {
+        // console.log("get restauth before query  req.restuser.id", req.restuser.id);
         const restuser = await RestUser.findById(req.restuser.id).select('-password');
+        // console.log("get /api/restauth", restuser)
         res.json(restuser);
     } catch (err) {
         console.error(err.message);
@@ -64,6 +66,8 @@ router.post(
             const payload = {
                 restuser: { id: restuser.id },
             };
+
+            // console.log("Restauth login payload", payload);
 
             jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 1008000,

@@ -6,20 +6,20 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/spinner';
 
 
-const UserDashboard = ({ getCurrentUserProfile, auth: { user, loading }, userprofile }) => {
+const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { userprofile, loading } }) => {
     useEffect(() => {
         getCurrentUserProfile();
     }, [])
-    if (!loading) {
-        console.log("userdashboard", user.userName)
-    }
+    // if (!loading) {
+    //     console.log("userdashboard", user.userName)
+    // }
 
-    return loading ? <Spinner /> : <Fragment>
+    return loading && userprofile === null? <Spinner /> : <Fragment>
         <DashboardNav />
         <div className='container'>
             <div className="container_2columns">
                 <div className="column1">
-                    <h1 className="heading text-dark">{user && user.userName}</h1>
+                    {/* <h1 className="heading text-dark">{user && user.userName}</h1> */}
                 User Dhashboard
             </div>
             </div>

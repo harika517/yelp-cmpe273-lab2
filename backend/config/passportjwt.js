@@ -18,7 +18,7 @@ function auth() {
         new JwtStrategy(opts, (jwt_payload, callback) => {
             // eslint-disable-next-line no-underscore-dangle
             const userId = jwt_payload._id;
-            // console.log('Inside passportjwt:auth()', userId);
+            console.log('Inside passportjwt:auth()', userId);
             User.findById(userId, (err, results) => {
                 if (err) {
                     return callback(err, false);

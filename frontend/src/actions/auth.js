@@ -12,7 +12,8 @@ import {
     LOGIN_FAIL,
     REST_LOGIN_SUCCESS,
     REST_LOGIN_FAIL,
-    LOGOUT
+    LOGOUT,
+    CLEAR_PROFILE
 
 } from './types';
 import setAuthToken from '../utils/setAuthToken'
@@ -23,8 +24,8 @@ export const loadUser = () => async(dispatch) => {
         setAuthToken(localStorage.token);
     }
     try {
-        const res = await axios.get('http://localhost:3001/api/auth');
-        console.log('LoadUser', res.data);
+        const res = await axios.get('/api/auth');
+        // console.log('LoadUser', res.data);
         dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -64,7 +65,7 @@ export const register = ({ userName, firstName, lastName, userEmail, password })
 
     const body = JSON.stringify({ userName, firstName, lastName, userEmail, password });
     try {
-        const res = await axios.post('http://localhost:3001/api/users', body, config);
+        const res = await axios.post('/api/users', body, config);
         // console.log("Register/actions", res)
         dispatch({
             type: REGISTER_SUCCESS,
@@ -92,9 +93,11 @@ export const login = (userEmail, password) => async(dispatch) => {
     };
 
     const body = JSON.stringify({ userEmail, password });
+    // console.log("userlogin", body)
     try {
-        const res = await axios.post('http://localhost:3001/api/auth', body, config);
-        console.log('Printing payload', res.data);
+
+        const res = await axios.post('/api/auth', body, config);
+        // console.log('Printing user payload', res.data);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
@@ -116,6 +119,7 @@ export const login = (userEmail, password) => async(dispatch) => {
 //logout / clear profile
 
 export const logout = () => dispatch => {
+    dispatch({ type: CLEAR_PROFILE });
     dispatch({ type: LOGOUT });
 }
 
@@ -157,7 +161,8 @@ export const restLogin = (restEmail, restpassword) => async(dispatch) => {
 
     const body = JSON.stringify({ restEmail, restpassword });
     try {
-        const res = await axios.post('http://localhost:3001/api/restauth', body, config);
+        const res = await axios.post('/api/restauth', body, config);
+        // console.log('Printing restuser payload', res.data);
         dispatch({
             type: REST_LOGIN_SUCCESS,
             payload: res.data

@@ -17,7 +17,9 @@ const router = express.Router();
 // @access Private
 router.get('/', auth, async(req, res) => {
     try {
+        // console.log("/api/auth", req)
         const user = await User.findById(req.user.id).select('-password');
+
         res.json(user);
     } catch (err) {
         console.error(err.message);
@@ -66,6 +68,7 @@ router.post(
             const payload = {
                 user: { id: user.id },
             };
+            console.log('User auth login payload', payload);
 
             jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 1008000,

@@ -1,4 +1,4 @@
-import { GET_REST_PROFILE, REST_PROFILE_ERROR } from '../actions/types';
+import { GET_REST_PROFILE, REST_PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types';
 
 const initialState = {
     restprofile: null,
@@ -22,6 +22,12 @@ export default function(state = initialState, action) {
                 error: payload,
                 loading: false
             };
+        case CLEAR_PROFILE:
+            return {
+                ...state,
+                restprofile: null,
+                loading: false
+            }
         default:
             return state;
     }
