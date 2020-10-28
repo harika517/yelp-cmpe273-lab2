@@ -41,7 +41,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                 <i className="fas fa-envelope-open-text text-dark"> </i> {' '}{restprofile.restuser.restEmail}
                 </h4>
                 <br></br>
-                <Link to="#" className=" btn btn-dark">
+                <Link to="/addmenuitem" className=" btn btn-dark">
                 Add Menu
             </Link>
             <Link to="/restdashboard" className=" btn btn-light">
@@ -69,14 +69,15 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                                  <h4 className="text-dark bold">
                                    {indi.itemName}
                                  </h4>
-                                 <p className="medium">
+                                 <h4 className="text-black">
                                    {indi.itemDescription}
-                                 </p>
-                                 <p className="medium">
+                                 </h4>
+                                 <h4 className="text-black">
                                    Ingrediants: {indi.itemIngredients}
-                                 </p>
-                                 <p className="medium"> $ {indi.itemPrice} </p>
+                                 </h4>
+                                 <h4 className="text-black"> {indi.itemPrice} </h4>
                                </div>
+                               <br/>
                                <div>
                                  <Link
                                    to='#'
@@ -87,7 +88,9 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                                </div>
                              </div>
                              </div>
+                             
                              </div>
+                             <br/>
                          </fragment>
                        ))}
                     </div>)
