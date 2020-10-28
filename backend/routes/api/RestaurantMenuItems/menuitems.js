@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const RestUser = require('../../../models/RestUser');
-const { ObjectId } = require('mongodb');
 const RestProfile = require('../../../models/RestProfile');
 const auth = require('../../../middleware/auth');
 
@@ -88,18 +87,14 @@ router.post('/:menu_id', auth, async(req, res) => {
     if (itemPrice) restMenuItemFields.itemPrice = itemPrice;
     if (itemCategory) restMenuItemFields.itemCategory = itemCategory;
     try {
-        console.log(req.params.id)
-        const objId = ObjectId(req.params.id);
-        console.log("req params id", objId)
-
-
-        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
-        const menuitem = await RestProfile.find({ _id: objId })
-            // console.log("menuitem update", restprofile.menuitems)
-            // console.log("req user id", req.restuser.id)
-            // console.log("req.params.menu_id", req.params.menu_id)
-            //     //const outpu = RestProfile.findOne({ restuser: req.restuser.id, "menuitems._id": req.params.menu_id });
-            // console.log("rest profile find one of menu_id", outpu)
+        // const objId = new ObjectId(req.params.id);
+        // console.log
+        // const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+        // console.log("menuitem update", restprofile.menuitems)
+        // console.log("req user id", req.restuser.id)
+        // console.log("req.params.menu_id", req.params.menu_id)
+        //     //const outpu = RestProfile.findOne({ restuser: req.restuser.id, "menuitems._id": req.params.menu_id });
+        // console.log("rest profile find one of menu_id", outpu)
 
         // find index of the menu item to update
         // const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
