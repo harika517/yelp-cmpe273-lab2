@@ -88,7 +88,7 @@ router.post('/', [auth, [
 
 router.get('/', async(req, res) => {
     try {
-        const profiles = await RestProfile.find().populate('restuser', ['restName', 'location']);
+        const profiles = await RestProfile.find().populate('restuser', ['restName', 'location', 'image']);
         res.json(profiles);
     } catch (err) {
         console.error(err.message);

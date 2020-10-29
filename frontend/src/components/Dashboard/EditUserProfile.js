@@ -1,11 +1,11 @@
-import React, { Fragment, useState} from 'react'
+import React, { Fragment, useState, useEffect} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import DashboardNav from '../layout/DashboardNav';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {createUserProfile} from '../../actions/userprofile'
+import {createUserProfile, getCurrentUserProfile} from '../../actions/userprofile'
 
-const UserProfile = ({createUserProfile, history}) => {
+const EditUserProfile = ({ userprofile:{userprofile, loading}, createUserProfile, getCurrentUserProfile, history}) => {
     const [formData, setFormData] = useState({
         contact: '',
         headline: '',
@@ -20,7 +20,25 @@ const UserProfile = ({createUserProfile, history}) => {
         yelpingSince: ''
       });
 
-      const {
+      useEffect(()=>{
+        getCurrentUserProfile();
+
+        setFormData({
+            contact: loading || !userprofile.contact ? '': userprofile.contact,
+            headline: loading || !userprofile.headline ? '': userprofile.headline,
+            city: loading || !userprofile.city ? '': userprofile.city,
+            country: loading || !userprofile.country ? '': userprofile.country,
+            dateOfBirth: loading || !userprofile.dateOfBirth ? '': userprofile.dateOfBirth,
+            findmein: loading || !userprofile.findmein ? '': userprofile.findmein,
+            myBlog: loading || !userprofile.myBlog ? '': userprofile.myBlog,
+            nickName: loading || !userprofile.nickName ? '': userprofile.nickName,
+            state: loading || !userprofile.state ? '': userprofile.state,
+            thingsILove: loading || !userprofile.thingsILove ? '': userprofile.thingsILove,
+            yelpingSince: loading || !userprofile.yelpingSince ? '': userprofile.yelpingSince,
+        })
+    }, [loading]);
+
+    const {
         contact,
         headline,
         city,
@@ -39,14 +57,15 @@ const UserProfile = ({createUserProfile, history}) => {
   
     const onSubmit = (e) => {
       e.preventDefault();
-      createUserProfile(formData, history);
+      createUserProfile(formData, history, true);
     };
+
 
     return (
         <Fragment>
             <DashboardNav/>
             <div className='container'> 
-            <h1 className="text-dark medium">Create Profile</h1>
+            <h1 className="text-dark medium">Update Profile</h1>
             <form className="form" onSubmit={(e) => onSubmit(e)}>
             <div className="form-group">
           <label for="Contact">Contact</label>
@@ -173,8 +192,15 @@ const UserProfile = ({createUserProfile, history}) => {
     )
 }
 
-UserProfile.propTypes = {
+EditUserProfile.propTypes = {
     createUserProfile: PropTypes.func.isRequired,
+    getCurrentUserProfile: PropTypes.func.isRequired,
+    userprofile: PropTypes.object.isRequired,
+
 }
 
-export default connect(null, {createUserProfile})(withRouter(UserProfile));
+const mapStateToProps = state =>({
+    userprofile: state.userprofile
+})
+
+export default connect(mapStateToProps, {createUserProfile, getCurrentUserProfile})(withRouter(EditUserProfile));

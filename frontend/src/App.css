@@ -100,8 +100,8 @@ ul {
 /******** Restaurant Menu Images*****/
 
 img {
-    width: 240px;
-    height: 265px;
+    width: 200px;
+    height: 200px;
 }
 
 
@@ -792,8 +792,7 @@ img .logo-icon {
 
 /* Profiles Page */
 
-
-/* .profile {
+.profile {
     display: grid;
     grid-template-columns: 3fr 3fr 3fr;
     align-items: left;
@@ -801,6 +800,8 @@ img .logo-icon {
     padding: 1rem;
     line-height: 1;
     margin-bottom: 1rem;
+    border: 1px solid #eeeeef;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 

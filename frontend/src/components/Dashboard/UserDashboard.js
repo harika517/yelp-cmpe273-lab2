@@ -36,7 +36,7 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <i className="fas fa-tag text-dark" /> {' '} Order History
             </Link>
             <hr/>
-            <Link to="/userdashboard" className="text-black">
+            <Link to="/restaurantspage" className="text-black">
             <i className="fas fa-utensils text-dark" /> {' '} Restaurants
             </Link>
             <hr/>
@@ -63,7 +63,7 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <i className="fas fa-camera text-primary" /> {' '} Add Profile Photos
             </Link>
             <br/>
-            <Link to="/userdashboard" className="text-primary">
+            <Link to="/edituserprofile" className="text-primary">
             <i className="fas fa-id-card text-primary" /> {' '} Update your profile
             </Link>
             </div>
@@ -101,7 +101,7 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             </div>
             </div>
             </Fragment> : <Fragment><h3 className="text-black"> No Profile for this user yet 
-            <Link to='/createuserprofile' className="text-dark"> Create One?</Link> </h3>
+            <Link to="/createuserprofile" className="text-dark"> Create One?</Link> </h3>
             
             </Fragment>
             
@@ -126,9 +126,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { getCurrentUserProfile })(UserDashboard);
-
-// const UserDashboard = () => {
-//     return <div> userdashboard</div>
-// }
-
-// export default UserDashboard;

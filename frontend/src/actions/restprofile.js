@@ -2,7 +2,8 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import {
     GET_REST_PROFILE,
-    REST_PROFILE_ERROR
+    REST_PROFILE_ERROR,
+    GET_ALL_REST_PROFILES
 } from './types';
 
 // Get current restaurant profile
@@ -56,6 +57,25 @@ export const createRestProfile = (formData, history, edit = false) => async(
         });
     }
 };
+
+// get all the restaurant profiles
+
+
+export const getAllRestProfiles = () => async(dispatch) => {
+    try {
+        const res = await axios.get('api/restprofile');
+        dispatch({
+            type: GET_ALL_REST_PROFILES,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: REST_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}
 
 //edit profile
 // export const editProfile = (formData, history, edit = false) => async(
