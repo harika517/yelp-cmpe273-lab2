@@ -18,3 +18,6 @@ export const REST_PROFILE_ERROR = 'REST_PROFILE_ERROR';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const USER_PROFILE_ERROR = 'USER_PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const GET_EVENT = 'GET_EVENT';
+export const GET_EVENTS = 'GET_EVENTS';
+export const EVENT_ERROR = 'EVENT_ERROR';

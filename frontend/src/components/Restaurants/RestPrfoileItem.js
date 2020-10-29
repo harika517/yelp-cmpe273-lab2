@@ -11,34 +11,34 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
     <h3 className="lead text-dark"> {restName} </h3>
     <h3> {cuisine}</h3>
     <br/>
-    <p>{timings}</p>
-    <p>{contact}</p>
-    <p>{location}</p>
+    <p><i className="far fa-clock text-dark"> </i> {' '}{timings}</p>
+    <p><i className="fas fa-phone-alt text-dark"> </i>{' '}{contact}</p>
+    <p><i className="fas fa-map-marked-alt text-dark"> </i>{' '}{location}</p>
     <br/>
     {DineIn === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> DineIn{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> DineIn{' '}
               </h3>
             )}
     {curbSidePickUp === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> curbSidePickUp{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> curbSidePickUp{' '}
               </h3>
             )}
     {yelpDelivery === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> YelpDelivery{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> YelpDelivery{' '}
               </h3>
             )}

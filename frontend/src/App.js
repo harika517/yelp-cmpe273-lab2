@@ -18,6 +18,7 @@ import EditUserProfile from './components/Dashboard/EditUserProfile';
 import ViewMenuItems from './components/MenuItems/ViewMenuItems';
 import AddMenuItem from './components/MenuItems/AddMenuItem';
 import RestaurantsPage from './components/Restaurants/RestaurantsPage';
+import EventsPage from './components/SocialEvents/EventsPage';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -63,6 +64,7 @@ const App = () => {
               <Route exact path='/restlogin' component={RestLogin} />
               <Route exact path='/restregister' component={RestRegister} />
               <Route exact path='/restaurantspage' component={RestaurantsPage}/>
+              <Route exact path='/events' component={EventsPage}/>
               <PrivateRoute exact path='/restdashboard' component={RestDashboard} />
               <PrivateRoute exact path='/userdashboard' component={UserDashboard} />
               <PrivateRoute exact path='/createprofile' component={CreateRestProfile}/>

@@ -28,7 +28,7 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <i className="fas fa-user text-dark" /> {' '} Profile Overview
             </Link>
             <hr/>
-            <Link to="/userdashboard" className="text-black">
+            <Link to="/events" className="text-black">
             <i className="fas fa-calendar-check text-dark" /> {' '} Events
             </Link>
             <hr/>

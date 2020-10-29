@@ -6,7 +6,6 @@ import Spinner from '../layout/spinner'
 import {getAllRestProfiles} from '../../actions/restprofile'
 import DashboardNav from '../layout/DashboardNav';
 import RestPrfoileItem from './RestPrfoileItem';
-//getAllRestProfiles()
 
 const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading}}) => {
     useEffect(()=>{
@@ -18,6 +17,8 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
             {loading ? <Spinner/> : <Fragment>
                 
                 <div className="container">
+                <div className="container_2columns">
+                <div className="column1">
                 <h1 className="lead text-dark"> Restaurant Results
                 {' '}<Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
                 </h1>
@@ -26,6 +27,11 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
                         restprofiles.map(profile=>(
                             <RestPrfoileItem key={profile._id} profile={profile}/>
                         ))): <p>No Profiles were found ...</p>}
+                </div>
+                <div className="column2">
+                    
+                </div>
+                </div>
                 </div>
                 </div>
                 </Fragment>}

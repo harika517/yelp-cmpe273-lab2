@@ -158,4 +158,6 @@ router.get('/restaurant/:event_id', auth, async(req, res) => {
     }
 });
 
+// search event by any word
+
 module.exports = router;
