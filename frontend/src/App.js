@@ -21,6 +21,8 @@ import RestaurantsPage from './components/Restaurants/RestaurantsPage';
 import EventsPage from './components/SocialEvents/EventsPage';
 import EventDetail from './components/SocialEvents/EventDetail';
 import EventsRegistered from './components/SocialEvents/EventsRegistered';
+import CreateEvent from './components/SocialEvents/CreateEvent';
+import RestaurantEventsPage from './components/SocialEvents/RestaurantEventsPage';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -31,6 +33,7 @@ import store from './store';
 
 
 import './App.css';
+
 
 if (localStorage.token) {
   console.log("SetAuthToken",localStorage.token)
@@ -77,6 +80,8 @@ const App = () => {
               <PrivateRoute exact path='/addmenuitem' component={AddMenuItem}/>
               <PrivateRoute exact path='/event/:id' component={EventDetail}/>
               <PrivateRoute exact path='/myevents' component={EventsRegistered}/>
+              <PrivateRoute exact path='/createvents' component={CreateEvent}/>
+              <PrivateRoute exact path='/restaurant/events' component={RestaurantEventsPage}/>
               
             </switch>
             <Alert />

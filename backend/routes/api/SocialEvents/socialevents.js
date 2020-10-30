@@ -179,4 +179,24 @@ router.get('/searchevent/:word', async(req, res) => {
     }
 });
 
+// search event by any word
+
+// @route  GET /api/events/restaurant/me
+// @Desc   get all the events created by current restaurant
+// @access Public
+
+router.get('/restaurantevents', auth, async(req, res) => {
+    // console.log("events created by restaurant", req.restuser.id)
+    // const objId = new ObjectId(req.restuser.id);
+
+    try {
+        const event = await SocialEvent.find({ restuser: req.restuser.id }).populate('restuser', ['restName', 'location']);
+        if (!event) return res.status(400).json({ msg: 'There are no events created by this Restaurant' });
+        res.json(event);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;
