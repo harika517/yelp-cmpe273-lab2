@@ -22,10 +22,7 @@ const EventDetail = ({getEventDetail, event: {socialevent, loading}, auth, match
             <div className='container'>
             
             {socialevent ===null || loading? <Spinner/> : <Fragment>
-                <Link to="/events" className="btn btn-dark" >
-        Back
-      </Link>
-      <hr/>
+    
             <h1 className="lead text-dark">{socialevent[0].eventName}</h1>
             <p className='medium'> <i className='fas fa-clock text-dark'></i> {' '} Timings : {socialevent[0].eventTimings}</p>
             <p className='medium'><i className='fas fa-calendar-alt text-dark'></i> {' '}Date : {socialevent[0].eventDate}</p>
@@ -35,9 +32,12 @@ const EventDetail = ({getEventDetail, event: {socialevent, loading}, auth, match
             <br/>
             <p>{socialevent[0].eventHashtags}</p>
             <br/>
+            <hr/>
             <Link to="/events" className="btn btn-dark" onClick={onSubmit} >
         Register
       </Link>
+      <Link to='/events' className="btn btn-light" >Back</Link>
+      
             </Fragment>}
             </div>
         </Fragment>

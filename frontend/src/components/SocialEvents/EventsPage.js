@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -11,6 +11,19 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
     useEffect(()=>{
         getAllSocialEvents();
     }, [])
+
+    const [formData, setFormData] = useState({
+        search: '',
+      });
+
+      const { search } = formData;
+
+      const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
     return (
         <Fragment>
             <DashboardNav/>

@@ -160,4 +160,23 @@ router.get('/restaurant/:event_id', auth, async(req, res) => {
 
 // search event by any word
 
+// @route  GET /api/events/searchevent/:word
+// @Desc   get all the customers registered for an event
+// @access Public
+
+router.get('/searchevent/:word', async(req, res) => {
+    try {
+        const searchword = req.params.word;
+        const event = await SocialEvent.find({ eventName: { $regex: `.*${searchword}.*` } });
+
+        if (event.length === 0) {
+            return res.status(400).json({ msg: 'There are no events with this name' });
+        }
+        res.json(event);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

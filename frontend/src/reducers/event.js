@@ -1,9 +1,10 @@
-import { GET_EVENT, GET_EVENTS, EVENT_ERROR, REGISTERED_EVENTS } from '../actions/types';
+import { GET_EVENT, GET_EVENTS, EVENT_ERROR, REGISTERED_EVENTS, SEARCH_EVENTS } from '../actions/types';
 
 const initialState = {
     socialevent: null,
     socialevents: [],
     registeredevents: [],
+    searcheevnts: [],
     loading: true,
     error: {}
 }
@@ -27,6 +28,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 registeredevents: payload,
+                loading: false
+            }
+        case SEARCH_EVENTS:
+            return {
+                ...state,
+                searcheevnts: payload,
                 loading: false
             }
         case EVENT_ERROR:

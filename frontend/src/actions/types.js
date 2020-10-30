@@ -22,3 +22,4 @@ export const GET_EVENT = 'GET_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
 export const EVENT_ERROR = 'EVENT_ERROR';
 export const REGISTERED_EVENTS = "REGISTERED_EVENTS";
+export const SEARCH_EVENTS = "SEARCH_EVENTS"
