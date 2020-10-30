@@ -90,10 +90,10 @@ router.get('/:socialevent_id', async(req, res) => {
 // @access Private
 
 router.put('/user/:event_id', auth, async(req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     return res.status(400).json({ errors: errors.array() });
+    // }
     try {
         const user = await User.findById(req.user.id).select('-password');
         const socialevent = await SocialEvent.findById(req.params.event_id);

@@ -19,6 +19,8 @@ import ViewMenuItems from './components/MenuItems/ViewMenuItems';
 import AddMenuItem from './components/MenuItems/AddMenuItem';
 import RestaurantsPage from './components/Restaurants/RestaurantsPage';
 import EventsPage from './components/SocialEvents/EventsPage';
+import EventDetail from './components/SocialEvents/EventDetail';
+import EventsRegistered from './components/SocialEvents/EventsRegistered';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -73,6 +75,8 @@ const App = () => {
               <PrivateRoute exact path='/edituserprofile' component={EditUserProfile}/>
               <PrivateRoute exact path='/viewmenu' component={ViewMenuItems}/>
               <PrivateRoute exact path='/addmenuitem' component={AddMenuItem}/>
+              <PrivateRoute exact path='/event/:id' component={EventDetail}/>
+              <PrivateRoute exact path='/myevents' component={EventsRegistered}/>
               
             </switch>
             <Alert />

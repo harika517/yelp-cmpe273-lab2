@@ -19,6 +19,7 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
                 <h1 className="lead text-dark"> Event Results
                 </h1>
                 <Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
+                <Link to='/myevents' className="btn btn-dark"> Events Registered</Link>
                 <hr/>
                 <div className="container_2columns">
                 <div className="column1">
