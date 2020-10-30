@@ -19,7 +19,7 @@ const RegisteredCustomers = ({getCustomersRegistered, match, event:{viewattendee
                 <div className="container">
                 <h1 className="lead text-dark"> Attendees List
                 </h1>
-                <Link to='/restdashboard' className="btn btn-dark"> Go Back</Link>
+                <Link to='/restaurant/events' className="btn btn-dark"> Go Back</Link>
                 {/* <Link to='/createvents' className="btn btn-dark"> Create Events</Link> */}
                 <hr/>
                 <div className="container_2columns">
@@ -28,7 +28,7 @@ const RegisteredCustomers = ({getCustomersRegistered, match, event:{viewattendee
                     {viewattendees.length > 0 ? (
                         viewattendees.map(attendee=>(
                             <CustomerProfileItem key={attendee._id} attendee={attendee}/>
-                        ))): <p>No Events were found ...</p>}
+                        ))): <p>No one registered for this event yet ...</p>}
                 </div>
                  <div className="column2">
                     

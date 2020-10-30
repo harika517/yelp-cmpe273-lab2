@@ -2,7 +2,8 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import {
     GET_USER_PROFILE,
-    USER_PROFILE_ERROR
+    USER_PROFILE_ERROR,
+    CLEAR_PROFILE
 } from './types';
 
 // Get current restaurant profile
@@ -50,6 +51,23 @@ export const createUserProfile = (formData, history, edit = false) => async(
         if (errors) {
             errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
         }
+        dispatch({
+            type: USER_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status },
+        });
+    }
+};
+
+// get customer profile by Id
+export const getUserProfilebyId = (user_id) => async(dispatch) => {
+    dispatch({ type: CLEAR_PROFILE })
+    try {
+        const res = await axios.get(`/api/profile/user/${user_id}`);
+        dispatch({
+            type: GET_USER_PROFILE,
+            payload: res.data,
+        });
+    } catch (err) {
         dispatch({
             type: USER_PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status },

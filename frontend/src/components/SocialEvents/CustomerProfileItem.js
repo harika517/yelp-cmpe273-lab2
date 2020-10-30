@@ -17,7 +17,7 @@ const CustomerProfileItem = ({attendee}) => {
             <br/>
             <br/>
             <br/>
-            <Link to={`/registereduser/${attendee.user}`} className="btn btn-dark"> View Details</Link>
+            <Link to={`/registereduser/${attendee.user}`} className="btn btn-dark"> View Profile</Link>
             </div>
         </div>
         
