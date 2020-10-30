@@ -14,13 +14,17 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
     return (
         <Fragment>
             <DashboardNav/>
+            <br/>
+
             {loading ? <Spinner/> : <Fragment>
+                <Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
                 
                 <div className="container">
+                
                 <div className="container_2columns">
                 <div className="column1">
                 <h1 className="lead text-dark"> Restaurant Results
-                {' '}<Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
+                
                 </h1>
                 <div claasName='profiles'>
                     {restprofiles.length > 0 ? (
@@ -29,7 +33,7 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
                         ))): <p>No Profiles were found ...</p>}
                 </div>
                 <div className="column2">
-                    
+                
                 </div>
                 </div>
                 </div>

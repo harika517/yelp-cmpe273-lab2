@@ -10,12 +10,17 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
             <div>
     <h3 className="lead text-dark"> {restName} </h3>
     <h3> {cuisine}</h3>
-    <br/>
+    <hr/>
     <p><i className="far fa-clock text-dark"> </i> {' '}{timings}</p>
-    <p><i className="fas fa-phone-alt text-dark"> </i>{' '}{contact}</p>
-    <p><i className="fas fa-map-marked-alt text-dark"> </i>{' '}{location}</p>
     <br/>
-    {DineIn === 'yes' ? (
+    <p><i className="fas fa-phone-alt text-dark"> </i>{' '}{contact}</p>
+    <br/>
+    <p><i className="fas fa-map-marked-alt text-dark"> </i>{' '}{location}</p>
+    <hr/>
+    <div className='list'>
+      <ul>
+        <li>
+        {DineIn === 'yes' ? (
                 <h3 className="small text-dark">
                 <i className="fas fa-check" /> DineIn{' '}
               </h3>
@@ -24,7 +29,9 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
                 <i className="fas fa-times" /> DineIn{' '}
               </h3>
             )}
-    {curbSidePickUp === 'yes' ? (
+        </li>
+        <li>
+        {curbSidePickUp === 'yes' ? (
                 <h3 className="small text-dark">
                 <i className="fas fa-check" /> curbSidePickUp{' '}
               </h3>
@@ -33,7 +40,9 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
                 <i className="fas fa-times" /> curbSidePickUp{' '}
               </h3>
             )}
-    {yelpDelivery === 'yes' ? (
+        </li>
+        <li>
+        {yelpDelivery === 'yes' ? (
                 <h3 className="small text-dark">
                 <i className="fas fa-check" /> YelpDelivery{' '}
               </h3>
@@ -42,8 +51,14 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
                 <i className="fas fa-times" /> YelpDelivery{' '}
               </h3>
             )}
-            <br/>
+        </li>
+      </ul>
+    </div>
+    <br/>
             <Link to="#" className="btn btn-dark"> Order Now</Link>
+            <Link to={`/restaurant/writereview/${_id}`} className=" btn btn-dark"><i className='fas fa-star'></i>
+              Write a Review
+            </Link>
             </div>
         </div>
     )

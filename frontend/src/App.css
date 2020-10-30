@@ -89,6 +89,11 @@ ul {
     list-style: none;
 }
 
+.list ul {
+    display: flex;
+    justify-content: space-around;
+}
+
 
 /******** REstaurant menucards******/
 

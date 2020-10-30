@@ -77,6 +77,40 @@ export const getAllRestProfiles = () => async(dispatch) => {
     }
 }
 
+// Write reviews 
+export const writeReview = (restuser_id, formData, history, edit = false) => async(
+    dispatch
+) => {
+    try {
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+        };
+        const res = await axios.put(
+            `/api/reviews/customer/${restuser_id}`,
+            formData,
+            config
+        );
+        dispatch({
+            type: GET_REST_PROFILE,
+            payload: res.data,
+        });
+        dispatch(setAlert(edit ? 'Review Updated' : 'Review Added', 'success'));
+        if (!edit) {
+            history.push('/restaurantspage');
+        }
+        history.push('/restaurantspage');
+    } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+        dispatch({
+            type: REST_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status },
+        });
+    }
+};
+
 //edit profile
 // export const editProfile = (formData, history, edit = false) => async(
 //     dispatch

@@ -25,6 +25,7 @@ import CreateEvent from './components/SocialEvents/CreateEvent';
 import RestaurantEventsPage from './components/SocialEvents/RestaurantEventsPage';
 import RegisteredCustomers from './components/SocialEvents/RegisteredCustomers';
 import RegisteredCustProfile from './components/SocialEvents/RegisteredCustProfile';
+import WriteReviews from './components/Reviews/WriteReviews';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -86,6 +87,8 @@ const App = () => {
               <PrivateRoute exact path='/restaurant/events' component={RestaurantEventsPage}/>
               <PrivateRoute exact path='/eventattendees/:id' component={RegisteredCustomers}/>
               <PrivateRoute exact path='/registereduser/:id' component={RegisteredCustProfile}/>
+              <PrivateRoute exact path='/restaurant/writereview/:id' component={WriteReviews}/>
+              
             </switch>
             <Alert />
           </section>

@@ -64,7 +64,7 @@ const RestProfileSchema = new mongoose.Schema({
             type: Date,
             default: Date.now,
         },
-    }]
+    }],
 });
 
 const RestProfile = mongoose.model('restprofile', RestProfileSchema);

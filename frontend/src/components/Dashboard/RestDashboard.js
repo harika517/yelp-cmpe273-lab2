@@ -42,7 +42,10 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
              {restprofile.description}
                 </h4>
             <h2> Services Update</h2>
-            {restprofile.DineIn === 'yes' ? (
+            <div className='list'>
+              <ul>
+                <li>
+                {restprofile.DineIn === 'yes' ? (
                 <h3 className="bold text-dark">
                 <i className="fas fa-check" /> DineIn{' '}
               </h3>
@@ -51,7 +54,10 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 <i className="fas fa-times" /> DineIn{' '}
               </h3>
             )}
-            {restprofile.curbSidePickUp === 'yes' ? (
+
+                </li>
+                <li>
+                {restprofile.curbSidePickUp === 'yes' ? (
                 <h3 className="bold text-dark">
                 <i className="fas fa-check" /> CurbSidePickUp{' '}
               </h3>
@@ -60,7 +66,9 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 <i className="fas fa-times" /> CurbSidePickUp{' '}
               </h3>
             )}
-            {restprofile.yelpDelivery === 'yes' ? (
+                </li>
+                <li>
+                {restprofile.yelpDelivery === 'yes' ? (
                 <h3 className="bold text-dark">
                 <i className="fas fa-check" /> YelpDelivery{' '}
               </h3>
@@ -69,6 +77,10 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 <i className="fas fa-times" /> YelpDelivery{' '}
               </h3>
             )}
+                </li>
+              </ul>
+            </div>
+            
             <hr/>
             <h2> Reviews</h2>
             {restprofile.reviews
