@@ -5,7 +5,8 @@ import {
     GET_EVENTS,
     EVENT_ERROR,
     REGISTERED_EVENTS,
-    SEARCH_EVENTS
+    SEARCH_EVENTS,
+    VIEW_ATTENDEES
 } from './types';
 
 // Create or update Events by current restaurant
@@ -133,3 +134,18 @@ export const getEventsBySearch = (word) => async(dispatch) => {
     }
 };
 //get all the customers registered for an event
+export const getCustomersRegistered = (event_id) => async(dispatch) => {
+    // dispatch({ type: CLEAR_EVENT})
+    try {
+        const res = await axios.get(`/api/events/restaurant/${event_id}`);
+        dispatch({
+            type: VIEW_ATTENDEES,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: EVENT_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status },
+        });
+    }
+};

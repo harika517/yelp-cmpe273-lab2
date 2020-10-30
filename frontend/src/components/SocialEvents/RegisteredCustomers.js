@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner'
-import {getAllSocialEvents} from '../../actions/socialevent'
-//Change the action
+import {getCustomersRegistered} from '../../actions/socialevent'
 import DashboardNav from '../layout/DashboardNav';
-import RestEventItem from './RestEventItem';
+ import CustomerProfileItem from './CustomerProfileItem';
 
-const RestaurantEventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
+const RegisteredCustomers = ({getCustomersRegistered, match, event:{viewattendees, loading}}) => {
     useEffect(()=>{
-        getAllSocialEvents();
+        getCustomersRegistered(match.params.id);
     }, [])
 
     return (
@@ -18,17 +17,17 @@ const RestaurantEventsPage = ({getAllSocialEvents, event:{socialevents, loading}
             <DashboardNav/>
             {loading ? <Spinner/> : <Fragment>
                 <div className="container">
-                <h1 className="lead text-dark"> Event Results
+                <h1 className="lead text-dark"> Attendees List
                 </h1>
                 <Link to='/restdashboard' className="btn btn-dark"> Go Back</Link>
-                <Link to='/createvents' className="btn btn-dark"> Create Events</Link>
+                {/* <Link to='/createvents' className="btn btn-dark"> Create Events</Link> */}
                 <hr/>
                 <div className="container_2columns">
                 <div className="column1">
                 <div claasName='profiles'>
-                    {socialevents.length > 0 ? (
-                        socialevents.map(event=>(
-                            <RestEventItem key={event._id} event={event}/>
+                    {viewattendees.length > 0 ? (
+                        viewattendees.map(attendee=>(
+                            <CustomerProfileItem key={attendee._id} attendee={attendee}/>
                         ))): <p>No Events were found ...</p>}
                 </div>
                  <div className="column2">
@@ -42,8 +41,8 @@ const RestaurantEventsPage = ({getAllSocialEvents, event:{socialevents, loading}
     )
 }
 
-RestaurantEventsPage.propTypes = {
-    getAllRestProfiles: PropTypes.func.isRequired,
+RegisteredCustomers.propTypes = {
+    getCustomersRegistered: PropTypes.func.isRequired,
     event: PropTypes.object.isRequired,
 }
 
@@ -52,4 +51,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {getAllSocialEvents})(RestaurantEventsPage)
+export default connect(mapStateToProps, {getCustomersRegistered})(RegisteredCustomers)
