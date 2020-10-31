@@ -55,7 +55,7 @@ const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location},
       </ul>
     </div>
     <br/>
-            <Link to="#" className="btn btn-dark"> Order Now</Link>
+            <Link to={`/menuitems/${_id}`} className="btn btn-dark"> Order Now</Link>
             <Link to={`/restaurant/writereview/${_id}`} className=" btn btn-dark"><i className='fas fa-star'></i>
               Write a Review
             </Link>

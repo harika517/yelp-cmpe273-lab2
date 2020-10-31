@@ -67,7 +67,13 @@ router.post(
             await user.save();
 
             const payload = {
-                user: { id: user.id },
+                user: {
+                    id: user.id,
+                    // userName: user.userName,
+                    // firstName: user.firstName,
+                    // lastName: user.lastName,
+                    // userEmail: user.userEmail,
+                },
             };
 
             jwt.sign(payload, config.get('jwtSecret'), {

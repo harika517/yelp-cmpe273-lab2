@@ -111,6 +111,23 @@ export const writeReview = (restuser_id, formData, history, edit = false) => asy
     }
 };
 
+// get restaurant profile by Id
+export const getRestProfilebyId = (rest_id) => async(dispatch) => {
+    // dispatch({ type: CLEAR_PROFILE })
+    try {
+        const res = await axios.get(`/api/restprofile/restaurant/${rest_id}`);
+        dispatch({
+            type: GET_REST_PROFILE,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: REST_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status },
+        });
+    }
+};
+
 //edit profile
 // export const editProfile = (formData, history, edit = false) => async(
 //     dispatch

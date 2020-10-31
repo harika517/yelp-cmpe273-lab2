@@ -54,19 +54,24 @@ const UserProfileSchema = new mongoose.Schema({
         },
     }],
     followers: [{
-        userName: {
+        userId: {
             type: String,
-        },
-        firstName: {
-            type: String,
-        },
-        lastName: {
-            type: String,
-        },
-        userEmail: {
-            type: String,
+            unique: true,
         },
     }],
+
+    // userName: {
+    //     type: String,
+    // },
+    // firstName: {
+    //     type: String,
+    // },
+    // lastName: {
+    //     type: String,
+    // },
+    // userEmail: {
+    //     type: String,
+    // },
 
 });
 

@@ -4,11 +4,13 @@ import auth from './auth';
 import restprofile from './restprofile';
 import userprofile from './userprofile';
 import event from './event';
+import menuitem from './menuitem';
 
 export default combineReducers({
     alert,
     auth,
     restprofile,
     userprofile,
-    event
+    event,
+    menuitem
 });

@@ -1,15 +1,26 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useState, useEffect} from 'react'
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Spinner from '../layout/spinner';
 import DashboardNav from '../layout/DashboardNav';
-import {getUserProfilebyId} from '../../actions/userprofile';
+import {getUserProfilebyId, followUsers} from '../../actions/userprofile';
 
 const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, loading}, match}) => {
     useEffect(()=>{
         getUserProfilebyId(match.params.id)
     }, [])
+
+    const [formData, setFormData] = useState({
+        userId: '',
+
+      });
+      const { userId } = formData;
+
+      const onClick = (e) => {
+        e.preventDefault();
+        followUsers(match.params.id);
+      };
 
     return (
         <Fragment>
@@ -77,7 +88,7 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, lo
                 </div> : ''}
                 <br/>
                 <Link to='/yelpuserspage' className='btn btn-dark'> Go Back YelpUsers</Link>
-                <Link to='#' className='btn btn-light'> Follow</Link>
+                <button className='btn btn-light' onClick={(e) => onClick(e)} value={userId}> Follow</button>
                 <br/>
                 </div>
                 </div>
@@ -91,10 +102,11 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, lo
 RegisteredCustProfile.propTypes = {
     getUserProfilebyId: PropTypes.func.isRequired,
     userprofile: PropTypes.object.isRequired,
+    followUsers: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
  userprofile: state.userprofile
 })
 
-export default connect(mapStateToProps, {getUserProfilebyId})(RegisteredCustProfile)
+export default connect(mapStateToProps, {getUserProfilebyId, followUsers})(RegisteredCustProfile)

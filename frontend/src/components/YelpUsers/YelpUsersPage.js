@@ -69,7 +69,7 @@ const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{u
           </form>
 
                 </h1>
-                <div claasName='profiles'>
+                <div className='profiles'>
                     {userprofiles.length > 0 ? (
                         userprofiles.map(profile=>(
                             <YelpUserItem key={profile._id} profile={profile}/>

@@ -102,7 +102,7 @@ router.get('/', async(req, res) => {
 
 router.get('/restaurant/:restuser_id', async(req, res) => {
     try {
-        const profile = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName', 'location']);
+        const profile = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName', 'location', 'restEmail']);
         if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
         res.json(profile);
     } catch (err) {

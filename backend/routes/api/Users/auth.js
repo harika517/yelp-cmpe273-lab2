@@ -66,7 +66,13 @@ router.post(
             }
 
             const payload = {
-                user: { id: user.id },
+                user: {
+                    id: user.id,
+                    // userName: user.userName,
+                    // firstName: user.firstName,
+                    // lastName: user.lastName,
+                    // userEmail: user.userEmail,
+                },
             };
             console.log('User auth login payload', payload);
 

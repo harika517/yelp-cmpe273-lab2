@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 // const { auth, checkAuth } = require('../../../config/passportjwt');
+const { ObjectId } = require('mongodb');
 const auth = require('../../../middleware/auth');
 const User = require('../../../models/User');
 const UserProfile = require('../../../models/UserProfile');
@@ -89,13 +90,15 @@ router.post('/', [auth, [
 });
 
 // @route  GET api/profile
-// @Desc   Get all profiles
+// @Desc   Get all profiles except the current profile
 // @access Public
 
-router.get('/', async(req, res) => {
+router.get('/', auth, async(req, res) => {
     try {
+        const checkObjId = new ObjectId(req.user.id);
         const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
-        res.json(profiles);
+        const results = profiles.filter((prof) => (!prof.user._id.equals(checkObjId)));
+        res.json(results);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -119,12 +122,13 @@ router.get('/user/:user_id', async(req, res) => {
 
 // Yelp Users
 
-// Search for user using user's firstName or NickName
+// @route  GET api/profile/searchuser/:word
+// @Desc   Search for user using user's firstName or NickName
+// @access Public
 
 router.get('/searchuser/:word', async(req, res) => {
     try {
         const searchword = req.params.word;
-        // console.log('searchuser', searchword);
         const user = await UserProfile.find({
             $or: [{ firstName: { $regex: `.*${searchword}.*` } },
                 { nickName: { $regex: `.*${searchword}.*` } },
@@ -166,6 +170,30 @@ router.get('/searchuserlocation/:word', async(req, res) => {
             return res.status(400).json({ msg: 'There are no users from this location' });
         }
         res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route  GET api/profile/followers/:user_id
+// @Desc   Update following field of selected user with current auth
+// @access Public
+
+router.put('/followers/:user_id', auth, async(req, res) => {
+    const userId = req.user.id;
+    const newFollower = {
+        userId,
+    };
+
+    try {
+        const userprofile = await UserProfile.findOne({ user: req.params.user_id });
+        if (!userprofile) {
+            return res.status(400).json({ msg: 'There are no profiles found' });
+        }
+        userprofile.followers.unshift(newFollower);
+        await userprofile.save();
+        res.json(userprofile);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
