@@ -28,6 +28,10 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <i className="fas fa-user text-dark" /> {' '} Profile Overview
             </Link>
             <hr/>
+            <Link to="/yelpuserspage" className="text-black">
+            <i className="fas fa-users text-dark" /> {' '} Yelp Users
+            </Link>
+            <hr/>
             <Link to="/events" className="text-black">
             <i className="fas fa-calendar-check text-dark" /> {' '} Events
             </Link>
@@ -100,9 +104,10 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <h3 className=" text-dark"></h3>
             </div>
             </div>
-            </Fragment> : <Fragment><h3 className="text-black"> No Profile for this user yet 
-            <Link to="/createuserprofile" className="text-dark"> Create One?</Link> </h3>
-            
+            </Fragment> : <Fragment><h3 className="text-black"> No Profile for this user yet </h3> 
+            <br/>
+            <Link to="/createuserprofile" className="text-dark"> Create One?</Link>  
+               
             </Fragment>
             
             }

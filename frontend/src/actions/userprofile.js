@@ -3,7 +3,9 @@ import { setAlert } from './alert';
 import {
     GET_USER_PROFILE,
     USER_PROFILE_ERROR,
-    CLEAR_PROFILE
+    CLEAR_PROFILE,
+    GET_USER_PROFILES,
+    SEARCH_USERS_NAME
 } from './types';
 
 // Get current restaurant profile
@@ -72,5 +74,41 @@ export const getUserProfilebyId = (user_id) => async(dispatch) => {
             type: USER_PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status },
         });
+    }
+};
+
+// get all user profiles 
+
+export const getAllUserProfiles = () => async(dispatch) => {
+    try {
+        const res = await axios.get('/api/profile');
+        dispatch({
+            type: GET_USER_PROFILES,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: USER_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+};
+
+// search user by firstName/nickName
+
+export const getAllProfilesByName = (word) => async(dispatch) => {
+    try {
+        const res = await axios.get(`/api/profile/searchuser/${word}`);
+        dispatch({
+            type: GET_USER_PROFILES,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: USER_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
     }
 };

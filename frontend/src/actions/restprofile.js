@@ -33,7 +33,7 @@ export const createRestProfile = (formData, history, edit = false) => async(
             headers: { 'Content-Type': 'application/json' },
         };
         const res = await axios.post(
-            '/api/restprofile?',
+            '/api/restprofile',
             formData,
             config
         );

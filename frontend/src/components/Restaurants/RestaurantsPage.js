@@ -17,7 +17,7 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
             <br/>
 
             {loading ? <Spinner/> : <Fragment>
-                <Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
+                <Link to='/restdashboard' className="btn btn-dark"> Go Back</Link>
                 
                 <div className="container">
                 

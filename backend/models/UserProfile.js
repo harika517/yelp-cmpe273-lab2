@@ -5,6 +5,12 @@ const UserProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
     },
+    firstName: {
+        type: String,
+    },
+    lastName: {
+        type: String,
+    },
     contact: {
         type: String,
     },
@@ -38,6 +44,29 @@ const UserProfileSchema = new mongoose.Schema({
     myBlog: {
         type: String,
     },
+    following: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user',
+        },
+        userId: {
+            type: String,
+        },
+    }],
+    followers: [{
+        userName: {
+            type: String,
+        },
+        firstName: {
+            type: String,
+        },
+        lastName: {
+            type: String,
+        },
+        userEmail: {
+            type: String,
+        },
+    }],
 
 });
 

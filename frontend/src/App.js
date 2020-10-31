@@ -26,6 +26,8 @@ import RestaurantEventsPage from './components/SocialEvents/RestaurantEventsPage
 import RegisteredCustomers from './components/SocialEvents/RegisteredCustomers';
 import RegisteredCustProfile from './components/SocialEvents/RegisteredCustProfile';
 import WriteReviews from './components/Reviews/WriteReviews';
+import YelpUsersPage from './components/YelpUsers/YelpUsersPage';
+import YelpUserProfile from './components/YelpUsers/YelpUserProfile';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -88,6 +90,9 @@ const App = () => {
               <PrivateRoute exact path='/eventattendees/:id' component={RegisteredCustomers}/>
               <PrivateRoute exact path='/registereduser/:id' component={RegisteredCustProfile}/>
               <PrivateRoute exact path='/restaurant/writereview/:id' component={WriteReviews}/>
+              <PrivateRoute exact path='/yelpuserspage' component={YelpUsersPage}/>
+              <PrivateRoute exact path='/yelpuserdetail/:id' component={YelpUserProfile}/>
+      
               
             </switch>
             <Alert />

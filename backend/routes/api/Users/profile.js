@@ -9,7 +9,6 @@ const auth = require('../../../middleware/auth');
 const User = require('../../../models/User');
 const UserProfile = require('../../../models/UserProfile');
 
-
 // auth();
 // @route  GET api/profile/me
 // @Desc   get current user profile
@@ -95,7 +94,7 @@ router.post('/', [auth, [
 
 router.get('/', async(req, res) => {
     try {
-        const profiles = await UserProfile.find().populate('user', ['userName', 'image']);
+        const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
         res.json(profiles);
     } catch (err) {
         console.error(err.message);
@@ -112,6 +111,61 @@ router.get('/user/:user_id', async(req, res) => {
         const profile = await UserProfile.findOne({ user: req.params.user_id }).populate('user', ['userName', 'userEmail', 'firstName', 'lastName', 'image']);
         if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
         res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Yelp Users
+
+// Search for user using user's firstName or NickName
+
+router.get('/searchuser/:word', async(req, res) => {
+    try {
+        const searchword = req.params.word;
+        // console.log('searchuser', searchword);
+        const user = await UserProfile.find({
+            $or: [{ firstName: { $regex: `.*${searchword}.*` } },
+                { nickName: { $regex: `.*${searchword}.*` } },
+                { city: { $regex: `.*${searchword}.*` } },
+                { state: { $regex: `.*${searchword}.*` } },
+                { country: { $regex: `.*${searchword}.*` } },
+            ],
+        }).populate('user', ['userName', 'userEmail', 'firstName', 'lastName', 'image']);
+
+        if (user.length === 0) {
+            return res.status(400).json({ msg: 'There are no users with this name' });
+        }
+        // const results = [...userFN, ...userNN];
+        // res.json({
+        //     FirstName: userFN,
+        //     NickName: userNN,
+        // });
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Search for user using user's firstName or NickName
+
+router.get('/searchuserlocation/:word', async(req, res) => {
+    try {
+        const searchword = req.params.word;
+        console.log('searchuser', searchword);
+        const user = await UserProfile.find({
+            $or: [{ city: { $regex: `.*${searchword}.*` } },
+                { state: { $regex: `.*${searchword}.*` } },
+                { country: { $regex: `.*${searchword}.*` } },
+            ],
+        });
+        // console.log('searchuser result', user);
+        if (user.length === 0) {
+            return res.status(400).json({ msg: 'There are no users from this location' });
+        }
+        res.json(user);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
