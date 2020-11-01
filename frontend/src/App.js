@@ -29,6 +29,7 @@ import WriteReviews from './components/Reviews/WriteReviews';
 import YelpUsersPage from './components/YelpUsers/YelpUsersPage';
 import YelpUserProfile from './components/YelpUsers/YelpUserProfile';
 import RestMenuItems from './components/Restaurants/RestMenuItems';
+import PlaceOrder from './components/Restaurants/PlaceOrder';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -94,7 +95,7 @@ const App = () => {
               <PrivateRoute exact path='/yelpuserspage' component={YelpUsersPage}/>
               <PrivateRoute exact path='/yelpuserdetail/:id' component={YelpUserProfile}/>
               <PrivateRoute exact path='/menuitems/:id' component={RestMenuItems}/>
-      
+              <PrivateRoute exact path='/orders/create/:rest_id/:item_id' component={PlaceOrder}/>
               
             </switch>
             <Alert />

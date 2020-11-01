@@ -38,7 +38,18 @@ router.post('/create/:restuser_id/:menuitems_id', [auth, [
     try {
         let restorder = await RestOrder.find({
             restuser: req.params.restuser_id,
+            menuitems: req.params.menuitems_id,
+        }).populate({
+            path: 'restuser',
+            select: 'restName',
+            model: 'restuser',
         });
+        // .populate('menuitems', ['itemName']
+        // {
+        //     path: 'restuser',
+        //     select: 'restName',
+        //     model: 'restName'
+        // });
         restorder = new RestOrder(restOrderFields);
         await restorder.save();
         res.json(restorder);
@@ -52,19 +63,70 @@ router.post('/create/:restuser_id/:menuitems_id', [auth, [
 // @Desc   Get all the orders created by currently logged in user
 // @access Private
 
+router.get('/me', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({ userId: req.user.id });
+        if (restorder.length === 0) return res.status(400).json({ msg: 'No orders placed so far' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route  GET /api/orders/me/:orderStatus
 // @Desc   filter all the orders created by currently logged in user by order_status
 // @access Private
+
+router.get('/me/:orderStatus', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({
+            $and: [{ orderStatus: req.params.orderStatus }, { userId: req.user.id }],
+        }, );
+        if (restorder.length === 0) return res.status(400).json({ msg: 'No orders with this status' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Restaurant Side
 
 // @route  GET /api/orders/restaurant
 // @Desc   View all the orders made to the currently logged in restaurant
 // @access Private
 
+router.get('/restaurant', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({ restId: req.restuser.id });
+        if (restorder.length === 0) return res.status(400).json({ msg: 'No orders placed so far' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 // @route  POST /api/orders/restaurant/update
 // @Desc   update order status of the order
 // @access Private
 
+
+
 // @route  GET /api/orders/restaurant/:orderStatus
 // @Desc   View all the orders by orderstatus
 // @access Private
+
+router.get('/restaurant/:orderStatus', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({
+            $and: [{ orderStatus: req.params.orderStatus }, { restId: req.restuser.id }],
+        }, );
+        if (restorder.length === 0) return res.status(400).json({ msg: 'No orders with this status' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 module.exports = router;

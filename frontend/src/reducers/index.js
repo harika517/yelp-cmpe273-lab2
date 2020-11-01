@@ -5,6 +5,7 @@ import restprofile from './restprofile';
 import userprofile from './userprofile';
 import event from './event';
 import menuitem from './menuitem';
+import orders from './orders';
 
 export default combineReducers({
     alert,
@@ -12,5 +13,6 @@ export default combineReducers({
     restprofile,
     userprofile,
     event,
-    menuitem
+    menuitem,
+    orders
 });
