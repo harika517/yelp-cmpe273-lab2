@@ -5,13 +5,22 @@ const RestOrderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'restuser',
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+    // user: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'user',
+    // },
+    // menuitems: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'restprofile',
+    // },
+    userId: {
+        type: String,
     },
-    menuitems: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'restprofile',
+    restId: {
+        type: String,
+    },
+    menuId: {
+        type: String,
     },
     Quantiy: {
         type: Number,

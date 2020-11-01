@@ -28,18 +28,16 @@ router.post('/create/:restuser_id/:menuitems_id', [auth, [
         deliveryMethod,
     } = req.body;
     const restOrderFields = {};
-    restOrderFields.user = req.user.id;
-    restOrderFields.restuser = req.params.restuser_id;
-    restOrderFields.menuitems = req.params.menuitems_id;
+    restOrderFields.userId = req.user.id;
+    restOrderFields.restId = req.params.restuser_id;
+    restOrderFields.menuId = req.params.menuitems_id;
     restOrderFields.orderStatus = 'New_Order';
     if (Quantiy) restOrderFields.Quantiy = Quantiy;
     if (deliveryMethod) restOrderFields.deliveryMethod = deliveryMethod;
 
     try {
-        let restorder = await RestOrder.findOne({
-            user: req.user.id,
+        let restorder = await RestOrder.find({
             restuser: req.params.restuser_id,
-            menuitems: req.params.menuitems_id,
         });
         restorder = new RestOrder(restOrderFields);
         await restorder.save();

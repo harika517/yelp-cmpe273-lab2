@@ -13,7 +13,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
     }, [])
 
     let newobj = {};
-    if(!loading) {
+    if(!loading || restprofile) {
         console.log ("rest profile menu items",restprofile.menuitems)
         let uniqCategories = restprofile.menuitems.map((item) => item.itemCategory);
         uniqCategories = [...new Set(uniqCategories)];
@@ -26,7 +26,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
     }
     console.log('inside rest menu items, new obj is ', newobj);
     return (
-        loading && restprofile === null ? <Spinner /> : <Fragment>
+        loading || restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />
     <div className='container'>
     {restprofile !== null ? <Fragment>
@@ -89,7 +89,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
                                <br/>
                                <div>
                                  <Link
-                                   to='#'
+                                   to={`/orders/create/${restprofile.restuser._id}/${indi._id}`}
                                    className="btn btn-dark small"
                                  >
                                    PlaceOrder
