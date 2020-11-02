@@ -57,3 +57,65 @@ export const getOrderHistory = () => async(dispatch) => {
         })
     }
 }
+
+// get the orders filtered by orderStatus - Users
+
+export const getOrdersByOrderStatusUsers = (order_status) => async(dispatch) => {
+    try {
+        const res = await axios.get(`/api/orders/me/${order_status}`);
+        dispatch({
+            type: GET_ALL_ORDERS,
+            payload: res.data
+        });
+
+    } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+        dispatch({
+            type: GET_ORDERS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}
+
+// get all the orders raised by current logged in customer
+
+export const getRestaurantOrders = () => async(dispatch) => {
+    try {
+        const res = await axios.get('/api/orders/restaurant');
+        dispatch({
+            type: GET_ALL_ORDERS,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: GET_ORDERS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}
+
+// get the orders filtered by orderStatus - Restaurants
+
+export const getOrdersByOrderStatusRest = (order_status) => async(dispatch) => {
+    try {
+        const res = await axios.get(`/api/orders/restaurant/${order_status}`);
+        dispatch({
+            type: GET_ALL_ORDERS,
+            payload: res.data
+        });
+
+    } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+        dispatch({
+            type: GET_ORDERS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}

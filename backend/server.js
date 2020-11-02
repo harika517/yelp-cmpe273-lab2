@@ -62,8 +62,10 @@ app.use('/api/orders', require('./routes/api/RestaurantOrders/restorders'));
 // images
 // get
 app.use('/api/images', require('./routes/api/ProfilePhotos/getrestprofilepics'));
+app.use('/api/userimages', require('./routes/api/ProfilePhotos/getuserprofilepics'));
 // upload
 app.use('/api/addimages', require('./routes/api/UploadPhotos/uploadrestprofilepic'));
+app.use('/api/useraddimages', require('./routes/api/UploadPhotos/uploaduserprofilepic'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

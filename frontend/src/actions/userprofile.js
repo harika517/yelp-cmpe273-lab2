@@ -77,11 +77,29 @@ export const getUserProfilebyId = (user_id) => async(dispatch) => {
     }
 };
 
-// get all user profiles 
+// get all user profiles except current user
 
 export const getAllUserProfiles = () => async(dispatch) => {
     try {
         const res = await axios.get('/api/profile');
+        dispatch({
+            type: GET_USER_PROFILES,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: USER_PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+};
+
+// get all user profiles
+
+export const getUserProfiles = () => async(dispatch) => {
+    try {
+        const res = await axios.get('/api/profile/profiles');
         dispatch({
             type: GET_USER_PROFILES,
             payload: res.data

@@ -1,16 +1,49 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import { getCurrentUserProfile } from '../../actions/userprofile';
 import DashboardNav from '../layout/DashboardNav';
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner';
+import insertUserImage from "../../actions/uploaduserimage";
 
 
-const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { userprofile, loading } }) => {
+const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { userprofile, loading }, insertUserImage }) => {
     useEffect(() => {
         getCurrentUserProfile();
-    }, [])
+        setImage({file:loading || !userprofile.user.image ? "" : userprofile.user.image,
+      fileText: "Choose Image.."})
+    }, [loading])
+
+    const [image,setImage] = useState({
+        file: "",
+        fileText: "",
+      })
+
+      const imageChange = (e)=>{
+        console.log("image file name is ",e.target.files[0].name)
+        setImage({file:e.target.files[0],fileText: e.target.files[0].name})
+      }
+
+      const imageSave = (e) => {
+        e.preventDefault();
+        console.log("inside imageSave, file is ", image.file);
+        console.log("inside imageSave, fileText is ", image.fileText);
+        console.log("inside imageSave, email to be sent is,",userprofile.user.userEmail);
+        //console.log (insertImage)
+        insertUserImage(image.file, userprofile.user.userEmail);
+        // const newimg = "rest_"+string(restprofile.restuser._id)+"."
+        if (userprofile.user.image)
+        {
+          setImage({file:userprofile.user.image})
+        }
+      }
+      if (userprofile){
+        console.log ("this is the image file name from userprofile",userprofile.user.image);
+        console.log("no userprofile yet");
+      }
+      const backendimageserver = "http://localhost:3001/api/userimages/user/"
+      console.log ("userprofile is {}",userprofile)
   
     return loading && userprofile === null? <Spinner /> : <Fragment>
         <DashboardNav />
@@ -19,7 +52,14 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
         
         {userprofile !== null ? <Fragment>
             <div className="column_1">
-            <img src={userprofile.user.image}></img>
+            <img
+             src={
+                image.file
+                  ? `${backendimageserver}${image.file}`
+                  : `${backendimageserver}image`
+             }
+            alt="Profile Picture"
+          />
             <h3 className="lead">
             {userprofile.user.userName}'s Profile
             </h3>
@@ -66,6 +106,18 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <Link to="/userdashboard" className="text-primary">
             <i className="fas fa-camera text-primary" /> {' '} Add Profile Photos
             </Link>
+            <form onSubmit={(e)=>imageSave(e)}>
+            <div className="file-field input-field">
+              <div className="btn #64b5f6 blue darken-1">
+                <span>Upload Image</span>
+                <input type ="file" onChange={(e)=>imageChange(e)}/>
+              </div>
+            </div>
+            <br/>
+            <button type="submit" className="btn btn-dark">
+              Upload Profile Pic
+            </button>
+            </form>
             <br/>
             <Link to="/edituserprofile" className="text-primary">
             <i className="fas fa-id-card text-primary" /> {' '} Update your profile
@@ -123,6 +175,7 @@ UserDashboard.propTypes = {
     getCurrentUserProfile: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     userprofile: PropTypes.object.isRequired,
+    insertUserImage: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -130,4 +183,4 @@ const mapStateToProps = state => ({
     userprofile: state.userprofile
 })
 
-export default connect(mapStateToProps, { getCurrentUserProfile })(UserDashboard);
+export default connect(mapStateToProps, { getCurrentUserProfile, insertUserImage })(UserDashboard);

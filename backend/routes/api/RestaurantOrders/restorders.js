@@ -65,15 +65,15 @@ router.get('/me', auth, async(req, res) => {
     }
 });
 
-// @route  GET /api/orders/me/:orderStatus
+// @route  GET /api/orders/me/order_status
 // @Desc   filter all the orders created by currently logged in user by order_status
 // @access Private
 
-router.get('/me/:orderStatus', auth, async(req, res) => {
+router.get('/me/:order_satus', auth, async(req, res) => {
     try {
         const restorder = await RestOrder.find({
-            $and: [{ orderStatus: req.params.orderStatus }, { userId: req.user.id }],
-        }, );
+            $and: [{ orderStatus: req.params.order_satus }, { userId: req.user.id }],
+        });
         if (restorder.length === 0) return res.status(400).json({ msg: 'No orders with this status' });
         res.json(restorder);
     } catch (err) {
@@ -121,7 +121,7 @@ router.get('/restaurant/:orderStatus', auth, async(req, res) => {
     try {
         const restorder = await RestOrder.find({
             $and: [{ orderStatus: req.params.orderStatus }, { restId: req.restuser.id }],
-        }, );
+        });
         if (restorder.length === 0) return res.status(400).json({ msg: 'No orders with this status' });
         res.json(restorder);
     } catch (err) {

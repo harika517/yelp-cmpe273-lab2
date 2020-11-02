@@ -21,3 +21,20 @@ export const getMenuItemsByRestID = (rest_id) => async(dispatch) => {
         });
     }
 };
+
+// get meunitems by current customer
+
+export const getCurrentRestMenuItems = () => async(dispatch) => {
+    try {
+        const res = await axios.get(`/api/restaurant/menuitems`);
+        dispatch({
+            type: GET_MENUITEMS,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: GET_MENUITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status },
+        });
+    }
+};

@@ -52,16 +52,6 @@ const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{u
                 value={fnname}
                 onChange={(e) => onChange(e)}
               ></input>
-               {/* <input
-                type="text"
-                placeholder="Location"
-                name="location"
-                value={location}
-                onChange={(e) => onChange(e)}
-              /> */}
-              {/* <Link to="#" className="btn btn-dark" type="submit">
-              Search
-            </Link> */}
             <br/>
             <button className="btn btn-dark" type="submit"> Search</button>
             </div>

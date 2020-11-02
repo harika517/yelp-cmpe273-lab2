@@ -71,7 +71,7 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <Link to="/viewmenu" className=" btn btn-light">
               Menu
             </Link>
-            <Link to="#" className=" btn btn-light">
+            <Link to="/restaurantorders" className=" btn btn-light">
               Orders
             </Link>
             <Link className='small text-primary' to='/updateprofile'>Update Profile</Link>

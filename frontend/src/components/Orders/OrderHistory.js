@@ -1,6 +1,6 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
-import {getOrderHistory} from '../../actions/orders'
+import {getOrderHistory, getOrdersByOrderStatusUsers} from '../../actions/orders'
 import {getAllRestProfiles} from '../../actions/restprofile'
 import {Link} from 'react-router-dom';
 import DashboardNav from '../layout/DashboardNav';
@@ -23,12 +23,29 @@ const useStyles = makeStyles({
     },
   });
 
-const OrderHistory = ({getOrderHistory, getAllRestProfiles, restprofile:{restprofiles, loading}, orders}) => {
+const OrderHistory = ({getOrderHistory, getAllRestProfiles, restprofile:{restprofiles, loading}, orders, getOrdersByOrderStatusUsers}) => {
 
     useEffect(()=>{
         getAllRestProfiles()
         getOrderHistory()
     }, [])
+
+    const [formData, setFormData] = useState({
+        orderStatusSearch: '',
+
+      });
+
+      const { orderStatusSearch} = formData;
+      console.log("orderStatusSearch", orderStatusSearch)
+    
+      const onChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+      const onClick = (e) => {
+        e.preventDefault();
+        getOrdersByOrderStatusUsers(orderStatusSearch);
+      };
+
     let temp1  = null
     if (restprofiles)
     {
@@ -38,37 +55,14 @@ const OrderHistory = ({getOrderHistory, getAllRestProfiles, restprofile:{restpro
     {if (orders)
     {
         orders.ordersplaced.map(order=>{
-            let{restId, menuId} = order;
-            //console.log ("restId is "+restId+", menuId is",menuId)
-            //console.log ("restprofiles length is",restprofiles.length)
+            let{restId, menuId} = order;           
             let restp = restprofiles.filter(profile=>String(profile.restuser._id) ===String(restId))
-            //console.log ("restp length is ", restp.length)
             let {restName} = restp[0].restuser
-            //console.log ("restName is",restName)
-            //console.log ("menu items is ", restp[0].menuitems)
             let menuI = restp[0].menuitems.filter(item=>String(item._id).trim()===String(menuId))
-            //console.log ("menuI was obtained as ",menuI)
             let {itemName} = menuI[0]
-            // restp[0].menuitems.map(item=>{
-            //     if (String(item._id).trim()===String(menuId))
-            //     {
-            //         console.log("item id matched",item._id)
-            //     }
-            //     else{
-            //         console.log ("item id ",item._id+ " menuId",menuId)
-            //     }})
-                
-            //console.log ("itemName was obtained as",itemName)
-            //console.log ("restName is,"+restName+" itemName is,"+itemName)
             order.restName = restName
             order.itemName = itemName
-            
-            //
         })
-        //temp1.forEach(element=>console.log(element))
-        //console.log (temp1.length)
-        //orders.restName = temp1.restName
-        //orders.itemName = temp1.itemName
     }
 console.log ("after modification, orders is",orders)
 }
@@ -76,8 +70,11 @@ const classes = useStyles();
     return (
         loading && restprofiles===null && orders === null? <Spinner /> : <Fragment>
             <DashboardNav/>
+            
         <div className="container">
+   
             {/* {orders?orders.ordersplaced.map(order => order.restId):"no orders"} */}
+      
             <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -120,6 +117,22 @@ const classes = useStyles();
             </TableContainer>
 
         </div>
+
+        <div>
+            <label for="orderStatus">Filter By</label>
+            {' '}
+  <select name="orderStatus" className="btn btn-light" name="orderStatusSearch"
+                value={orderStatusSearch}
+                onChange={(e) => onChange(e)}>
+    <option value="Order received">Order received</option>
+    <option value="Preparing">Preparing</option>
+    <option value="On the way">On the way</option>
+    <option value="Delivered">Delivered</option>
+    <option value="Pick up ready">Pick up ready</option>
+    <option value="Picked up">Picked up</option>
+  </select>
+  <button className="btn btn-dark" onClick={(e) => onClick(e)}> Go </button>
+            </div>
         </Fragment>
                   
         
@@ -132,6 +145,7 @@ OrderHistory.propTypes = {
     getAllRestProfiles: PropTypes.func.isRequired,
     restprofile: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
+    getOrdersByOrderStatusUsers: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -140,4 +154,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {getOrderHistory, getAllRestProfiles})(OrderHistory)
+export default connect(mapStateToProps, {getOrderHistory, getAllRestProfiles, getOrdersByOrderStatusUsers})(OrderHistory)

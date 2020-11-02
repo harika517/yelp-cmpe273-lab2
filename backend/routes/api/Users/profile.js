@@ -105,6 +105,22 @@ router.get('/', auth, async(req, res) => {
     }
 });
 
+// @route  GET api/profile
+// @Desc   Get all profiles
+// @access Public
+
+router.get('/profiles', async(req, res) => {
+    try {
+
+        const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
+        if (profiles.length === 0) return res.status(400).json({ msg: 'There is no profile for this user' });
+        res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route  GET api/profile/user/:user_id
 // @Desc   Get profile by user_id
 // @access Public

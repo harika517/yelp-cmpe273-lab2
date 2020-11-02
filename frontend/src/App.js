@@ -31,6 +31,7 @@ import YelpUserProfile from './components/YelpUsers/YelpUserProfile';
 import RestMenuItems from './components/Restaurants/RestMenuItems';
 import PlaceOrder from './components/Orders/PlaceOrder';
 import OrderHistory from './components/Orders/OrderHistory';
+import RestaurantOrders from './components/Orders/RestaurantOrders';
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -98,6 +99,7 @@ const App = () => {
               <PrivateRoute exact path='/menuitems/:id' component={RestMenuItems}/>
               <PrivateRoute exact path='/orders/create/:rest_id/:item_id' component={PlaceOrder}/>
               <PrivateRoute exact path='/orderhistory' component={OrderHistory}/>
+              <PrivateRoute exact path='/restaurantorders' component={RestaurantOrders}/>
               
             </switch>
             <Alert />
