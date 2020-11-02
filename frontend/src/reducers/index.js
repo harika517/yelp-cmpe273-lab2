@@ -6,6 +6,7 @@ import userprofile from './userprofile';
 import event from './event';
 import menuitem from './menuitem';
 import orders from './orders';
+import images from './images';
 
 export default combineReducers({
     alert,
@@ -14,5 +15,6 @@ export default combineReducers({
     userprofile,
     event,
     menuitem,
-    orders
+    orders,
+    images
 });

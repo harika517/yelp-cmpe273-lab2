@@ -41,3 +41,19 @@ export const placingOrder = (restId, itemId, formData, history, edit = false) =>
 };
 
 // get all the orders raised by current logged in customer
+
+export const getOrderHistory = () => async(dispatch) => {
+    try {
+        const res = await axios.get('/api/orders/me');
+        dispatch({
+            type: GET_ALL_ORDERS,
+            payload: res.data
+        });
+
+    } catch (err) {
+        dispatch({
+            type: GET_ORDERS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}

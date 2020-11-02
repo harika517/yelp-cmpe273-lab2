@@ -1,22 +1,60 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import DashboardNav from '../layout/DashboardNav';
 import { connect } from 'react-redux';
 import { getCurrentRestProfile } from '../../actions/restprofile';
 import Spinner from '../layout/spinner';
+import insertImage from "../../actions/uploadimage";
 
-const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { restprofile, loading } }) => {
+const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { restprofile, loading },insertImage }) => {
 
     useEffect(() => {
         getCurrentRestProfile();
-    }, [])
-    
+        setImage({file:loading || !restprofile.restuser.image ? "" : restprofile.restuser.image,
+      fileText: "Choose Image.."})
+    }, [loading])
+    const [image,setImage] = useState({
+      file: "",
+      fileText: "",
+    })
+    const imageChange = (e)=>{
+      console.log("image file name is ",e.target.files[0].name)
+      setImage({file:e.target.files[0],fileText: e.target.files[0].name})
+    }
+
+    const imageSave = (e) => {
+      e.preventDefault();
+      console.log("inside imageSave, file is ", image.file);
+      console.log("inside imageSave, fileText is ", image.fileText);
+      console.log("inside imageSave, email to be sent is,",restprofile.restuser.restEmail)
+      //console.log (insertImage)
+      insertImage(image.file, restprofile.restuser.restEmail)
+      // const newimg = "rest_"+string(restprofile.restuser._id)+"."
+      if (restprofile.restuser.image)
+      {
+        setImage({file:restprofile.restuser.image})
+      }
+    }
+    if (restprofile){
+      console.log ("this is the image file name from restprofile",restprofile.restuser.image);
+      console.log("no restprofile yet");
+    }
+    const backendimageserver = "http://localhost:3001/api/images/rest/"
+    console.log ("restprofile is {}",restprofile)
     return loading && restprofile === null ? <Spinner /> : <Fragment>
         <DashboardNav />
         <div className='container'>
         <div className="container_2columns">
             <div className="column1">
+            <img
+             src={
+               image.file
+                 ? `${backendimageserver}${image.file}`
+                 : `${backendimageserver}image`
+             }
+            alt="Profile Picture"
+          />
                 {restprofile !== null ? <Fragment>
                     <h1 className="large text-black">{restprofile.restuser.restName}</h1>
                 <h3 className='lead'> Ratings: {restprofile.reviews? (restprofile.reviews[0]? restprofile.reviews[0].rating: 'No reviews yet'): 'No reviews yet'}</h3>
@@ -38,6 +76,20 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             </Link>
             <Link className='small text-primary' to='/updateprofile'>Update Profile</Link>
             <hr/>
+            <br/>
+            <form onSubmit={(e)=>imageSave(e)}>
+            <div className="file-field input-field">
+              <div className="btn #64b5f6 blue darken-1">
+                <span>Upload Image</span>
+                <input type ="file" onChange={(e)=>imageChange(e)}/>
+              </div>
+            </div>
+            <br/>
+            <button type="submit" className="btn btn-dark">
+              Upload Profile Pic
+            </button>
+            </form>
+            <hr/>
             <h4>
              {restprofile.description}
                 </h4>
@@ -46,11 +98,11 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
               <ul>
                 <li>
                 {restprofile.DineIn === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> DineIn{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> DineIn{' '}
               </h3>
             )}
@@ -58,22 +110,22 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 </li>
                 <li>
                 {restprofile.curbSidePickUp === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> CurbSidePickUp{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> CurbSidePickUp{' '}
               </h3>
             )}
                 </li>
                 <li>
                 {restprofile.yelpDelivery === 'yes' ? (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-check" /> YelpDelivery{' '}
               </h3>
             ): (
-                <h3 className="bold text-dark">
+                <h3 className="small text-dark">
                 <i className="fas fa-times" /> YelpDelivery{' '}
               </h3>
             )}
@@ -120,6 +172,7 @@ RestDashboard.propTypes = {
     getCurrentRestProfile: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     restprofile: PropTypes.object.isRequired,
+    insertImage: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -127,4 +180,4 @@ const mapStateToProps = state => ({
     restprofile: state.restprofile
 })
 
-export default connect(mapStateToProps, { getCurrentRestProfile })(RestDashboard);
+export default connect(mapStateToProps, { getCurrentRestProfile, insertImage })(RestDashboard);

@@ -30,3 +30,5 @@ export const GET_MENUITEMS = "GET_MENUITEMS";
 export const GET_MENUITEMS_ERROR = 'GET_MENUITEMS_ERROR';
 export const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 export const GET_ORDERS_ERROR = 'GET_ORDERS_ERROR';
+export const IMAGE_ERROR = "IMAGE_ERROR";
+export const POST_IMAGE = "POST_IMAGE";

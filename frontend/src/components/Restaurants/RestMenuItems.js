@@ -14,7 +14,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
 
     let newobj = {};
     if(!loading || restprofile) {
-        console.log ("rest profile menu items",restprofile.menuitems)
+        // console.log ("rest profile menu items",restprofile.menuitems)
         let uniqCategories = restprofile.menuitems.map((item) => item.itemCategory);
         uniqCategories = [...new Set(uniqCategories)];
         
@@ -24,7 +24,10 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
         
         console.log('inside rest menu items, unique categories, ', uniqCategories);
     }
-    console.log('inside rest menu items, new obj is ', newobj);
+    // else{
+    //   windows reload
+    // }
+    // console.log('inside rest menu items, new obj is ', newobj);
     return (
         loading || restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />

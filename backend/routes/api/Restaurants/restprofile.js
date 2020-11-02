@@ -16,7 +16,7 @@ const auth = require('../../../middleware/auth');
 
 router.get('/me', auth, async(req, res) => {
     try {
-        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id }).populate('restuser', ['restName', 'location', 'restEmail']);
+        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id }).populate('restuser', ['restName', 'location', 'restEmail', 'image']);
         if (!restprofile) {
             return res.status(400).json({ msg: 'There is no profile for this restaurant' });
         }

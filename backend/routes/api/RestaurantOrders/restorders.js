@@ -39,17 +39,8 @@ router.post('/create/:restuser_id/:menuitems_id', [auth, [
         let restorder = await RestOrder.find({
             restuser: req.params.restuser_id,
             menuitems: req.params.menuitems_id,
-        }).populate({
-            path: 'restuser',
-            select: 'restName',
-            model: 'restuser',
         });
-        // .populate('menuitems', ['itemName']
-        // {
-        //     path: 'restuser',
-        //     select: 'restName',
-        //     model: 'restName'
-        // });
+
         restorder = new RestOrder(restOrderFields);
         await restorder.save();
         res.json(restorder);
@@ -107,11 +98,20 @@ router.get('/restaurant', auth, async(req, res) => {
         res.status(500).send('Server Error');
     }
 });
-// @route  POST /api/orders/restaurant/update
+// @route  POST /api/orders/restaurant/updateorder
 // @Desc   update order status of the order
 // @access Private
 
-
+router.get('/restaurant/updateorder/:order_id', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({ restorder: req.params.order_id });
+        if (!restorder) return res.status(400).json({ msg: 'No orders found' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // @route  GET /api/orders/restaurant/:orderStatus
 // @Desc   View all the orders by orderstatus

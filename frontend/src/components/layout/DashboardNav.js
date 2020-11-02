@@ -7,10 +7,10 @@ import { logout } from '../../actions/auth';
 const DashboardNav = ({ auth: { isAuthenticated, loading }, logout }) => {
     const authLinks = (
         <ul className="search-options">
-            <li>
+            {/* <li>
                 <Link to='/restdashboard' className='text-black'>
                     <i className='fas fa-user'></i> {' '} Profile</Link>
-            </li>
+            </li> */}
             <li>
                 <Link onClick={logout} to='/' className='text-black'>
                     <i className='fas fa-sign-out-alt'></i> {' '} Logout</Link>
