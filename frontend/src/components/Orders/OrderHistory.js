@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
-import { TableFooter } from '@material-ui/core';
+// import { TableFooter } from '@material-ui/core';
 
 const useStyles = makeStyles({
     table: {
@@ -46,7 +46,23 @@ const OrderHistory = ({getOrderHistory, getAllRestProfiles, restprofile:{restpro
         getOrdersByOrderStatusUsers(orderStatusSearch);
       };
 
-    let temp1  = null
+      const [page, setPage] = React.useState(0);
+      const [rowsPerPage, setRowsPerPage] = React.useState(2);
+
+      const handleChangePage = (event, newPage) => {
+
+        setPage(newPage);
+        
+        };
+        
+        
+        const handleChangeRowsPerPage = event => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        
+        setPage(0);
+        
+          };
+
     if (restprofiles)
     {
         console.log("restprofiles is",restprofiles)
@@ -88,7 +104,7 @@ const classes = useStyles();
           </TableRow>
           </TableHead>
           <TableBody>
-          {orders?orders.ordersplaced.map((row)=>(
+          {orders?orders.ordersplaced.slice(page*rowsPerPage,page*rowsPerPage+rowsPerPage).map((row)=>(
     <TableRow key={row._id}>
         <TableCell component="th" scope="row">
             {row.itemName}
@@ -114,6 +130,15 @@ const classes = useStyles();
           </TableBody>
           
                 </Table>
+                <TablePagination
+        rowsPerPageOptions={[1, 2, 3]}
+        component="div"
+        count={orders.ordersplaced.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
             </TableContainer>
 
         </div>
