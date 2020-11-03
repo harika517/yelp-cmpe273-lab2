@@ -32,6 +32,13 @@ import RestMenuItems from './components/Restaurants/RestMenuItems';
 import PlaceOrder from './components/Orders/PlaceOrder';
 import OrderHistory from './components/Orders/OrderHistory';
 import RestaurantOrders from './components/Orders/RestaurantOrders';
+import RestaurantResults from './components/RestaurantSearch/RestaurantSearchResults';
+import AllRestaurants from './components/RestaurantSearch/AllRestaurants';
+import RestaurantsCurbSide from './components/RestaurantSearch/RestaurantsCurbSide';
+import RestaurantsDineIn from './components/RestaurantSearch/RestaurantsDineIn';
+import RestaurantsYelpDelivery from './components/RestaurantSearch/RestaurantsYelpDelivery';
+import ViewRestaurantPage from './components/RestaurantSearch/ViewRestaurantPage';
+
 
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -79,6 +86,12 @@ const App = () => {
               <Route exact path='/restregister' component={RestRegister} />
               <Route exact path='/restaurantspage' component={RestaurantsPage}/>
               <Route exact path='/events' component={EventsPage}/>
+              <Route exact path='/restaurantresults/:search' component={RestaurantResults}/>
+              <Route exact path='/allrestaurants' component={AllRestaurants}/>
+              <Route exact path='/curbsidepickup' component={RestaurantsCurbSide}/>
+              <Route exact path='/dinein' component={RestaurantsDineIn}/>
+              <Route exact path='/yelpdelivery' component={RestaurantsYelpDelivery}/>
+              <Route exact path='/restaurantdetails/:id' component={ViewRestaurantPage}/>
               <PrivateRoute exact path='/restdashboard' component={RestDashboard} />
               <PrivateRoute exact path='/userdashboard' component={UserDashboard} />
               <PrivateRoute exact path='/createprofile' component={CreateRestProfile}/>

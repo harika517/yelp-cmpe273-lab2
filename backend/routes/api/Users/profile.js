@@ -9,6 +9,7 @@ const { ObjectId } = require('mongodb');
 const auth = require('../../../middleware/auth');
 const User = require('../../../models/User');
 const UserProfile = require('../../../models/UserProfile');
+const kafka = require('../../../kafka/client');
 
 // auth();
 // @route  GET api/profile/me
@@ -105,13 +106,28 @@ router.get('/', auth, async(req, res) => {
     }
 });
 
+// router.get('/', async(req, res) => {
+//     kafka.make_request('allOtherUsers', req.body, (err, results) => {
+//         console.log('in result');
+//         console.log(results);
+//         if (err) {
+//             console.log('Inside err');
+//             res.status(500).send('System Error, Try Again.');
+//         } else {
+//             console.log('Inside else');
+//             res.status(200).json(results);
+
+//             res.end();
+//         }
+//     });
+// });
+
 // @route  GET api/profile
 // @Desc   Get all profiles
 // @access Public
 
 router.get('/profiles', async(req, res) => {
     try {
-
         const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
         if (profiles.length === 0) return res.status(400).json({ msg: 'There is no profile for this user' });
         res.json(profiles);
@@ -120,6 +136,21 @@ router.get('/profiles', async(req, res) => {
         res.status(500).send('Server Error');
     }
 });
+// router.get('/profiles', async(req, res) => {
+//     kafka.make_request('allUsers', req.body, (err, results) => {
+//         console.log('in result');
+//         console.log(results);
+//         if (err) {
+//             console.log('Inside err');
+//             res.status(500).send('System Error, Try Again.');
+//         } else {
+//             console.log('Inside else');
+//             res.status(200).json(results);
+
+//             res.end();
+//         }
+//     });
+// });
 
 // @route  GET api/profile/user/:user_id
 // @Desc   Get profile by user_id

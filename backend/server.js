@@ -3,6 +3,7 @@ const express = require('express');
 const { connect } = require('mongoose');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const kafka = require('./kafka/client');
 
 const app = express();
 
@@ -66,6 +67,9 @@ app.use('/api/userimages', require('./routes/api/ProfilePhotos/getuserprofilepic
 // upload
 app.use('/api/addimages', require('./routes/api/UploadPhotos/uploadrestprofilepic'));
 app.use('/api/useraddimages', require('./routes/api/UploadPhotos/uploaduserprofilepic'));
+
+// retsaurant search
+app.use('/api/search', require('./routes/api/RestaurantSearch/search'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

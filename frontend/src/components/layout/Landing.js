@@ -1,35 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
+import {getRestaurantsSearchCriteria} from '../../actions/restsearchresults'
 
-const Landing = ({ isAuthenticated }) => {
+const Landing = ({ getRestaurantsSearchCriteria, isAuthenticated}) => {
 
     if (isAuthenticated) {
         return <Redirect to='/userdashboard' />
     }
 
-    // const authLinks = (
-    //     <ul className='search-options'>
-    //         <li>
-    //             <Link to="/events" className='bold'>Events</Link>
-    //         </li>
-    //         <li>
-    //             <Link to="/reviews" className='bold'>Write a Review</Link>
-    //         </li>
-    //         <li>
-    //             <Link to='/dashboard' className='bold'>{(user) ? user.firstName : null}'s Profile</Link>
-    //         </li>
-    //         {/* <li>
-    //             <Link to="/dashboard">Profile</Link>
-    //         </li> */}
-    //         <li>
-    //             <a onClick={logout} href='/'>
-    //                 <i className='fas fa-sign-out-alt'></i> {' '} Logout</a>
-    //         </li>
-    //     </ul>
-    // );
+    const [formData, setFormData] = useState({
+        search: '',
+      });
+    
+      const { search } = formData;
+    
+      const onChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+      const onSubmit = (e) => {
+        e.preventDefault();
+        getRestaurantsSearchCriteria(formData);
+        //get results Action
+      };
+
 
     const guestLinks = (
         <ul className='search-options'>
@@ -72,11 +68,11 @@ const Landing = ({ isAuthenticated }) => {
                             className="medium"
                             placeholder="Dishes, Location, Cuisine, Restaurants..."
                             name="search"
-                        //   value={search}
-                        //   onChange={(e) => onChange(e)}
+                          value={search}
+                          onChange={(e) => onChange(e)}
                         />
                         <Link
-                            to='#!'
+                            to={`/restaurantresults/${search}`}
                             className="btn-search"
                             type="submit"
                         >
@@ -88,7 +84,7 @@ const Landing = ({ isAuthenticated }) => {
                 <div className="options">
                     <ul className="search-options">
                         <li>
-                            <Link to="/restaurantresults" className="text-light bold">
+                            <Link to="/allrestaurants" className="text-light bold">
                                 {' '}
                                 <i className="fas fa-utensils" /> Restaurants
               </Link>
