@@ -12,6 +12,8 @@ const ViewRestaurantPage = ({getRestProfilebyId, restprofile:{restprofile, loadi
         getRestProfilebyId(match.params.id)
     }, [])
 
+    const backendimageserver = "http://127.0.0.1:3001/api/images/rest/"
+
     return (
         loading && restprofile === null ? <Spinner /> : <Fragment>
         <Navbar />
@@ -22,10 +24,11 @@ const ViewRestaurantPage = ({getRestProfilebyId, restprofile:{restprofile, loadi
                 <br/>
                 <br/>
                 {restprofile !== null ? <Fragment>
-                    <img
-                       src={restprofile.restuser.image}
-                       alt="Profile Picture"
-                    />
+                  <img src={
+               restprofile.restuser.image
+                 ? `${backendimageserver}${restprofile.restuser.image}`
+                 : `${backendimageserver}image`
+             } alt=""/>
                     <h1 className="large text-black">{restprofile.restuser.restName}</h1>
                 <h3 className='lead'> Ratings: {restprofile.reviews? (restprofile.reviews[0]? restprofile.reviews[0].rating: 'No reviews yet'): 'No reviews yet'}</h3>
                 <h3 className="lead">{restprofile.cuisine} Cuisine </h3>

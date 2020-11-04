@@ -71,5 +71,13 @@ app.use('/api/useraddimages', require('./routes/api/UploadPhotos/uploaduserprofi
 // retsaurant search
 app.use('/api/search', require('./routes/api/RestaurantSearch/search'));
 
+// mulitple Images
+
+// get image
+app.use('/api/restimages', require('./routes/api/RestImages/getrestimages'));
+
+// upload restaurant images
+app.use('/api/addrestimages', require('./routes/api/RestImages/insertrestimages'));
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -6,11 +6,41 @@ import Spinner from '../layout/spinner'
 import {getAllRestProfiles} from '../../actions/restprofile'
 import DashboardNav from '../layout/DashboardNav';
 import RestPrfoileItem from './RestPrfoileItem';
+import Paginate from '../Paginate'
+
+
+function compare (a,b) {
+    const restName1 = a.restuser.restName
+    const restName2 = b.restuser.restName
+    let comparison = 0
+    if (restName1>restName2) {
+        comparison = 1;
+    } else if (restName1 < restName2) {
+    comparison = -1;
+  }
+  return comparison;
+}
 
 const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading}}) => {
     useEffect(()=>{
         getAllRestProfiles();
-    }, [])
+    }, [loading])
+
+    // const [profiles, setPosts] = useState([]);
+    const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
+
+    if (restprofiles){
+        console.log("before sort restprofiles is",restprofiles)
+        restprofiles.sort(compare)
+        console.log("after sort restprofiles is",restprofiles)
+    }
+
     return (
         <Fragment>
             <DashboardNav/>
@@ -21,22 +51,21 @@ const RestaurantsPage = ({getAllRestProfiles, restprofile:{restprofiles, loading
                 
                 <div className="container">
                 
-                <div className="container_2columns">
-                <div className="column1">
+                {/* <div className="container_2columns">
+                <div className="column1"> */}
                 <h1 className="lead text-dark"> Restaurant Results
                 
                 </h1>
-                <div claasName='profiles'>
+                <div className='profiles'>
                     {restprofiles.length > 0 ? (
-                        restprofiles.map(profile=>(
+                        restprofiles.slice(firstpostidx,lastpostidx).map(profile=>(
                             <RestPrfoileItem key={profile._id} profile={profile}/>
                         ))): <p>No Profiles were found ...</p>}
                 </div>
-                <div className="column2">
-                
-                </div>
-                </div>
-                </div>
+                <Paginate itemsPerPage={profilesPerPage} totalItems={restprofiles.length} paginate={paginate}/>
+              
+                {/* </div>
+                </div> */}
                 </div>
                 </Fragment>}
         </Fragment>

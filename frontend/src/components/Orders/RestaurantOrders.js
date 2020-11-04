@@ -3,6 +3,7 @@ import React, {Fragment, useEffect, useState} from 'react'
 import {getRestaurantOrders, getOrdersByOrderStatusRest} from '../../actions/orders'
 import {getUserProfiles} from '../../actions/userprofile'
 import { getCurrentRestMenuItems} from '../../actions/menuitems'
+import {getCurrentRestProfile} from '../../actions/restprofile'
 import {Link} from 'react-router-dom';
 import DashboardNav from '../layout/DashboardNav';
 import { connect } from 'react-redux';
@@ -25,9 +26,11 @@ const useStyles = makeStyles({
   });
 
 const RestaurantOrders = ({
+    getCurrentRestProfile,
     getRestaurantOrders, 
     getUserProfiles, 
     userprofile:{userprofiles, loading}, 
+    restprofile:{restprofile},
     orders, 
     getOrdersByOrderStatusRest, 
     getCurrentRestMenuItems }) => {
@@ -36,6 +39,7 @@ const RestaurantOrders = ({
         getUserProfiles()
         getRestaurantOrders()
         getCurrentRestMenuItems()
+        getCurrentRestProfile()
     }, [])
 
     let temp1  = null
@@ -45,13 +49,14 @@ const RestaurantOrders = ({
     }
 
     if (!loading)
-    {if (orders)
+    {if (orders && restprofile)
     {
         orders.ordersplaced.map(order=>{
             let{userId, menuId} = order;           
             let userp = userprofiles.filter(profile=>String(profile.user._id) ===String(userId))
             let {userName} = userp[0].user
-            let menuI = userp[0].menuitems.filter(item=>String(item._id).trim()===String(menuId))
+            let {menuitems} = restprofile
+            let menuI = menuitems.filter(item=>String(item._id).trim()===String(menuId))
             let {itemName} = menuI[0]
             order.userName = userName
             order.itemName = itemName
@@ -115,13 +120,15 @@ RestaurantOrders.propTypes = {
     getUserProfiles: PropTypes.func.isRequired,
     getCurrentRestMenuItems: PropTypes.func.isRequired,
     userprofile: PropTypes.object.isRequired,
+    restprofile: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
     getOrdersByOrderStatusRest: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
     userprofile: state.userprofile, 
+    restprofile: state.restprofile,
     orders: state.orders
 })
 
-export default connect(mapStateToProps,{getRestaurantOrders, getUserProfiles, getOrdersByOrderStatusRest, getCurrentRestMenuItems} )(RestaurantOrders);
+export default connect(mapStateToProps,{getCurrentRestProfile, getRestaurantOrders, getUserProfiles, getOrdersByOrderStatusRest, getCurrentRestMenuItems} )(RestaurantOrders);

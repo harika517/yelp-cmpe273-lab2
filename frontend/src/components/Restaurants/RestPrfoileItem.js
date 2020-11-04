@@ -4,9 +4,16 @@ import PropTypes from 'prop-types'
 
 const RestPrfoileItem = ({profile: {restuser: {_id, restName, image, location}, 
     contact, timings, cuisine, DineIn, curbSidePickUp, yelpDelivery }}) => {
+
+      const backendimageserver = "http://127.0.0.1:3001/api/images/rest/"
+
     return (
         <div className="profile" >
-            <img src={image} alt=""/>
+            <img src={
+               image
+                 ? `${backendimageserver}${image}`
+                 : `${backendimageserver}image`
+             } alt=""/>
             <div>
     <h3 className="lead text-dark"> {restName} </h3>
     <h3> {cuisine}</h3>

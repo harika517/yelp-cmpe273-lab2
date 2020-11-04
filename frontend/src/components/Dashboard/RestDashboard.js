@@ -6,15 +6,21 @@ import { connect } from 'react-redux';
 import { getCurrentRestProfile } from '../../actions/restprofile';
 import Spinner from '../layout/spinner';
 import insertImage from "../../actions/uploadimage";
+import insertRestImage from "../../actions/uploadrestimages"
 
-const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { restprofile, loading },insertImage }) => {
+const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { restprofile, loading },insertImage, insertRestImage }) => {
 
     useEffect(() => {
         getCurrentRestProfile();
         setImage({file:loading || !restprofile.restuser.image ? "" : restprofile.restuser.image,
       fileText: "Choose Image.."})
+        setRestImage({file:loading|| !restprofile.restimages?"":restprofile.restimages[restprofile.restimages.length-1]})
     }, [loading])
     const [image,setImage] = useState({
+      file: "",
+      fileText: "",
+    })
+    const [restImage,setRestImage] = useState({
       file: "",
       fileText: "",
     })
@@ -23,12 +29,17 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
       setImage({file:e.target.files[0],fileText: e.target.files[0].name})
     }
 
+    const restImageChange = (e)=>{
+      console.log("image file name is ",e.target.files[0].name)
+      setRestImage({file:e.target.files[0],fileText: e.target.files[0].name})
+    }
+
+
     const imageSave = (e) => {
       e.preventDefault();
       console.log("inside imageSave, file is ", image.file);
       console.log("inside imageSave, fileText is ", image.fileText);
       console.log("inside imageSave, email to be sent is,",restprofile.restuser.restEmail)
-      //console.log (insertImage)
       insertImage(image.file, restprofile.restuser.restEmail)
       // const newimg = "rest_"+string(restprofile.restuser._id)+"."
       if (restprofile.restuser.image)
@@ -36,11 +47,20 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
         setImage({file:restprofile.restuser.image})
       }
     }
+    const restImageSave = (e) => {
+      e.preventDefault();
+      console.log("inside restImageSave, file is ", restImage.file);
+      console.log("inside restImageSave, fileText is ", restImage.fileText);
+      console.log("inside restImageSave, restName is",restprofile.restuser.restName)
+      insertRestImage(restImage.file,restprofile.restuser.restName)
+      // const newimg = "rest_"+string(restprofile.restuser._id)+"."
+    }
     if (restprofile){
       console.log ("this is the image file name from restprofile",restprofile.restuser.image);
       console.log("no restprofile yet");
     }
     const backendimageserver = "http://localhost:3001/api/images/rest/"
+    const backendimagesserver = "http://localhost:3001/api/restimages/"
     console.log ("restprofile is {}",restprofile)
     return loading && restprofile === null ? <Spinner /> : <Fragment>
         <DashboardNav />
@@ -166,7 +186,21 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 </h4>
                 </div>
               </Fragment>: <p className='lead text-dark'> No Restaurant contact</p>}
-                
+                <form onSubmit={(e)=>restImageSave(e)}>
+            <div className="file-field input-field">
+              <div className="btn #64b5f6 blue darken-1">
+                <span>Upload Restaurant Image</span>
+                <input type ="file" onChange={(e)=>restImageChange(e)}/>
+              </div>
+            </div>
+            <br/>
+            <button type="submit" className="btn btn-dark">
+              Upload Restaurant Images
+            </button>
+            </form>
+            <div>
+              {restprofile?restprofile.restimages.map(image=><img src={`${backendimagesserver}/${restprofile.restuser.restName}/${image}`}/>):"No Images"}
+            </div>
 
             </div>
         </div>
@@ -179,6 +213,7 @@ RestDashboard.propTypes = {
     auth: PropTypes.object.isRequired,
     restprofile: PropTypes.object.isRequired,
     insertImage: PropTypes.func.isRequired,
+    insertRestImage: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -186,4 +221,4 @@ const mapStateToProps = state => ({
     restprofile: state.restprofile
 })
 
-export default connect(mapStateToProps, { getCurrentRestProfile, insertImage })(RestDashboard);
+export default connect(mapStateToProps, { getCurrentRestProfile, insertImage, insertRestImage })(RestDashboard);

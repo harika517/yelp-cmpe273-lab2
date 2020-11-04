@@ -7,17 +7,24 @@ import {getAllUserProfiles, getAllProfilesByName, getCurrentUserProfile} from '.
 import DashboardNav from '../layout/DashboardNav';
 import YelpUserItem from './YelpUserItem';
 
-const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfilesByName, userprofile:{userprofiles, loading}}) => {
+const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfilesByName, userprofile:{userprofile,userprofiles, loading}}) => {
     useEffect(()=>{
       getCurrentUserProfile(),
         getAllUserProfiles();
-    }, [])
+        //setDisplayProfiles({displayProfiles:loading || !userprofiles ? "" : userprofiles})
+    }, [loading])
 
     const [formData, setFormData] = useState({
         fnname: '',
 
       });
-    
+    const [dispProfile,setDisplayProfiles] = useState (userprofiles)
+
+    console.log ("displayprofiles is",dispProfile)
+    console.log ("userprofiles is",userprofiles)
+    // if (userprofiles){
+    //   setDisplayProfiles({displayProfiles:userprofiles})
+    // }
       const { fnname} = formData;
     
       const onChange = (e) =>
@@ -26,7 +33,16 @@ const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfile
       const onSubmit = (e) => {
         e.preventDefault();
         getAllProfilesByName(fnname);
+        setDisplayProfiles(userprofiles.filter(prof=>prof.user.firstName))
+        console.log ("profiles searched, profiles displayed would be",dispProfile)
       };
+
+      const onClick = () => {
+        const followingUsers = userprofile.following.map(prof=>prof.userId)
+        console.log ("following users is",followingUsers)
+        setDisplayProfiles(userprofiles.filter(prof=>followingUsers.includes(prof.user._id)))
+        console.log ("following button clicked, profiles displayed would be",dispProfile)
+      }
 
     return ( 
     <Fragment>
@@ -52,19 +68,19 @@ const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfile
                 onChange={(e) => onChange(e)}
               ></input>
             <br/>
-            <button className="btn btn-dark" type="submit"> Search</button>
+            <button className="btn btn-dark" type="submit" > Search</button>
             
             </div>
             
           </form>
            <hr/>
                 </h1>
-                <button className="btn btn-dark" type="button"> Currently Following</button>
+                <button className="btn btn-dark" type="button" onClick={(e) => onClick(e)}> Currently Following</button>
                 <br/>
                 <br/>
                 <div className='profiles'>
-                    {userprofiles.length > 0 ? (
-                        userprofiles.map(profile=>(
+                    {dispProfile.length > 0 ? (
+                        dispProfile.map(profile=>(
                             <YelpUserItem key={profile._id} profile={profile}/>
                         ))): <p>No Profiles were found ...</p>}
                 </div>
