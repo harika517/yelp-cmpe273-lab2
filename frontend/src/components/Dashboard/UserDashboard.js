@@ -11,7 +11,7 @@ import insertUserImage from "../../actions/uploaduserimage";
 const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { userprofile, loading }, insertUserImage }) => {
     useEffect(() => {
         getCurrentUserProfile();
-        setImage({file:loading || !userprofile.user.image ? "" : userprofile.user.image,
+        setImage({file:loading || !userprofile.user.image ? <Spinner/> : userprofile.user.image,
       fileText: "Choose Image.."})
     }, [loading])
 

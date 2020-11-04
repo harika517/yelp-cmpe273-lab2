@@ -17,6 +17,7 @@ import EditRestProfile from './components/Dashboard/EditRestProfile';
 import EditUserProfile from './components/Dashboard/EditUserProfile';
 import ViewMenuItems from './components/MenuItems/ViewMenuItems';
 import AddMenuItem from './components/MenuItems/AddMenuItem';
+import EditMenuItem from './components/MenuItems/EditMenuItem';
 import RestaurantsPage from './components/Restaurants/RestaurantsPage';
 import EventsPage from './components/SocialEvents/EventsPage';
 import EventDetail from './components/SocialEvents/EventDetail';
@@ -113,6 +114,7 @@ const App = () => {
               <PrivateRoute exact path='/orders/create/:rest_id/:item_id' component={PlaceOrder}/>
               <PrivateRoute exact path='/orderhistory' component={OrderHistory}/>
               <PrivateRoute exact path='/restaurantorders' component={RestaurantOrders}/>
+              <PrivateRoute exact path='/editmenuitem/:menu_id' component={EditMenuItem}/>
               
             </switch>
             <Alert />

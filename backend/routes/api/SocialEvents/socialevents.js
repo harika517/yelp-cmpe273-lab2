@@ -61,7 +61,7 @@ router.post('/restaurant', [auth, [
 
 router.get('/', async(req, res) => {
     try {
-        const events = await SocialEvent.find().populate('restuser', ['restName', 'location']);
+        const events = await SocialEvent.find().populate('restuser', ['restName', 'location']).sort({ eventDate: 1 });
         res.json(events);
     } catch (err) {
         console.error(err.message);

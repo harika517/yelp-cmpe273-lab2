@@ -223,22 +223,22 @@ router.get('/searchuserlocation/:word', async(req, res) => {
     }
 });
 
-// @route  GET api/profile/followers/:user_id
+// @route  PUT api/profile/following/:user_id
 // @Desc   Update following field of selected user with current auth
 // @access Public
 
-router.put('/followers/:user_id', auth, async(req, res) => {
-    const userId = req.user.id;
+router.put('/following/:user_id', auth, async(req, res) => {
+    const userId = req.params.user_id;
     const newFollower = {
         userId,
     };
 
     try {
-        const userprofile = await UserProfile.findOne({ user: req.params.user_id });
+        const userprofile = await UserProfile.findOne({ user: req.user.id });
         if (!userprofile) {
             return res.status(400).json({ msg: 'There are no profiles found' });
         }
-        userprofile.followers.unshift(newFollower);
+        userprofile.following.unshift(newFollower);
         await userprofile.save();
         res.json(userprofile);
     } catch (err) {

@@ -1,6 +1,7 @@
-import { GET_MENUITEMS, GET_MENUITEMS_ERROR } from '../actions/types';
+import { GET_MENUITEM, GET_MENUITEMS, GET_MENUITEMS_ERROR } from '../actions/types';
 
 const initialState = {
+    menuitem: null,
     menuitems: [],
     loading: true,
     error: {}
@@ -13,6 +14,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 menuitems: payload,
+                loading: false
+            }
+        case GET_MENUITEM:
+            return {
+                ...state,
+                menuitem: payload,
                 loading: false
             }
         case GET_MENUITEMS_ERROR:

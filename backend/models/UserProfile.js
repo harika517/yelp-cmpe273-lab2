@@ -51,14 +51,15 @@ const UserProfileSchema = new mongoose.Schema({
         },
         userId: {
             type: String,
-        },
-    }],
-    followers: [{
-        userId: {
-            type: String,
             unique: true,
         },
     }],
+    // followers: [{
+    //     userId: {
+    //         type: String,
+    //         unique: true,
+    //     },
+    // }],
 
     // userName: {
     //     type: String,

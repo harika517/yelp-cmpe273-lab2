@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner'
-import {getAllSocialEvents} from '../../actions/socialevent'
+import {getAllSocialEvents, getEventsBySearch} from '../../actions/socialevent'
 import DashboardNav from '../layout/DashboardNav';
 import EventItem from './EventItem';
 
-const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
+const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}, getEventsBySearch}) => {
     useEffect(()=>{
         getAllSocialEvents();
     }, [])
@@ -23,12 +23,28 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    getEventsBySearch(search);
   };
     return (
         <Fragment>
             <DashboardNav/>
             {loading ? <Spinner/> : <Fragment>
                 <div className="container">
+                <form className="form" onSubmit={(e) => onSubmit(e)}>
+            <div className="form-group">
+              <label for="search" className="lead text-primary">Search Events</label>
+              <input
+                type="text"
+                placeholder="Event Name"
+                name="search"
+                value={search}
+                onChange={(e) => onChange(e)}
+              ></input>
+            <br/>
+            <button className="btn btn-dark" type="submit"> Search</button>
+            </div>
+            
+          </form>
                 <h1 className="lead text-dark"> Event Results
                 </h1>
                 <Link to='/userdashboard' className="btn btn-dark"> Go Back</Link>
@@ -41,9 +57,6 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
                         socialevents.map(event=>(
                             <EventItem key={event._id} event={event}/>
                         ))): <p>No Events were found ...</p>}
-                </div>
-                 <div className="column2">
-                    
                 </div> 
                 </div>
                 </div>
@@ -56,10 +69,11 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
 EventsPage.propTypes = {
     getAllRestProfiles: PropTypes.func.isRequired,
     event: PropTypes.object.isRequired,
+    getEventsBySearch: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
     event: state.event
 })
 
-export default connect(mapStateToProps, {getAllSocialEvents})(EventsPage);
+export default connect(mapStateToProps, {getAllSocialEvents, getEventsBySearch})(EventsPage);

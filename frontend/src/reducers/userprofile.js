@@ -1,6 +1,15 @@
-import { GET_USER_PROFILE, USER_PROFILE_ERROR, CLEAR_PROFILE, GET_USER_PROFILES, SEARCH_USERS_NAME } from '../actions/types';
+import {
+    GET_USER_PROFILE,
+    USER_PROFILE_ERROR,
+    CLEAR_PROFILE,
+    GET_USER_PROFILES,
+    SEARCH_USERS_NAME,
+    UPDATE_FOLLOWING,
+    GET_YELPUSER_PROFILE
+} from '../actions/types';
 
 const initialState = {
+    yelpuser: null,
     userprofile: null,
     userprofiles: [],
     usersearchresults: [],
@@ -11,7 +20,15 @@ const initialState = {
 export default function(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
+
+        case GET_YELPUSER_PROFILE:
+            return {
+                ...state,
+                yelpuser: payload,
+                loading: false
+            }
         case GET_USER_PROFILE:
+        case UPDATE_FOLLOWING:
             return {
                 ...state,
                 userprofile: payload,

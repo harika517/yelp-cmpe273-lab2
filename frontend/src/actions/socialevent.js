@@ -122,7 +122,7 @@ export const getEventsBySearch = (word) => async(dispatch) => {
     try {
         const res = await axios.get(`/api/events/searchevent/${word}`);
         dispatch({
-            type: SEARCH_EVENTS,
+            type: GET_EVENTS,
             payload: res.data
         });
 

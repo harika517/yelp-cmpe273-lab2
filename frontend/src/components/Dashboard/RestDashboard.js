@@ -137,11 +137,14 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <h2> Reviews</h2>
             {restprofile.reviews
               ? restprofile.reviews.map((item) => (
+                <div>
                   <h4>
                     {item.rating} {' '} {item.date} 
                     <br/>
                     {item.review}
                   </h4>
+                  <hr/>
+                  </div>
                 ))
               : 'No reviews yet'}
                 </Fragment> : <Fragment>
@@ -150,6 +153,7 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                     </Fragment>}
             </div>
             <div  className="column2">
+              {restprofile? <Fragment> 
                 <div className = "info">
                 <h4>
                 <i className="fas fa-phone-alt text-dark" ></i> {' '}{restprofile.contact}
@@ -161,6 +165,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 <i className="fas fa-envelope-open-text text-dark"> </i> {' '}{restprofile.restuser.restEmail}
                 </h4>
                 </div>
+              </Fragment>: <p className='lead text-dark'> No Restaurant contact</p>}
+                
 
             </div>
         </div>

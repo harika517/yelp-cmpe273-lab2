@@ -18,7 +18,7 @@ const SocialEventsSchema = new mongoose.Schema({
         required: true,
     },
     eventDate: {
-        type: String,
+        type: Date,
     },
     eventLocation: {
         type: String,

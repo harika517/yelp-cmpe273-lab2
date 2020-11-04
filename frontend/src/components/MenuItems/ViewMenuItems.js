@@ -80,7 +80,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                                <br/>
                                <div>
                                  <Link
-                                   to='#'
+                                   to={`/editmenuitem/${indi._id}`}
                                    className="btn btn-dark small"
                                  >
                                    Edit

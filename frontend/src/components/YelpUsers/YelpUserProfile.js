@@ -4,10 +4,11 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Spinner from '../layout/spinner';
 import DashboardNav from '../layout/DashboardNav';
-import {getUserProfilebyId, followUsers} from '../../actions/userprofile';
+import {getUserProfilebyId, updateFollowingUsers, getCurrentUserProfile} from '../../actions/userprofile';
 
-const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, loading}, match}) => {
+const RegisteredCustProfile = ({getCurrentUserProfile, getUserProfilebyId, userprofile:{yelpuser, loading}, updateFollowingUsers, match}) => {
     useEffect(()=>{
+        getCurrentUserProfile(),
         getUserProfilebyId(match.params.id)
     }, [])
 
@@ -19,12 +20,12 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, lo
 
       const onClick = (e) => {
         e.preventDefault();
-        followUsers(match.params.id);
+        updateFollowingUsers(match.params.id);
       };
 
     return (
         <Fragment>
-            {loading ? <Spinner/> : (userprofile === null ? 
+            {loading ? <Spinner/> : (yelpuser === null ? 
             <Fragment>
                 <DashboardNav/>
                 <div className='container'>
@@ -39,52 +40,52 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, lo
                 <div className="container">
                     <h1 className='lead text-dark'> User Details</h1>
                 <div className='profile'>
-                <img src={userprofile.user.image} alt=""/>
+                <img src={yelpuser.user.image} alt=""/>
                 <div>
-                <h3 className=" text-dark"> About {userprofile.user.firstName}...</h3>
+                <h3 className=" text-dark"> About {yelpuser.user.firstName}...</h3>
                 <br/>
             
                     <h4 className='text-black'> Full Name : {' '}
-                    {userprofile.user.firstName? userprofile.user.firstName: ''}
-                    {' '} {userprofile.user.lastName? userprofile.user.lastName: ''}
+                    {yelpuser.user.firstName? yelpuser.user.firstName: ''}
+                    {' '} {yelpuser.user.lastName? yelpuser.user.lastName: ''}
                     </h4>
                 <br/>
-                {userprofile.nickName ? <div>
-                <h4 className="text-black"> Nick Name : {' '}{userprofile.nickName}</h4>
+                {yelpuser.nickName ? <div>
+                <h4 className="text-black"> Nick Name : {' '}{yelpuser.nickName}</h4>
                 </div> : ''}
                 <br/>
-                {userprofile.dateOfBirth ? <div>
-                <h4 className="text-black"> Date of Birth : {' '} {userprofile.dateOfBirth}</h4>
+                {yelpuser.dateOfBirth ? <div>
+                <h4 className="text-black"> Date of Birth : {' '} {yelpuser.dateOfBirth}</h4>
                 </div> : ''}
                 <br/>
-                {userprofile.findmein ? <div>
-                <h4 className="text-black"> Find Me In : {' '}{userprofile.findmein}</h4>
+                {yelpuser.findmein ? <div>
+                <h4 className="text-black"> Find Me In : {' '}{yelpuser.findmein}</h4>
                 </div> : ''}
                 <br/>
-                {userprofile.myBlog ? <div>
-                <h4 className="text-black"> My Blog :{' '} {userprofile.myBlog}</h4>
+                {yelpuser.myBlog ? <div>
+                <h4 className="text-black"> My Blog :{' '} {yelpuser.myBlog}</h4>
                 </div> : ''}
                 <br/>
-                {userprofile.thingsILove ? <div>
-                <h4 className="text-black"> Things I Love : {' '}{userprofile.thingsILove}</h4>
+                {yelpuser.thingsILove ? <div>
+                <h4 className="text-black"> Things I Love : {' '}{yelpuser.thingsILove}</h4>
                 </div> : ''}
                 <br/>
-                {userprofile.yelpingSince ? <div>
-                <h4 className="text-black"> Yelping Since :{' '}{userprofile.yelpingSince}</h4>
+                {yelpuser.yelpingSince ? <div>
+                <h4 className="text-black"> Yelping Since :{' '}{yelpuser.yelpingSince}</h4>
                 </div> : ''}
                 <br/>
                 <h4 className='text-black'> Lives In : {' '}
-                {userprofile.city? userprofile.city: ''},{' '}
-                {userprofile.state? userprofile.state: ''},{' '}
-                {userprofile.country? userprofile.country: ''},{' '}
+                {yelpuser.city? yelpuser.city: ''},{' '}
+                {yelpuser.state? yelpuser.state: ''},{' '}
+                {yelpuser.country? yelpuser.country: ''},{' '}
                 </h4>
                 <br/>
-                {userprofile.user.userEmail ? <div>
-                <h4 className="text-black"> Email : {' '} {userprofile.user.userEmail}</h4>
+                {yelpuser.user.userEmail ? <div>
+                <h4 className="text-black"> Email : {' '} {yelpuser.user.userEmail}</h4>
                 </div> : ''}
                 <br/>
-            {userprofile.contact ? <div>
-                <h4 className="text-black"> Contact : {' '}{userprofile.contact}</h4>
+            {yelpuser.contact ? <div>
+                <h4 className="text-black"> Contact : {' '}{yelpuser.contact}</h4>
                 </div> : ''}
                 <br/>
                 <Link to='/yelpuserspage' className='btn btn-dark'> Go Back YelpUsers</Link>
@@ -101,12 +102,13 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{userprofile, lo
 
 RegisteredCustProfile.propTypes = {
     getUserProfilebyId: PropTypes.func.isRequired,
+    getCurrentUserProfile: PropTypes.func.isRequired,
     userprofile: PropTypes.object.isRequired,
-    followUsers: PropTypes.func.isRequired,
+    updateFollowingUsers: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
  userprofile: state.userprofile
 })
 
-export default connect(mapStateToProps, {getUserProfilebyId, followUsers})(RegisteredCustProfile)
+export default connect(mapStateToProps, {getUserProfilebyId, getCurrentUserProfile, updateFollowingUsers})(RegisteredCustProfile)

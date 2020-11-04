@@ -3,6 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const { ObjectId } = require('mongodb');
 const RestUser = require('../../../models/RestUser');
 const RestProfile = require('../../../models/RestProfile');
 const auth = require('../../../middleware/auth');
@@ -70,7 +71,7 @@ router.put('/menuitems', [auth, [
 // @access Private
 
 // under construction
-router.post('/:menu_id', auth, async(req, res) => {
+router.put('/menuitems/:menu_id', auth, async(req, res) => {
     // build profile object
     const {
         itemName,
@@ -80,34 +81,23 @@ router.post('/:menu_id', auth, async(req, res) => {
         itemCategory,
     } = req.body;
     const restMenuItemFields = {};
-    restMenuItemFields.restuser = req.restuser.id;
     if (itemName) restMenuItemFields.itemName = itemName;
     if (itemDescription) restMenuItemFields.itemDescription = itemDescription;
     if (itemIngredients) restMenuItemFields.itemIngredients = itemIngredients;
     if (itemPrice) restMenuItemFields.itemPrice = itemPrice;
     if (itemCategory) restMenuItemFields.itemCategory = itemCategory;
     try {
-        // const objId = new ObjectId(req.params.id);
-        // console.log
-        // const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
-        // console.log("menuitem update", restprofile.menuitems)
-        // console.log("req user id", req.restuser.id)
-        // console.log("req.params.menu_id", req.params.menu_id)
-        //     //const outpu = RestProfile.findOne({ restuser: req.restuser.id, "menuitems._id": req.params.menu_id });
-        // console.log("rest profile find one of menu_id", outpu)
+        let restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+        console.log(restprofile);
+        // Get index of menu item to be updated
 
-        // find index of the menu item to update
-        // const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
-        // console.log("update menu item", itemIndex)
+        const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
+        console.log(itemIndex);
 
-        // if (restprofile) {
-        //     // update
-        //     RestProfile.findOneAndUpdate({ "menuitems.itemName": "Banana Leaf Rice- Nasi Lemak" }, { $update: { "menuitems.$.itemPrice": "16.95" } }, { new: true });
-        //     const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
-        //     return res.json(restprofile);
-        // }
-        // await restprofile.save();
-        // res.json(restprofile);
+        if (restprofile) {
+            restprofile = await RestProfile.findOneAndUpdate({ menuitem: restprofile.menuitems[itemIndex] }, { $set: restMenuItemFields }, { new: true });
+        }
+        await restprofile.save()
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -115,16 +105,31 @@ router.post('/:menu_id', auth, async(req, res) => {
 });
 
 // @route  GET /api/restaurant/menuitems
-// @Desc   Get all the current profile's menu items
+// @Desc   Get all the current restaurant profile's menu items
 // @access Private
 
 router.get('/menuitems', auth, async(req, res) => {
     try {
         const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
-
-        // const menuitems = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName']);
         const menuitems = await restprofile.menuitems;
         if (menuitems.length === 0) return res.status(400).json({ msg: 'There is no menu created for this restaurant' });
+        res.json(menuitems);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route  GET /api/restaurant/menuitems/:menu_id
+// @Desc   Get menuitem by id
+// @access Private
+
+router.get('/menuitems/itemdetail/:menu_id', auth, async(req, res) => {
+    try {
+        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+        const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
+        const menuitems = await restprofile.menuitems[itemIndex];
+        if (!menuitems) return res.status(400).json({ msg: 'There is no menu created for this restaurant' });
         res.json(menuitems);
     } catch (err) {
         console.error(err.message);

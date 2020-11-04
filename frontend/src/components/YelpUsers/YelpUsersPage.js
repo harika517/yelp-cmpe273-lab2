@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner'
-import {getAllUserProfiles, getAllProfilesByName} from '../../actions/userprofile'
+import {getAllUserProfiles, getAllProfilesByName, getCurrentUserProfile} from '../../actions/userprofile'
 import DashboardNav from '../layout/DashboardNav';
 import YelpUserItem from './YelpUserItem';
 
-const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{userprofiles, loading}}) => {
+const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfilesByName, userprofile:{userprofiles, loading}}) => {
     useEffect(()=>{
+      getCurrentUserProfile(),
         getAllUserProfiles();
     }, [])
 
@@ -26,8 +27,6 @@ const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{u
         e.preventDefault();
         getAllProfilesByName(fnname);
       };
-
-
 
     return ( 
     <Fragment>
@@ -54,11 +53,15 @@ const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{u
               ></input>
             <br/>
             <button className="btn btn-dark" type="submit"> Search</button>
+            
             </div>
             
           </form>
-
+           <hr/>
                 </h1>
+                <button className="btn btn-dark" type="button"> Currently Following</button>
+                <br/>
+                <br/>
                 <div className='profiles'>
                     {userprofiles.length > 0 ? (
                         userprofiles.map(profile=>(
@@ -76,13 +79,15 @@ const YelpUsersPage = ({getAllUserProfiles, getAllProfilesByName, userprofile:{u
 }
 
 YelpUsersPage.propTypes = {
+   getCurrentUserProfile: PropTypes.func.isRequired,
     getAllUserProfiles: PropTypes.func.isRequired,
     getAllProfilesByName: PropTypes.func.isRequired,
     userprofile : PropTypes.object.isRequired,
+
 }
 
 const mapStateToProps = state => ({
     userprofile: state.userprofile
 })
 
-export default connect(mapStateToProps, {getAllUserProfiles, getAllProfilesByName})(YelpUsersPage);
+export default connect(mapStateToProps, {getCurrentUserProfile, getAllUserProfiles, getAllProfilesByName})(YelpUsersPage);
