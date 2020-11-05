@@ -37,9 +37,9 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
 
     const imageSave = (e) => {
       e.preventDefault();
-      console.log("inside imageSave, file is ", image.file);
-      console.log("inside imageSave, fileText is ", image.fileText);
-      console.log("inside imageSave, email to be sent is,",restprofile.restuser.restEmail)
+      // console.log("inside imageSave, file is ", image.file);
+      // console.log("inside imageSave, fileText is ", image.fileText);
+      // console.log("inside imageSave, email to be sent is,",restprofile.restuser.restEmail)
       insertImage(image.file, restprofile.restuser.restEmail)
       // const newimg = "rest_"+string(restprofile.restuser._id)+"."
       if (restprofile.restuser.image)
@@ -49,9 +49,9 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
     }
     const restImageSave = (e) => {
       e.preventDefault();
-      console.log("inside restImageSave, file is ", restImage.file);
-      console.log("inside restImageSave, fileText is ", restImage.fileText);
-      console.log("inside restImageSave, restName is",restprofile.restuser.restName)
+      // console.log("inside restImageSave, file is ", restImage.file);
+      // console.log("inside restImageSave, fileText is ", restImage.fileText);
+      // console.log("inside restImageSave, restName is",restprofile.restuser.restName)
       insertRestImage(restImage.file,restprofile.restuser.restName)
       // const newimg = "rest_"+string(restprofile.restuser._id)+"."
     }
@@ -64,6 +64,12 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
     console.log ("restprofile is {}",restprofile)
     return loading && restprofile === null ? <Spinner /> : <Fragment>
         <DashboardNav />
+        <br/>
+        <br/>
+        <div>
+              {restprofile?restprofile.restimages.map(image=><img src={`${backendimagesserver}/${restprofile.restuser.restName}/${image}`}/>):"No Images"}
+            </div>
+            <hr/>
         <div className='container'>
         <div className="container_2columns">
             <div className="column1">
@@ -175,6 +181,20 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <div  className="column2">
               {restprofile? <Fragment> 
                 <div className = "info">
+                <form onSubmit={(e)=>restImageSave(e)}>
+            <div className="file-field input-field">
+              <div className="btn #64b5f6 blue darken-1">
+                <span>Upload Restaurant Image</span>
+                <input type ="file" onChange={(e)=>restImageChange(e)}/>
+              </div>
+            </div>
+            <br/>
+            <button type="submit" className="btn btn-dark">
+              Add More Images
+            </button>
+            </form>
+                </div>
+                <div className = "info">
                 <h4>
                 <i className="fas fa-phone-alt text-dark" ></i> {' '}{restprofile.contact}
                 </h4>
@@ -186,22 +206,6 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                 </h4>
                 </div>
               </Fragment>: <p className='lead text-dark'> No Restaurant contact</p>}
-                <form onSubmit={(e)=>restImageSave(e)}>
-            <div className="file-field input-field">
-              <div className="btn #64b5f6 blue darken-1">
-                <span>Upload Restaurant Image</span>
-                <input type ="file" onChange={(e)=>restImageChange(e)}/>
-              </div>
-            </div>
-            <br/>
-            <button type="submit" className="btn btn-dark">
-              Upload Restaurant Images
-            </button>
-            </form>
-            <div>
-              {restprofile?restprofile.restimages.map(image=><img src={`${backendimagesserver}/${restprofile.restuser.restName}/${image}`}/>):"No Images"}
-            </div>
-
             </div>
         </div>
         </div>

@@ -39,6 +39,8 @@ import RestaurantsCurbSide from './components/RestaurantSearch/RestaurantsCurbSi
 import RestaurantsDineIn from './components/RestaurantSearch/RestaurantsDineIn';
 import RestaurantsYelpDelivery from './components/RestaurantSearch/RestaurantsYelpDelivery';
 import ViewRestaurantPage from './components/RestaurantSearch/ViewRestaurantPage';
+import UpdateOrder from './components/Orders/UpdateOrder';
+import UserProfile from './components/Orders/UserProfile';
 
 
 import setAuthToken from './utils/setAuthToken';
@@ -115,6 +117,8 @@ const App = () => {
               <PrivateRoute exact path='/orderhistory' component={OrderHistory}/>
               <PrivateRoute exact path='/restaurantorders' component={RestaurantOrders}/>
               <PrivateRoute exact path='/editmenuitem/:menu_id' component={EditMenuItem}/>
+              <PrivateRoute exact path='/updateorderstatus/:id' component={UpdateOrder}/>
+              <PrivateRoute exact path='/userprofile/:id' component={UserProfile}/>
               
             </switch>
             <Alert />

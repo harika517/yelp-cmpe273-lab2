@@ -1,15 +1,25 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner'
 import {getEventsRegistered} from '../../actions/socialevent'
 import DashboardNav from '../layout/DashboardNav';
+import Paginate from '../Paginate'
 
 const EventsRegistered = ({getEventsRegistered, event:{registeredevents, loading}}) => {
     useEffect(()=>{
         getEventsRegistered();
     },[])
+
+    const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
+
     return (
        <Fragment>
            <DashboardNav/>
@@ -23,7 +33,7 @@ const EventsRegistered = ({getEventsRegistered, event:{registeredevents, loading
                 <div className="column1">
                 <div claasName='profiles'>
                     {registeredevents.length > 0 ? (
-                        registeredevents.map(event=>(
+                        registeredevents.slice(firstpostidx,lastpostidx).map(event=>(
                             <Fragment>
                                 <div className="cardbox">
                                 <h1 className="lead text-dark"> {event.eventName}</h1>
@@ -40,9 +50,7 @@ const EventsRegistered = ({getEventsRegistered, event:{registeredevents, loading
                             </Fragment>
                         ))): <p>You have not registered for any events ...</p>}
                 </div>
-                 <div className="column2">
-                    
-                </div> 
+                <Paginate itemsPerPage={profilesPerPage} totalItems={registeredevents.length} paginate={paginate}/>
                 </div>
                 </div>
                 </div>

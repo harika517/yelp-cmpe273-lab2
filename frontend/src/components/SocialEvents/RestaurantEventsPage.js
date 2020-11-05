@@ -7,11 +7,20 @@ import {getAllSocialEvents} from '../../actions/socialevent'
 //Change the action
 import DashboardNav from '../layout/DashboardNav';
 import RestEventItem from './RestEventItem';
+import Paginate from '../Paginate'
 
 const RestaurantEventsPage = ({getAllSocialEvents, event:{socialevents, loading}}) => {
     useEffect(()=>{
         getAllSocialEvents();
     }, [])
+
+    const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
 
     return (
         <Fragment>
@@ -23,19 +32,17 @@ const RestaurantEventsPage = ({getAllSocialEvents, event:{socialevents, loading}
                 <Link to='/restdashboard' className="btn btn-dark"> Go Back</Link>
                 <Link to='/createvents' className="btn btn-dark"> Create Events</Link>
                 <hr/>
-                <div className="container_2columns">
-                <div className="column1">
+                {/* <div className="container_2columns">
+                <div className="column1"> */}
                 <div claasName='profiles'>
                     {socialevents.length > 0 ? (
-                        socialevents.map(event=>(
+                        socialevents.slice(firstpostidx,lastpostidx).map(event=>(
                             <RestEventItem key={event._id} event={event}/>
                         ))): <p>No Events were found ...</p>}
                 </div>
-                 <div className="column2">
-                    
-                </div> 
-                </div>
-                </div>
+                <Paginate itemsPerPage={profilesPerPage} totalItems={socialevents.length} paginate={paginate}/>
+                {/* </div>
+                </div> */}
                 </div>
                 </Fragment>}
         </Fragment>

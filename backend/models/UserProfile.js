@@ -54,26 +54,6 @@ const UserProfileSchema = new mongoose.Schema({
             unique: true,
         },
     }],
-    // followers: [{
-    //     userId: {
-    //         type: String,
-    //         unique: true,
-    //     },
-    // }],
-
-    // userName: {
-    //     type: String,
-    // },
-    // firstName: {
-    //     type: String,
-    // },
-    // lastName: {
-    //     type: String,
-    // },
-    // userEmail: {
-    //     type: String,
-    // },
-
 });
 
 const UserProfile = mongoose.model('userprofile', UserProfileSchema);

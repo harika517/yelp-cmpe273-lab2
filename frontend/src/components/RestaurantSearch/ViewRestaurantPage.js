@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import { connect } from 'react-redux';
 import Spinner from '../layout/spinner';
+import insertImage from "../../actions/uploadimage";
+import insertRestImage from "../../actions/uploadrestimages"
 
 const ViewRestaurantPage = ({getRestProfilebyId, restprofile:{restprofile, loading}, match}) => {
     
@@ -13,10 +15,15 @@ const ViewRestaurantPage = ({getRestProfilebyId, restprofile:{restprofile, loadi
     }, [])
 
     const backendimageserver = "http://127.0.0.1:3001/api/images/rest/"
+    const backendimagesserver = "http://127.0.0.1:3001/api/restimages/"
 
     return (
         loading && restprofile === null ? <Spinner /> : <Fragment>
         <Navbar />
+        <br/>
+        <div>
+              {restprofile?restprofile.restimages.map(image=><img src={`${backendimagesserver}/${restprofile.restuser.restName}/${image}`}/>):"No Images"}
+            </div>
         <div className='container'>
         <div className="container_2columns">
             <div className="column1">

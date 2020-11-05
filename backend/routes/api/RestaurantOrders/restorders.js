@@ -101,12 +101,16 @@ router.get('/restaurant', auth, async(req, res) => {
 // @route  POST /api/orders/restaurant/updateorder
 // @Desc   update order status of the order
 // @access Private
-
-router.get('/restaurant/updateorder/:order_id', auth, async(req, res) => {
+// under construction
+router.post('/restaurant/updateorder/:order_id', auth, async(req, res) => {
     try {
-        const restorder = await RestOrder.find({ restorder: req.params.order_id });
-        if (!restorder) return res.status(400).json({ msg: 'No orders found' });
-        res.json(restorder);
+        let restorder = await RestOrder.findOne({ _id: req.params.order_id });
+        console.log(restorder)
+        if (restorder) {
+            restorder = await RestOrder.findOneAndUpdate({ _id: req.params.order_id }, { $set: { orderStatus: req.body.orderStatus } }, { new: true });
+            return res.json(restorder);
+        }
+        // res.json(restorder);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -114,7 +118,7 @@ router.get('/restaurant/updateorder/:order_id', auth, async(req, res) => {
 });
 
 // @route  GET /api/orders/restaurant/:orderStatus
-// @Desc   View all the orders by orderstatus
+// @Desc   View all the orders filtered by orderstatus
 // @access Private
 
 router.get('/restaurant/:orderStatus', auth, async(req, res) => {
@@ -129,4 +133,21 @@ router.get('/restaurant/:orderStatus', auth, async(req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// @route  GET /api/orders/restaurant/:orderStatus
+// @Desc   View order by order_id
+// @access Private
+
+router.get('/restaurant/updateorder/:order_id', auth, async(req, res) => {
+    try {
+        const restorder = await RestOrder.find({ _id: req.params.order_id });
+        if (!restorder) return res.status(400).json({ msg: 'No orders with this status' });
+        res.json(restorder);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 module.exports = router;

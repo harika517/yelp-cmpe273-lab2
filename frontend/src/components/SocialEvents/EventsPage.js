@@ -6,11 +6,19 @@ import Spinner from '../layout/spinner'
 import {getAllSocialEvents, getEventsBySearch} from '../../actions/socialevent'
 import DashboardNav from '../layout/DashboardNav';
 import EventItem from './EventItem';
+import Paginate from '../Paginate'
 
 const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}, getEventsBySearch}) => {
     useEffect(()=>{
         getAllSocialEvents();
     }, [])
+    const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
 
     const [formData, setFormData] = useState({
         search: '',
@@ -54,10 +62,11 @@ const EventsPage = ({getAllSocialEvents, event:{socialevents, loading}, getEvent
                 <div className="column1">
                 <div claasName='profiles'>
                     {socialevents.length > 0 ? (
-                        socialevents.map(event=>(
+                        socialevents.slice(firstpostidx,lastpostidx).map(event=>(
                             <EventItem key={event._id} event={event}/>
                         ))): <p>No Events were found ...</p>}
                 </div> 
+                <Paginate itemsPerPage={profilesPerPage} totalItems={socialevents.length} paginate={paginate}/>
                 </div>
                 </div>
                 </div>

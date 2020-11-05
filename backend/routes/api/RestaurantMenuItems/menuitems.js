@@ -73,31 +73,20 @@ router.put('/menuitems', [auth, [
 // under construction
 router.put('/menuitems/:menu_id', auth, async(req, res) => {
     // build profile object
-    const {
-        itemName,
-        itemDescription,
-        itemIngredients,
-        itemPrice,
-        itemCategory,
-    } = req.body;
-    const restMenuItemFields = {};
-    if (itemName) restMenuItemFields.itemName = itemName;
-    if (itemDescription) restMenuItemFields.itemDescription = itemDescription;
-    if (itemIngredients) restMenuItemFields.itemIngredients = itemIngredients;
-    if (itemPrice) restMenuItemFields.itemPrice = itemPrice;
-    if (itemCategory) restMenuItemFields.itemCategory = itemCategory;
+
+    const data = {
+        'menuitems.$.itemName': req.body.itemName,
+        'menuitems.$.itemDescription': req.body.itemDescription,
+        'menuitems.$.itemIngredients': req.body.itemIngredients,
+        'menuitems.$.itemPrice': req.body.itemPrice,
+        'menuitems.$.itemCategory': req.body.itemCategory,
+    };
     try {
-        let restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+        console.log('Props', data);
+        const restprofile = await RestProfile.findOneAndUpdate({ restuser: req.restuser.id, 'menuitems._id': req.params.menu_id }, { $set: data }, { new: true });
         console.log(restprofile);
-        // Get index of menu item to be updated
 
-        const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
-        console.log(itemIndex);
-
-        if (restprofile) {
-            restprofile = await RestProfile.findOneAndUpdate({ menuitem: restprofile.menuitems[itemIndex] }, { $set: restMenuItemFields }, { new: true });
-        }
-        await restprofile.save()
+        res.json(restprofile);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

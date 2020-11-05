@@ -66,6 +66,7 @@ export const createUserProfile = (formData, history, edit = false) => async(
 export const getUserProfilebyId = (user_id) => async(dispatch) => {
     dispatch({ type: CLEAR_PROFILE })
     try {
+        console.log("inside Action", user_id)
         const res = await axios.get(`/api/profile/user/${user_id}`);
         dispatch({
             type: GET_YELPUSER_PROFILE,

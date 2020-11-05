@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     },
   });
 
+
 const RestaurantOrders = ({
     getCurrentRestProfile,
     getRestaurantOrders, 
@@ -42,11 +43,46 @@ const RestaurantOrders = ({
         getCurrentRestProfile()
     }, [])
 
+    const [formData, setFormData] = useState({
+        orderStatusSearch: '',
+
+      });
+
+      const { orderStatusSearch} = formData;
+      console.log("orderStatusSearch", orderStatusSearch)
+
     let temp1  = null
     if (userprofiles)
     {
         console.log("userprofiles is",userprofiles)
     }
+
+    const onChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+      const onClick = (e) => {
+        e.preventDefault();
+        console.log("button clicked")
+        getOrdersByOrderStatusRest(orderStatusSearch);
+      };
+
+      const [page, setPage] = React.useState(0);
+      const [rowsPerPage, setRowsPerPage] = React.useState(2);
+
+      const handleChangePage = (event, newPage) => {
+
+        setPage(newPage);
+        
+        };
+        
+        
+        const handleChangeRowsPerPage = event => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        
+        setPage(0);
+        
+          };
+
 
     if (!loading)
     {if (orders && restprofile)
@@ -62,7 +98,7 @@ const RestaurantOrders = ({
             order.itemName = itemName
         })
     }
-console.log ("after modification, orders is",orders)
+// console.log ("after modification, orders is",orders)
 }
 const classes = useStyles();
     return (
@@ -82,13 +118,13 @@ const classes = useStyles();
           </TableRow>
           </TableHead>
           <TableBody>
-          {orders?orders.ordersplaced.map((row)=>(
+          {orders?orders.ordersplaced.slice(page*rowsPerPage,page*rowsPerPage+rowsPerPage).map((row)=>(
     <TableRow key={row._id}>
         <TableCell component="th" scope="row">
             {row.itemName}
         </TableCell>
         <TableCell align="right">
-            {row.userName}
+            <Link to={`/userprofile/${row._id}`} className="text-primary"> {row.userName} </Link>
         </TableCell>
         <TableCell align="right">
             {row.orderStatus}
@@ -102,14 +138,40 @@ const classes = useStyles();
         <TableCell align="right">
             {row.date}
         </TableCell>
+        <TableCell align="right">
+            <Link to={`updateorderstatus/${row._id}`} className="btn btn-dark"> Update</Link>
+        </TableCell>
 
     </TableRow>
 )):"none"}
           </TableBody>
           
                 </Table>
+                <TablePagination
+        rowsPerPageOptions={[1, 2, 3]}
+        component="div"
+        count={orders.ordersplaced.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
             </TableContainer>
 
+            </div>
+
+            <div>
+            <label for="orderStatus">Filter By</label>
+            {' '}
+  <select name="orderStatus" className="btn btn-light" name="orderStatusSearch"
+                value={orderStatusSearch}
+                onChange={(e) => onChange(e)}>
+                    <option value="none">Select One</option>
+    <option value="New_Order">New_Order</option>
+    <option value="Cancelled">Cancelled</option>
+    <option value="Delivered">Delivered</option>
+  </select>
+  <button className="btn btn-dark" onClick={(e) => onClick(e)}> Go </button>
             </div>
         </Fragment>
     )

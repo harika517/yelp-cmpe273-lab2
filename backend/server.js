@@ -79,5 +79,8 @@ app.use('/api/restimages', require('./routes/api/RestImages/getrestimages'));
 // upload restaurant images
 app.use('/api/addrestimages', require('./routes/api/RestImages/insertrestimages'));
 
+// Chat Messages
+app.use('/api/chat', require('./routes/api/ChatMessages/createconversation'));
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

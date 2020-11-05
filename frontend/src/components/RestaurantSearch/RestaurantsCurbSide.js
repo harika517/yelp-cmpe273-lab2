@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -6,12 +6,21 @@ import Spinner from '../layout/spinner'
 import {getRestaurantsCurbSide} from '../../actions/restsearchresults'
 import Navbar from '../layout/Navbar'
 import RestItemDetail from './RestItemDetail';
+import Paginate from '../Paginate'
 
 const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles, loading}}) => {
 
     useEffect(()=>{
         getRestaurantsCurbSide();
     }, [])
+
+      const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
 
     return (
         <Fragment>
@@ -21,22 +30,20 @@ const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles,
                 
                 <div className="container">
                 
-                <div className="container_2columns">
-                <div className="column1">
+                {/* <div className="container_2columns">
+                <div className="column1"> */}
                 <h1 className="lead text-dark"> Restaurant Results
                 
                 </h1>
                 <div claasName='profiles'>
                     {restprofiles.length > 0 ? (
-                        restprofiles.map(profile=>(
+                        restprofiles.slice(firstpostidx,lastpostidx).map(profile=>(
                             <RestItemDetail key={profile._id} profile={profile}/>
                         ))): <p>No Profiles were found ...</p>}
                 </div>
-                <div className="column2">
-                
-                </div>
-                </div>
-                </div>
+                <Paginate itemsPerPage={profilesPerPage} totalItems={restprofiles.length} paginate={paginate}/>
+                {/* </div>
+                </div> */}
                 </div> 
                 </Fragment>}
         </Fragment>
