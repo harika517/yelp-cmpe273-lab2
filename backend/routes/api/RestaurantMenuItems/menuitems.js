@@ -70,7 +70,6 @@ router.put('/menuitems', [auth, [
 // @Desc   Update menu items by item_id
 // @access Private
 
-// under construction
 router.put('/menuitems/:menu_id', auth, async(req, res) => {
     // build profile object
 
@@ -115,11 +114,16 @@ router.get('/menuitems', auth, async(req, res) => {
 
 router.get('/menuitems/itemdetail/:menu_id', auth, async(req, res) => {
     try {
-        const restprofile = await RestProfile.findOne({ restuser: req.restuser.id });
+        const restprofile = await RestProfile.findOne({
+            $and: [{ restuser: req.restuser.id },
+                { 'menuitems._id': req.params.menu_id }
+            ],
+        });
+
         const itemIndex = restprofile.menuitems.map((item) => item.id).indexOf(req.params.menu_id);
-        const menuitems = await restprofile.menuitems[itemIndex];
-        if (!menuitems) return res.status(400).json({ msg: 'There is no menu created for this restaurant' });
-        res.json(menuitems);
+        const menuitem = await restprofile.menuitems[itemIndex];
+        if (!restprofile) return res.status(400).json({ msg: 'There is no menu created with this ID' });
+        res.json(menuitem);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
