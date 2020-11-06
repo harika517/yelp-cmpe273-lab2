@@ -5,18 +5,16 @@ const handle_request = async(body, callback) => {
     if (!customers) {
         callback({
             message: "No customers in DB!"
-        }, null)
+        }, null);
     }
     if (!callback) return customers
 
-    callback(null,
+    return callback(null,
         customers
-    )
+    );
 }
 
-export {
-    handle_request
-};
+exports.handle_request = handle_request;
 // const handle_request = async(body, callback)
 // try {
 

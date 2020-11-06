@@ -85,7 +85,7 @@ const RestaurantOrders = ({
 
 
     if (!loading)
-    {if (orders && restprofile)
+    {if (orders && restprofile && userprofiles)
     {
         orders.ordersplaced.map(order=>{
             let{userId, menuId} = order;           
@@ -124,7 +124,7 @@ const classes = useStyles();
             {row.itemName}
         </TableCell>
         <TableCell align="right">
-            <Link to={`/userprofile/${row._id}`} className="text-primary"> {row.userName} </Link>
+            <Link to={`/userprofile/${orders.ordersplaced.userId}`} className="text-primary"> {row.userName} </Link>
         </TableCell>
         <TableCell align="right">
             {row.orderStatus}

@@ -21,15 +21,15 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
       })
 
       const imageChange = (e)=>{
-        console.log("image file name is ",e.target.files[0].name)
+        // console.log("image file name is ",e.target.files[0].name)
         setImage({file:e.target.files[0],fileText: e.target.files[0].name})
       }
 
       const imageSave = (e) => {
         e.preventDefault();
-        console.log("inside imageSave, file is ", image.file);
-        console.log("inside imageSave, fileText is ", image.fileText);
-        console.log("inside imageSave, email to be sent is,",userprofile.user.userEmail);
+        // console.log("inside imageSave, file is ", image.file);
+        // console.log("inside imageSave, fileText is ", image.fileText);
+        // console.log("inside imageSave, email to be sent is,",userprofile.user.userEmail);
         //console.log (insertImage)
         insertUserImage(image.file, userprofile.user.userEmail);
         // const newimg = "rest_"+string(restprofile.restuser._id)+"."
@@ -38,12 +38,12 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
           setImage({file:userprofile.user.image})
         }
       }
-      if (userprofile){
-        console.log ("this is the image file name from userprofile",userprofile.user.image);
-        console.log("no userprofile yet");
-      }
+      // if (userprofile){
+      //   console.log ("this is the image file name from userprofile",userprofile.user.image);
+      //   console.log("no userprofile yet");
+      // }
       const backendimageserver = "http://localhost:3001/api/userimages/user/"
-      console.log ("userprofile is {}",userprofile)
+      // console.log ("userprofile is {}",userprofile)
   
     return loading && userprofile === null? <Spinner /> : <Fragment>
         <DashboardNav />

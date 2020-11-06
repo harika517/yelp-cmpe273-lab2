@@ -12,9 +12,9 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
 
     useEffect(() => {
         getCurrentRestProfile();
-        setImage({file:loading || !restprofile.restuser.image ? "" : restprofile.restuser.image,
+        setImage({file:loading || !restprofile ? <Spinner/>: restprofile.restuser.image,
       fileText: "Choose Image.."})
-        setRestImage({file:loading|| !restprofile.restimages?"":restprofile.restimages[restprofile.restimages.length-1]})
+        setRestImage({file:loading|| !restprofile? <Spinner/>:restprofile.restimages[restprofile.restimages.length-1]})
     }, [loading])
     const [image,setImage] = useState({
       file: "",

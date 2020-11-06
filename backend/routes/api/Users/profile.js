@@ -126,31 +126,31 @@ router.get('/', auth, async(req, res) => {
 // @Desc   Get all profiles
 // @access Public
 
-router.get('/profiles', async(req, res) => {
-    try {
-        const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
-        if (profiles.length === 0) return res.status(400).json({ msg: 'There is no profile for this user' });
-        res.json(profiles);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
 // router.get('/profiles', async(req, res) => {
-//     kafka.make_request('allUsers', req.body, (err, results) => {
-//         console.log('in result');
-//         console.log(results);
-//         if (err) {
-//             console.log('Inside err');
-//             res.status(500).send('System Error, Try Again.');
-//         } else {
-//             console.log('Inside else');
-//             res.status(200).json(results);
-
-//             res.end();
-//         }
-//     });
+//     try {
+//         const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
+//         if (profiles.length === 0) return res.status(400).json({ msg: 'There is no profile for this user' });
+//         res.json(profiles);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
 // });
+router.get('/profiles', async(req, res) => {
+    kafka.make_request('allUsers', req.body, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results);
+
+            res.end();
+        }
+    });
+});
 
 // @route  GET api/profile/user/:user_id
 // @Desc   Get profile by user_id
@@ -161,6 +161,7 @@ router.get('/user/:user_id', async(req, res) => {
         const profile = await UserProfile.findOne({ user: req.params.user_id }).populate('user', ['userName', 'userEmail', 'firstName', 'lastName', 'image']);
         if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
         res.json(profile);
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

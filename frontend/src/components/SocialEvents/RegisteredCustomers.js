@@ -6,11 +6,20 @@ import Spinner from '../layout/spinner'
 import {getCustomersRegistered} from '../../actions/socialevent'
 import DashboardNav from '../layout/DashboardNav';
  import CustomerProfileItem from './CustomerProfileItem';
+ import Paginate from '../Paginate'
 
 const RegisteredCustomers = ({getCustomersRegistered, match, event:{viewattendees, loading}}) => {
     useEffect(()=>{
         getCustomersRegistered(match.params.id);
     }, [])
+
+    const [curPage, setCurPg] = useState(1);
+    const [profilesPerPage, setProfilesPerPage] = useState(2);
+
+    const lastpostidx = curPage * profilesPerPage;
+    const firstpostidx = lastpostidx-profilesPerPage;
+
+    const paginate = pg => setCurPg(pg);
 
     return (
         <Fragment>
@@ -26,13 +35,11 @@ const RegisteredCustomers = ({getCustomersRegistered, match, event:{viewattendee
                 <div className="column1">
                 <div claasName='profiles'>
                     {viewattendees.length > 0 ? (
-                        viewattendees.map(attendee=>(
+                        viewattendees.slice(firstpostidx,lastpostidx).map(attendee=>(
                             <CustomerProfileItem key={attendee._id} attendee={attendee}/>
                         ))): <p>No one registered for this event yet ...</p>}
                 </div>
-                 <div className="column2">
-                    
-                </div> 
+                <Paginate itemsPerPage={profilesPerPage} totalItems={viewattendees.length} paginate={paginate}/>
                 </div>
                 </div>
                 </div>

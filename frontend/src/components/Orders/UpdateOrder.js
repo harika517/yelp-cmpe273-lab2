@@ -1,5 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import {connect } from 'react-redux'
 import DashboardNav from '../layout/DashboardNav';
 import {updateOrderStatus, getOrderByOrderId} from '../../actions/orders'
@@ -60,7 +61,8 @@ const UpdateOrder = ({updateOrderStatus, getOrderByOrderId, orders:{order, loadi
                         <option value="Cancelled">Cancelled</option>
                  </select>
                  <br/>
-                <button className="btn btn-dark"> Go </button>
+                <button className="btn btn-dark"> Update </button>
+                <Link to="/restaurantorders" className="btn btn-dark"> Back </Link>
             </div>
             </form>
             </div>

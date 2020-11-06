@@ -3,9 +3,19 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types'
 
 const YelpUserItem = ({profile: {user: {_id, userName, firstName, lastName, userEmail, image}, headline}}) => {
+
+    const backendimageserver = "http://localhost:3001/api/userimages/user/"
+
     return (
         <div className="profile" >
-            <img src={image} alt=""/>
+            <img
+             src={
+                image.file
+                  ? `${backendimageserver}${image}`
+                  : `${backendimageserver}image`
+             }
+            alt="Profile Picture"
+          />
             <div>
     <h3 className="lead text-dark"> Name: {' '} {firstName} {' '} {lastName}  </h3>
     

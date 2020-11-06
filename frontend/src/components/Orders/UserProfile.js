@@ -6,6 +6,7 @@ import Spinner from '../layout/spinner';
 import DashboardNav from '../layout/DashboardNav';
 import { getUserProfilebyId } from '../../actions/userprofile';
 
+
 const UserProfile = ({ getUserProfilebyId, match }) => {
     console.log("inside component",match.params.id)
     useEffect(() => {

@@ -10,7 +10,7 @@ import {
 
 // Placing Orders
 
-export const placingOrder = (restId, itemId, formData, history, edit = false) => async(
+export const placingOrder = (restId, itemId, formData, history) => async(
     dispatch
 ) => {
     try {
@@ -26,10 +26,7 @@ export const placingOrder = (restId, itemId, formData, history, edit = false) =>
             type: GET_ALL_ORDERS,
             payload: res.data,
         });
-        dispatch(setAlert(edit ? 'Order Updated' : 'Order Placed', 'success'));
-        if (!edit) {
-            history.push('/userdashboard');
-        }
+        dispatch(setAlert('Order Placed', 'success'));
         history.push('/userdashboard');
     } catch (err) {
         const errors = err.response.data.errors;

@@ -68,6 +68,7 @@ export const getUserProfilebyId = (user_id) => async(dispatch) => {
     try {
         console.log("inside Action", user_id)
         const res = await axios.get(`/api/profile/user/${user_id}`);
+        console.log("after query ", user_id)
         dispatch({
             type: GET_YELPUSER_PROFILE,
             payload: res.data,

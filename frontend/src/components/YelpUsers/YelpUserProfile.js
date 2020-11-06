@@ -23,6 +23,8 @@ const RegisteredCustProfile = ({getCurrentUserProfile, getUserProfilebyId, userp
         updateFollowingUsers(match.params.id);
       };
 
+      const backendimageserver = "http://localhost:3001/api/userimages/user/"
+
     return (
         <Fragment>
             {loading ? <Spinner/> : (yelpuser === null ? 
@@ -40,7 +42,14 @@ const RegisteredCustProfile = ({getCurrentUserProfile, getUserProfilebyId, userp
                 <div className="container">
                     <h1 className='lead text-dark'> User Details</h1>
                 <div className='profile'>
-                <img src={yelpuser.user.image} alt=""/>
+                <img
+             src={
+                yelpuser.user.image.file
+                  ? `${backendimageserver}${yelpuser.user.image}`
+                  : `${backendimageserver}image`
+             }
+            alt="Profile Picture"
+          />
                 <div>
                 <h3 className=" text-dark"> About {yelpuser.user.firstName}...</h3>
                 <br/>

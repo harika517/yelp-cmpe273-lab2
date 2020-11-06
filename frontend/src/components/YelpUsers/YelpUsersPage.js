@@ -8,6 +8,7 @@ import DashboardNav from '../layout/DashboardNav';
 import YelpUserItem from './YelpUserItem';
 import Paginate from '../Paginate'
 
+
 const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfilesByName, userprofile:{userprofile,userprofiles, loading}}) => {
     useEffect(()=>{
       getCurrentUserProfile(),

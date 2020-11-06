@@ -1,4 +1,5 @@
 const connectDB = require('./config/db');
+const connection = require('./kafka/connection');
 
 
 // connect databse
@@ -36,4 +37,4 @@ function handleTopicRequest(topic_name, fname) {
 }
 
 handleTopicRequest('allUsers', allUsers);
-handleTopicRequest('allOtherUsers', allOtherUsers);
+// handleTopicRequest('allOtherUsers', allOtherUsers);
