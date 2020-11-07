@@ -7,6 +7,7 @@ import {getRestaurantsCurbSide} from '../../actions/restsearchresults'
 import Navbar from '../layout/Navbar'
 import RestItemDetail from './RestItemDetail';
 import Paginate from '../Paginate'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles, loading}}) => {
 
@@ -22,6 +23,19 @@ const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles,
 
     const paginate = pg => setCurPg(pg);
 
+    const mapStyles = {
+        height: "100vh",
+        width: "100%"};
+
+        const defaultCenter = {
+            lat: 37.352390, lng: -121.953079
+          }
+
+    let location = {lat:41.3851,lng:2.1734}
+    let arrobj = [location]
+    if (restprofiles) {
+        arrobj = restprofiles?restprofiles.slice(firstpostidx,lastpostidx).map(it=>{return {lat:it.restuser.lat,lng:it.restuser.lng}}):[location]}
+
     return (
         <Fragment>
             <Navbar/>
@@ -35,6 +49,7 @@ const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles,
                 <h1 className="lead text-dark"> Restaurant Results
                 
                 </h1>
+                <Link to="/" className="btn btn-dark">Home</Link>
                 <div claasName='profiles'>
                     {restprofiles.length > 0 ? (
                         restprofiles.slice(firstpostidx,lastpostidx).map(profile=>(
@@ -46,6 +61,20 @@ const RestaurantsCurbSide = ({getRestaurantsCurbSide, restprofile:{restprofiles,
                 </div> */}
                 </div> 
                 </Fragment>}
+                <LoadScript
+       googleMapsApiKey='AIzaSyBaWrNiyni5r6dlgNfuz9IpMNFyumFTI0s'>
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={13}
+          center={defaultCenter}
+        >
+          {arrobj?arrobj.map(item=>{
+            location = {lat:parseFloat(item.lat),lng:parseFloat(item.lng)}
+            console.log ("location is",location)
+            return (<Marker key={"hello "} position={location}/>)
+          }):null}
+          </GoogleMap>
+     </LoadScript>
         </Fragment>
     )
 }

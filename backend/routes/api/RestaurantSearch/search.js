@@ -11,7 +11,7 @@ const RestProfile = require('../../../models/RestProfile');
 
 router.get('/searchrestaurants', async(req, res) => {
     try {
-        const profiles = await RestProfile.find().populate('restuser', ['restName', 'location', 'image']);
+        const profiles = await RestProfile.find().populate('restuser', ['restName', 'location', 'image', 'lat', 'lng']);
         res.json(profiles);
     } catch (err) {
         console.error(err.message);
@@ -25,7 +25,7 @@ router.get('/searchrestaurants', async(req, res) => {
 
 router.get('/restaurants/dinein', async(req, res) => {
     try {
-        const restuser = await RestProfile.find({ DineIn: 'yes' }).populate('restuser', ['restName', 'location', 'image']);
+        const restuser = await RestProfile.find({ DineIn: 'yes' }).populate('restuser', ['restName', 'location', 'image', 'lat', 'lng']);
         if (restuser.length === 0) {
             return res.status(400).json({ msg: 'There are no restaurants' });
         }
@@ -42,7 +42,7 @@ router.get('/restaurants/dinein', async(req, res) => {
 
 router.get('/restaurants/curbside', async(req, res) => {
     try {
-        const restuser = await RestProfile.find({ curbSidePickUp: 'yes' }).populate('restuser', ['restName', 'location', 'image']);
+        const restuser = await RestProfile.find({ curbSidePickUp: 'yes' }).populate('restuser', ['restName', 'location', 'image', 'lat', 'lng']);
         if (restuser.length === 0) {
             return res.status(400).json({ msg: 'There are no restaurants' });
         }
@@ -59,7 +59,7 @@ router.get('/restaurants/curbside', async(req, res) => {
 
 router.get('/restaurants/yelpdelivery', async(req, res) => {
     try {
-        const restuser = await RestProfile.find({ yelpDelivery: 'yes' }).populate('restuser', ['restName', 'location', 'image']);
+        const restuser = await RestProfile.find({ yelpDelivery: 'yes' }).populate('restuser', ['restName', 'location', 'image', 'lat', 'lng']);
         if (restuser.length === 0) {
             return res.status(400).json({ msg: 'There are no restaurants' });
         }
@@ -87,7 +87,7 @@ router.get('/restaurants/criteria/:word', async(req, res) => {
                 { cuisine: { $regex: `.*${req.params.word}.*` } },
                 { menuitems: { $elemMatch: { itemName: { $regex: `.*${req.params.word}.*` } } } },
             ],
-        }).populate('restuser', ['restName', 'location', 'image']);
+        }).populate('restuser', ['restEmail', 'restName', 'location', 'image', 'lat', 'lng']);
         const results = [...restuser, ...restprofile];
         if (results.length === 0) {
             return res.status(400).json({ msg: 'There are no restaurants' });
