@@ -45,6 +45,7 @@ import UserProfile from './components/Orders/UserProfile';
 import RestSendMsg from './components/Messages/RestSendMsg';
 import ChatMessages from './components/Messages/ChatMessages';
 import UserResponse from './components/Messages/UserResponse';
+import RestResponse from './components/Messages/RestResponse';
 
 
 import setAuthToken from './utils/setAuthToken';
@@ -127,6 +128,7 @@ const App = () => {
               <PrivateRoute exact path='/message/:user_id' component={RestSendMsg}/>
               <PrivateRoute exact path='/chatmessages' component={ChatMessages}/>
               <PrivateRoute exact path='/user/:msgId' component={UserResponse}/>
+              <PrivateRoute exact path='/rest/:msgId' component={RestResponse}/>
               
             </switch>
             <Alert />

@@ -17,7 +17,7 @@ const RestSendMsg = ({getUserProfilebyId, getRestConversationsByUserID, getCurre
         getCurrentRestProfile();
     },[])
 
-    let userName ="", restName = "", _from ="", _to ="", _restId ="", _userId =""
+    let userName ="", restName = "", _from ="", _to ="", _restId ="", _userId ="", msgId = ""
     let conv = {}
     if (messages && user && restprofile){
         console.log ("messages is ", messages)    
@@ -29,6 +29,8 @@ const RestSendMsg = ({getUserProfilebyId, getRestConversationsByUserID, getCurre
             {
                 _restId = message.restID
                 _userId = message.userID
+                msgId = message._id
+                console.log ("message id is",msgId)
                 return (message.messages.map(msg =>{
                     if (msg.from == _restId)
                     {
@@ -38,7 +40,7 @@ const RestSendMsg = ({getUserProfilebyId, getRestConversationsByUserID, getCurre
                     _from = userName
                     _to = restName
                     }
-                    return {from:_from, to:_to, date:msg.date, message:msg.message, id:msg._id}
+                    return {from:_from, to:_to, date:msg.date, message:msg.message, msgId:msgId}
                 }))
             })
     }
@@ -67,14 +69,14 @@ const RestSendMsg = ({getUserProfilebyId, getRestConversationsByUserID, getCurre
                                     <p><i className="text-dark"> </i>To: {conver.to}</p>
                                     <p><i className="text-dark"> </i>Message: {conver.message}</p>
                                     <p><i className="text-dark"> </i>Date:{conver.date}</p>
+                                    {conve.indexOf(conver) === conve.length-1?<div className='Event_info'>
+                    <Link to={`/rest/${conver.msgId}`} className="text-dark"> Send Message</Link>
+                    <hr/>
+                    </div>:null}
                                     <br/>
                                     </div>
                             )
                         }):"None"}
-                    <div className='Event_info'>
-                    <Link to="#" className="text-dark"> Send Message</Link>
-                    <hr/>
-                    </div>
                     </div>
                 )}):"none"}
                  

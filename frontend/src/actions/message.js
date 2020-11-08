@@ -245,6 +245,7 @@ export const updateRestReponse = (msg_id, formData, history) => async(
         // console.log("Form Data message is", formData.get('message'))
         // console.log("Form Data from is", formData.get('from'))
         // console.log("Form Data to is", formData.get('to'))
+
         dispatch({
             type: SEND_MESSAGE,
             payload: res.data,
