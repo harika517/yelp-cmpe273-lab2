@@ -41,9 +41,9 @@ body {
 
 .btn-search {
     display: inline-block;
-    background: #d32323;
+    /* background: #d32323; */
     color: white;
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.2rem;
     font-size: 1rem;
     border: none;
     cursor: pointer;
@@ -92,6 +92,30 @@ ul {
 .list ul {
     display: flex;
     justify-content: space-around;
+}
+
+
+/*******Pagination*******/
+
+.pagination {
+    display: flex;
+}
+
+.pagination a {
+    color: rgb(46, 122, 221);
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid rgb(46, 122, 221)
+}
+
+.pagination a.active {
+    background-color: #d32323;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #eeeeef;
 }
 
 

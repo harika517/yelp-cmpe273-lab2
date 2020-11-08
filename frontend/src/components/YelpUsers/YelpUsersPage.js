@@ -71,7 +71,7 @@ const YelpUsersPage = ({getCurrentUserProfile, getAllUserProfiles, getAllProfile
           </form>
            <hr/>
                 </h1>
-                <button className="btn btn-dark" type="button"> Currently Following</button>
+                <Link to="/usersfollowing" className="btn btn-dark" type="button"> Currently Following</Link>
                 <br/>
                 <br/>
                 <div className='profiles'>

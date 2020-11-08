@@ -9,8 +9,11 @@ import {
 // Get current restaurant profile
 
 export const getCurrentRestProfile = () => async(dispatch) => {
+    console.log("inside get current rest profile")
     try {
-        const res = await axios.get('api/restprofile/me');
+        console.log("before query")
+        const res = await axios.get('/api/restprofile/me');
+        console.log("after query")
         dispatch({
             type: GET_REST_PROFILE,
             payload: res.data

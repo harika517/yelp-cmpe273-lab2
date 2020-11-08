@@ -79,6 +79,11 @@ app.use('/api/restimages', require('./routes/api/RestImages/getrestimages'));
 // upload restaurant images
 app.use('/api/addrestimages', require('./routes/api/RestImages/insertrestimages'));
 
+// get restaurant dish images
+app.use('/api/getdishimages', require('./routes/api/DishImages/getdishimages'));
+// upload restaurant dish images
+app.use('/api/adddishimages', require('./routes/api/DishImages/insertdishimages'));
+
 // Chat Messages
 app.use('/api/chat', require('./routes/api/ChatMessages/createconversation'));
 

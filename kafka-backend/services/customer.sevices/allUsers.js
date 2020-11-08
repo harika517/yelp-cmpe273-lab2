@@ -1,20 +1,20 @@
-const UserProfile = require('../../models/UserProfile');
+// const UserProfile = require('../../models/UserProfile');
 
-const handle_request = async(body, callback) => {
-    let customers = await UserProfile.find();
-    if (!customers) {
-        callback({
-            message: "No customers in DB!"
-        }, null);
-    }
-    if (!callback) return customers
+// const handle_request = async(body, callback) => {
+//     let customers = await UserProfile.find();
+//     if (!customers) {
+//         callback({
+//             message: "No customers in DB!"
+//         }, null);
+//     }
+//     if (!callback) return customers
 
-    return callback(null,
-        customers
-    );
-}
+//     return callback(null,
+//         customers
+//     );
+// }
 
-exports.handle_request = handle_request;
+// exports.handle_request = handle_request;
 // const handle_request = async(body, callback)
 // try {
 

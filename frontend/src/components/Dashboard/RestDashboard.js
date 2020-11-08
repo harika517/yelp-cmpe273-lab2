@@ -37,11 +37,7 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
 
     const imageSave = (e) => {
       e.preventDefault();
-      // console.log("inside imageSave, file is ", image.file);
-      // console.log("inside imageSave, fileText is ", image.fileText);
-      // console.log("inside imageSave, email to be sent is,",restprofile.restuser.restEmail)
       insertImage(image.file, restprofile.restuser.restEmail)
-      // const newimg = "rest_"+string(restprofile.restuser._id)+"."
       if (restprofile.restuser.image)
       {
         setImage({file:restprofile.restuser.image})
@@ -49,11 +45,7 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
     }
     const restImageSave = (e) => {
       e.preventDefault();
-      // console.log("inside restImageSave, file is ", restImage.file);
-      // console.log("inside restImageSave, fileText is ", restImage.fileText);
-      // console.log("inside restImageSave, restName is",restprofile.restuser.restName)
       insertRestImage(restImage.file,restprofile.restuser.restName)
-      // const newimg = "rest_"+string(restprofile.restuser._id)+"."
     }
     if (restprofile){
       console.log ("this is the image file name from restprofile",restprofile.restuser.image);

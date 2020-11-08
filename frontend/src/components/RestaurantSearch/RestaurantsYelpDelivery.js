@@ -41,10 +41,10 @@ const RestaurantsYelpDelivery = ({getRestaurantsYelpDelivery, restprofile:{restp
             <br/>
             {loading ? <Spinner/> : <Fragment>
                 
-                <div className="container">
+                {/* <div className="container"> */}
                 
-                {/* <div className="container_2columns">
-                <div className="column1"> */}
+                <div className="container_2columns">
+                <div className="column1">
                 <h1 className="lead text-dark"> Restaurant Results
                 
                 </h1>
@@ -56,10 +56,8 @@ const RestaurantsYelpDelivery = ({getRestaurantsYelpDelivery, restprofile:{restp
                         ))): <p>No Profiles were found ...</p>}
                 </div>
                 <Paginate itemsPerPage={profilesPerPage} totalItems={restprofiles.length} paginate={paginate}/>
-                {/* </div>
-                </div> */}
-                </div> 
-                </Fragment>}
+                </div>
+                <div className="column2">
                 <LoadScript
        googleMapsApiKey='AIzaSyBaWrNiyni5r6dlgNfuz9IpMNFyumFTI0s'>
         <GoogleMap
@@ -74,6 +72,11 @@ const RestaurantsYelpDelivery = ({getRestaurantsYelpDelivery, restprofile:{restp
           }):null}
           </GoogleMap>
      </LoadScript>
+                </div>
+                </div>
+                {/* </div>  */}
+                </Fragment>}
+                
         </Fragment>
     )
 }

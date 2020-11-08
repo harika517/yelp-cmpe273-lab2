@@ -88,6 +88,7 @@ const RegisteredCustProfile = ({getUserProfilebyId, userprofile:{yelpuser, loadi
                 </div> : ''}
                 <br/>
                 <Link to='/restaurant/events' className='btn btn-dark'> Go to Events</Link>
+                <Link to={`/message/${yelpuser.user._id}`} className='btn btn-dark'> Message user</Link>
                 <br/>
                 </div>
                 </div>

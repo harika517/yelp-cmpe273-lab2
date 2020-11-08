@@ -28,6 +28,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
     //   windows reload
     // }
     // console.log('inside rest menu items, new obj is ', newobj);
+    const backendimagesserver = "http://localhost:3001/api/getdishimages/"
     return (
         loading || restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />
@@ -68,10 +69,11 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
 
                            
                              <div>
-                             <img
+                             {indi.dishimages.length>0?indi.dishimages.map(imgname=>{return (<img src ={`${backendimagesserver}/${indi.itemName}/${imgname}`}/>)}):null}
+                             {/* <img
                                  src='#'
                                  alt="Item Picture"
-                               />
+                               /> */}
                              </div>
                              <div class="col-md-8">
                              <div class="card-body">

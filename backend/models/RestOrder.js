@@ -5,14 +5,6 @@ const RestOrderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'restuser',
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'user',
-    // },
-    // menuitems: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'restprofile',
-    // },
     userId: {
         type: String,
     },

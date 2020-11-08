@@ -29,6 +29,7 @@ import RegisteredCustProfile from './components/SocialEvents/RegisteredCustProfi
 import WriteReviews from './components/Reviews/WriteReviews';
 import YelpUsersPage from './components/YelpUsers/YelpUsersPage';
 import YelpUserProfile from './components/YelpUsers/YelpUserProfile';
+import CurrentlyFollowing from './components/YelpUsers/CurrentlyFollowing';
 import RestMenuItems from './components/Restaurants/RestMenuItems';
 import PlaceOrder from './components/Orders/PlaceOrder';
 import OrderHistory from './components/Orders/OrderHistory';
@@ -41,6 +42,9 @@ import RestaurantsYelpDelivery from './components/RestaurantSearch/RestaurantsYe
 import ViewRestaurantPage from './components/RestaurantSearch/ViewRestaurantPage';
 import UpdateOrder from './components/Orders/UpdateOrder';
 import UserProfile from './components/Orders/UserProfile';
+import RestSendMsg from './components/Messages/RestSendMsg';
+import ChatMessages from './components/Messages/ChatMessages';
+import UserResponse from './components/Messages/UserResponse';
 
 
 import setAuthToken from './utils/setAuthToken';
@@ -119,6 +123,10 @@ const App = () => {
               <PrivateRoute exact path='/editmenuitem/:menu_id' component={EditMenuItem}/>
               <PrivateRoute exact path='/updateorderstatus/:id' component={UpdateOrder}/>
               <PrivateRoute exact path='/userprofile/:id' component={UserProfile}/>
+              <PrivateRoute exact path='/usersfollowing' component={CurrentlyFollowing}/>
+              <PrivateRoute exact path='/message/:user_id' component={RestSendMsg}/>
+              <PrivateRoute exact path='/chatmessages' component={ChatMessages}/>
+              <PrivateRoute exact path='/user/:msgId' component={UserResponse}/>
               
             </switch>
             <Alert />

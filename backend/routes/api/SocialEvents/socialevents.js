@@ -10,6 +10,7 @@ const RestProfile = require('../../../models/RestProfile');
 const SocialEvent = require('../../../models/SocialEvents');
 const User = require('../../../models/User');
 const auth = require('../../../middleware/auth');
+const kafka = require('../../../kafka/client');
 
 // @route  POST /api/events/restaurant
 // @Desc   Create Events by current restaurant
@@ -55,148 +56,298 @@ router.post('/restaurant', [auth, [
     }
 });
 
+// router.put('/restaurant', [auth, [
+//     check('eventName', 'eventName is required').not().isEmpty(),
+//     check('eventDescription', 'eventDescription is required').not().isEmpty(),
+//     check('eventTimings', 'eventTimings is required').not().isEmpty(),
+//     check('eventDate', 'eventDate is required').not().isEmpty(),
+//     check('eventLocation', 'eventLocation is required').not().isEmpty(),
+// ]], async(req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//         return res.status(400).json({ errors: errors.array() });
+//     }
+//     const myData = { topic: 'eventRegistration', eventID: req.params.event_id, userID: req.user.id };
+//     // console.log('before kafka', req.params.event_id);
+//     kafka.make_request('socialevents', myData, (err, socialevent) => {
+//         console.log('in result');
+//         console.log(socialevent);
+//         if (err) {
+//             console.log('Inside err');
+//             res.status(500).send('System Error, Try Again.');
+//         } else {
+//             console.log('Inside else');
+//             res.status(200).json(socialevent);
+
+//             res.end();
+//         }
+//     });
+// });
+
 // @route  GET /api/events
 // @Desc   Get all the events
 // @access Public
 
-router.get('/', async(req, res) => {
-    try {
-        const events = await SocialEvent.find().populate('restuser', ['restName', 'location']).sort({ eventDate: 1 });
-        res.json(events);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+// router.get('/', async(req, res) => {
+//     try {
+//         const events = await SocialEvent.find().populate('restuser', ['restName', 'location']).sort({ eventDate: 1 });
+//         res.json(events);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+router.get('/', auth, async(req, res) => {
+    const myData = { topic: 'getAllEvents' };
+    kafka.make_request('socialevents', myData, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results);
+
+            res.end();
+        }
+    });
 });
 
 // @route  GET /api/events/:socialevent_id
 // @Desc   Get Eventdetails by event ID
 // @access Public
 
-router.get('/:socialevent_id', async(req, res) => {
-    const objId = new ObjectId(req.params.socialevent_id);
-    try {
-        const event = await SocialEvent.find({ _id: objId }).populate('restuser', ['restName', 'location']);
-        if (!event) return res.status(400).json({ msg: 'There is no profile for this user' });
-        res.json(event);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+// router.get('/:socialevent_id', async(req, res) => {
+//     const objId = new ObjectId(req.params.socialevent_id);
+//     try {
+//         const event = await SocialEvent.find({ _id: objId }).populate('restuser', ['restName', 'location']);
+//         if (!event) return res.status(400).json({ msg: 'There is no profile for this user' });
+//         res.json(event);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+router.get('/:socialevent_id', auth, async(req, res) => {
+    const myData = { topic: 'getEventDetail', eventID: req.params.socialevent_id };
+    console.log('before kafka', req.params.socialevent_id);
+    kafka.make_request('socialevents', myData, (err, results) => {
+        console.log('in result');
+        console.log(results.message);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
+
+            res.end();
+        }
+    });
 });
 
 // @route  POST /api/events/user/:user_id
 // @Desc   Customer registeration for events
 // @access Private
 
-router.put('/user/:event_id', auth, async(req, res) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() });
-    // }
-    try {
-        const user = await User.findById(req.user.id).select('-password');
-        const socialevent = await SocialEvent.findById(req.params.event_id);
-        const neweventAttendee = {
-            user: req.user.id,
-            userName: user.userName,
-            userEmail: user.userEmail,
-            image: user.image,
-        };
+// router.put('/user/:event_id', auth, async(req, res) => {
+//     // const errors = validationResult(req);
+//     // if (!errors.isEmpty()) {
+//     //     return res.status(400).json({ errors: errors.array() });
+//     // }
+//     try {
+//         const user = await User.findById(req.user.id).select('-password');
+//         const socialevent = await SocialEvent.findById(req.params.event_id);
+//         const neweventAttendee = {
+//             user: req.user.id,
+//             userName: user.userName,
+//             userEmail: user.userEmail,
+//             image: user.image,
+//         };
 
-        socialevent.eventAttendees.unshift(neweventAttendee);
-        await socialevent.save();
-        res.json(socialevent);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+//         socialevent.eventAttendees.unshift(neweventAttendee);
+//         await socialevent.save();
+//         res.json(socialevent);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+router.put('/user/:event_id', auth, async(req, res) => {
+    const myData = { topic: 'eventRegistration', eventID: req.params.event_id, userID: req.user.id };
+    // console.log('before kafka', req.params.event_id);
+    kafka.make_request('socialevents', myData, (err, socialevent) => {
+        console.log('in result');
+        console.log(socialevent);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(socialevent);
+
+            res.end();
+        }
+    });
 });
 
 // @route  GET /api/events/user/me
 // @Desc   get all the events registered by current customer
 // @access Private
 
+// router.get('/user/me', auth, async(req, res) => {
+//     const objId = new ObjectId(req.user.id);
+//     try {
+//         const socialevent = await SocialEvent.find({ 'eventAttendees.user': objId });
+//         if (!socialevent) {
+//             return res.status(400).json({ msg: 'You have not registered for any event' });
+//         }
+//         console.log(socialevent);
+//         const var1 = socialevent.map((_i) => ({
+//             eventName: _i.eventName,
+//             eventDescription: _i.eventDescription,
+//             eventTimings: _i.eventTimings,
+//             eventDate: _i.eventDate,
+//             eventLocation: _i.eventLocation,
+//         }));
+//         console.log('var1 is ', var1);
+//         res.json(var1);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error: Database');
+//     }
+// });
+
 router.get('/user/me', auth, async(req, res) => {
-    const objId = new ObjectId(req.user.id);
-    try {
-        const socialevent = await SocialEvent.find({ 'eventAttendees.user': objId });
-        if (!socialevent) {
-            return res.status(400).json({ msg: 'You have not registered for any event' });
+    const myData = { topic: 'getResgisteredEvents', userID: req.user.id };
+    console.log('before kafka', req.user.id);
+    kafka.make_request('socialevents', myData, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
+
+            res.end();
         }
-        console.log(socialevent);
-        const var1 = socialevent.map((_i) => ({
-            eventName: _i.eventName,
-            eventDescription: _i.eventDescription,
-            eventTimings: _i.eventTimings,
-            eventDate: _i.eventDate,
-            eventLocation: _i.eventLocation,
-        }));
-        console.log('var1 is ', var1);
-        res.json(var1);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error: Database');
-    }
+    });
 });
 
 // @route  GET /api/events/restaurant/:event_id
 // @Desc   get all the customers registered for an event
 // @access Private
 
-router.get('/restaurant/:event_id', auth, async(req, res) => {
-    try {
-        const socialevent = await SocialEvent.findById(req.params.event_id);
+// router.get('/restaurant/:event_id', auth, async(req, res) => {
+//     try {
+//         const socialevent = await SocialEvent.findById(req.params.event_id);
 
-        // const menuitems = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName']);
-        const eventAttendees = await socialevent.eventAttendees;
-        if (eventAttendees.length === 0) return res.status(400).json({ msg: 'No attendees for this event yet' });
-        res.json(eventAttendees);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+//         // const menuitems = await RestProfile.findOne({ restuser: req.params.restuser_id }).populate('restuser', ['restName']);
+//         const eventAttendees = await socialevent.eventAttendees;
+//         if (eventAttendees.length === 0) return res.status(400).json({ msg: 'No attendees for this event yet' });
+//         res.json(eventAttendees);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+router.get('/restaurant/:event_id', auth, async(req, res) => {
+    const myData = { topic: 'getCustomersRegistered', eventID: req.params.event_id };
+    console.log('before kafka', req.params.event_id);
+    kafka.make_request('socialevents', myData, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
+
+            res.end();
+        }
+    });
 });
 
 // search event by any word
 
 // @route  GET /api/events/searchevent/:word
-// @Desc   get all the customers registered for an event
+// @Desc   get event when searched for with a word
 // @access Public
 
+// router.get('/searchevent/:word', async(req, res) => {
+//     try {
+//         const searchword = req.params.word;
+//         const event = await SocialEvent.find({ eventName: { $regex: `.*${searchword}.*` } });
+
+//         if (event.length === 0) {
+//             return res.status(400).json({ msg: 'There are no events with this name' });
+//         }
+//         res.json(event);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
 router.get('/searchevent/:word', async(req, res) => {
-    try {
-        const searchword = req.params.word;
-        const event = await SocialEvent.find({ eventName: { $regex: `.*${searchword}.*` } });
+    const myData = { topic: 'getSearchEvent', searchWord: req.params.word };
+    console.log('before kafka', req.params.word);
+    kafka.make_request('socialevents', myData, (err, events) => {
+        console.log('in result');
+        console.log(events.message);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(events.message);
 
-        if (event.length === 0) {
-            return res.status(400).json({ msg: 'There are no events with this name' });
+            res.end();
         }
-        res.json(event);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+    });
 });
-
-// search event by any word
 
 // @route  GET /api/events/restaurant/me
 // @Desc   get all the events created by current restaurant
 // @access Public
 
-router.get('/restaurantevents', auth, async(req, res) => {
-    // console.log("events created by restaurant", req.restuser.id)
-    // const objId = new ObjectId(req.restuser.id);
+// router.get('/restaurantevents', auth, async(req, res) => {
+//     // console.log("events created by restaurant", req.restuser.id)
+//     // const objId = new ObjectId(req.restuser.id);
 
-    try {
-        const event = await SocialEvent.find({ restuser: req.restuser.id }).populate('restuser', ['restName', 'location']);
-        if (!event) return res.status(400).json({ msg: 'There are no events created by this Restaurant' });
-        res.json(event);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+//     try {
+//         const event = await SocialEvent.find({ restuser: req.restuser.id }).populate('restuser', ['restName', 'location']);
+//         if (!event) return res.status(400).json({ msg: 'There are no events created by this Restaurant' });
+//         res.json(event);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+router.get('/restaurantevents', auth, async(req, res) => {
+    const myData = { topic: 'getRestaurantEvents', restUserID: req.restuser.id };
+    console.log('before kafka', req.params.word);
+    kafka.make_request('socialevents', myData, (err, events) => {
+        console.log('in result');
+        console.log(events.message);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(events.message);
+            res.end();
+        }
+    });
 });
 
 module.exports = router;

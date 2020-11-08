@@ -1,16 +1,42 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import DashboardNav from '../layout/DashboardNav';
 import { connect } from 'react-redux';
 import { getCurrentRestProfile } from '../../actions/restprofile';
 import Spinner from '../layout/spinner';
+import insertDishImage from "../../actions/uploaddishimages"
 
-const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loading } })=> {
+
+const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loading },insertDishImage })=> {
 
     useEffect(() => {
         getCurrentRestProfile();
-    }, [])
+        setImage({
+          file:loading || !restprofile? <Spinner/> : restprofile.menuitems[0].dishimages[0],
+          fileText: "Choose Image..",
+          itemName: loading || !restprofile? <Spinner/> : restprofile.menuitems[0].itemName
+        })
+    }, [loading])
+
+    const [image,setImage] = useState({
+      file: "",
+      fileText: "",
+      itemName:""
+    })
+
+    const dishImageChange = (e)=>{
+      console.log("image file name is ",e.target.files[0].name)
+      setImage({file:e.target.files[0],fileText: e.target.files[0].name,itemName: e.target.id})
+    }
+
+    const dishImageSave = (e) => {
+      e.preventDefault();
+      console.log ("inside dishImageSave image file to be sent is",image.file)
+      console.log ("inside dishImageSave item name to be sent is",image.itemName)
+      insertDishImage(image.file, image.itemName)
+    }
+
     let newobj = {};
     if(!loading) {
         console.log ("rest profile menu items",restprofile.menuitems)
@@ -24,6 +50,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
         console.log('inside rest menu items, unique categories, ', uniqCategories);
     }
     console.log('inside rest menu items, new obj is ', newobj);
+    const backendimagesserver = "http://localhost:3001/api/getdishimages/"
     
     return loading && restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />
@@ -59,10 +86,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                            <div className="card mb-3">
                            <div className="row no-gutters">
                              <div className="col-md-4">
-                             <img
-                                 src='#'
-                                 alt="Item Picture"
-                               />
+                             {indi.dishimages.length>0?indi.dishimages.map(imgname=>{return (<img src ={`${backendimagesserver}/${indi.itemName}/${imgname}`}/>)}):null}
                              </div>
                              <div class="col-md-8">
                              <div class="card-body">
@@ -85,6 +109,19 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                                  >
                                    Edit
                                  </Link>
+                                 <br/>
+                                 <form onSubmit={(e)=>dishImageSave(e)}>
+            <div className="file-field input-field">
+              <div className="btn #64b5f6 blue darken-1">
+                <span>Upload Dish Image</span>
+                <input type ="file" id={indi.itemName} onChange={(e)=>dishImageChange(e)}/>
+              </div>
+            </div>
+            <br/>
+            <button type="submit" className="btn btn-dark">
+              Upload Dish Pic
+            </button>
+            </form>
                                </div>
                              </div>
                              </div>
@@ -109,10 +146,11 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
 ViewMenuItems.propTypes = {
     getCurrentRestProfile: PropTypes.func.isRequired,
     restprofile: PropTypes.object.isRequired,
+    insertDishImage: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
     restprofile: state.restprofile
 })
 
-export default connect(mapStateToProps, { getCurrentRestProfile })(ViewMenuItems);
+export default connect(mapStateToProps, { getCurrentRestProfile,insertDishImage })(ViewMenuItems);

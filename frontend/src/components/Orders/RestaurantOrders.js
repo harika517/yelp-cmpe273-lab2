@@ -85,12 +85,16 @@ const RestaurantOrders = ({
 
 
     if (!loading)
-    {if (orders && restprofile && userprofiles)
+    {if (orders && restprofile)
     {
         orders.ordersplaced.map(order=>{
-            let{userId, menuId} = order;           
-            let userp = userprofiles.filter(profile=>String(profile.user._id) ===String(userId))
-            let {userName} = userp[0].user
+            let{userId, menuId} = order;
+            console.log ("user id is",userId)      
+            let userp = userprofiles.filter(profile=>String(profile.user) ===String(userId))
+            console.log ("user profiles is", userprofiles)
+            console.log ("userp is ", userp)
+            let userName = userp[0].firstName
+            console.log ("user name is",userName)
             let {menuitems} = restprofile
             let menuI = menuitems.filter(item=>String(item._id).trim()===String(menuId))
             let {itemName} = menuI[0]
@@ -104,7 +108,25 @@ const classes = useStyles();
     return (
         loading && userprofiles===null && orders === null? <Spinner /> : <Fragment>
             <DashboardNav/>
+            <br/>
+            <br/>
             <div className="container">
+            <Link to="/restdashboard" className="btn btn-dark"> Back</Link>
+            <br/>
+            <br/>
+            <div>
+            <label for="orderStatus">Filter By</label>
+            {' '}
+  <select name="orderStatus" className="btn btn-light" name="orderStatusSearch"
+                value={orderStatusSearch}
+                onChange={(e) => onChange(e)}>
+                    <option value="none">Select One</option>
+    <option value="New_Order">New_Order</option>
+    <option value="Cancelled">Cancelled</option>
+    <option value="Delivered">Delivered</option>
+  </select>
+  <button className="btn btn-dark" onClick={(e) => onClick(e)}> Go </button>
+            </div>
             <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -124,7 +146,7 @@ const classes = useStyles();
             {row.itemName}
         </TableCell>
         <TableCell align="right">
-            <Link to={`/userprofile/${orders.ordersplaced.userId}`} className="text-primary"> {row.userName} </Link>
+            <Link to={`/userprofile/${row.userId}`} className="text-primary"> {row.userName} </Link>
         </TableCell>
         <TableCell align="right">
             {row.orderStatus}
@@ -160,19 +182,7 @@ const classes = useStyles();
 
             </div>
 
-            <div>
-            <label for="orderStatus">Filter By</label>
-            {' '}
-  <select name="orderStatus" className="btn btn-light" name="orderStatusSearch"
-                value={orderStatusSearch}
-                onChange={(e) => onChange(e)}>
-                    <option value="none">Select One</option>
-    <option value="New_Order">New_Order</option>
-    <option value="Cancelled">Cancelled</option>
-    <option value="Delivered">Delivered</option>
-  </select>
-  <button className="btn btn-dark" onClick={(e) => onClick(e)}> Go </button>
-            </div>
+            
         </Fragment>
     )
 }

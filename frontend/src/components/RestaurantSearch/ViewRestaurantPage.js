@@ -27,7 +27,7 @@ const ViewRestaurantPage = ({getRestProfilebyId, restprofile:{restprofile, loadi
         <div className='container'>
         <div className="container_2columns">
             <div className="column1">
-                <Link to="/" className="btn btn-dark">Home</Link>
+                <Link to="/" className="btn btn-dark">Back</Link>
                 <br/>
                 <br/>
                 {restprofile !== null ? <Fragment>

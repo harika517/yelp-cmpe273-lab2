@@ -84,6 +84,10 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
             <i className="fas fa-utensils text-dark" /> {' '} Restaurants
             </Link>
             <hr/>
+            <Link to="/chatmessages" className="text-black">
+            <i className="far fa-comments  text-dark" /> {' '} Messages
+            </Link>
+            <hr/>
 
             </div>
             <div className="column_2">

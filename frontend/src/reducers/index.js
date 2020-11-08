@@ -7,6 +7,7 @@ import event from './event';
 import menuitem from './menuitem';
 import orders from './orders';
 import images from './images';
+import message from './message';
 
 export default combineReducers({
     alert,
@@ -16,5 +17,6 @@ export default combineReducers({
     event,
     menuitem,
     orders,
-    images
+    images,
+    message
 });

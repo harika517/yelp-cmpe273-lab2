@@ -15,17 +15,34 @@ const kafka = require('../../../kafka/client');
 // @route  GET api/profile/me
 // @Desc   get current user profile
 // @access Private
+// router.get('/me', auth, async(req, res) => {
+//     try {
+//         const profile = await UserProfile.findOne({ user: req.user.id }).populate('user', ['userName', 'image', 'userEmail', 'firstName']);
+//         if (!profile) {
+//             return res.status(400).json({ msg: 'There is no profile for this user' });
+//         }
+//         res.json(profile);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error: Database');
+//     }
+// });
+
 router.get('/me', auth, async(req, res) => {
-    try {
-        const profile = await UserProfile.findOne({ user: req.user.id }).populate('user', ['userName', 'image', 'userEmail', 'firstName']);
-        if (!profile) {
-            return res.status(400).json({ msg: 'There is no profile for this user' });
+    const myData = { topic: 'getCurrentUserProfile', userID: req.user.id };
+    kafka.make_request('profile', myData, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
+
+            res.end();
         }
-        res.json(profile);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error: Database');
-    }
+    });
 });
 
 // @route  POST api/profile
@@ -94,33 +111,34 @@ router.post('/', [auth, [
 // @Desc   Get all profiles except the current profile
 // @access Public
 
-router.get('/', auth, async(req, res) => {
-    try {
-        const checkObjId = new ObjectId(req.user.id);
-        const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
-        const results = profiles.filter((prof) => (!prof.user._id.equals(checkObjId)));
-        res.json(results);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-
-// router.get('/', async(req, res) => {
-//     kafka.make_request('allOtherUsers', req.body, (err, results) => {
-//         console.log('in result');
-//         console.log(results);
-//         if (err) {
-//             console.log('Inside err');
-//             res.status(500).send('System Error, Try Again.');
-//         } else {
-//             console.log('Inside else');
-//             res.status(200).json(results);
-
-//             res.end();
-//         }
-//     });
+// router.get('/', auth, async(req, res) => {
+//     try {
+//         const checkObjId = new ObjectId(req.user.id);
+//         const profiles = await UserProfile.find().populate('user', ['userName', 'image', 'firstName', 'lastName', 'userEmail']);
+//         const results = profiles.filter((prof) => (!prof.user._id.equals(checkObjId)));
+//         res.json(results);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
 // });
+
+router.get('/', auth, async(req, res) => {
+    const myData = { topic: 'allOtherUsers', customerId: req.user.id };
+    kafka.make_request('profile', myData, (err, results) => {
+        console.log('in result');
+        console.log(results.message);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
+
+            res.end();
+        }
+    });
+});
 
 // @route  GET api/profile
 // @Desc   Get all profiles
@@ -137,7 +155,8 @@ router.get('/', auth, async(req, res) => {
 //     }
 // });
 router.get('/profiles', async(req, res) => {
-    kafka.make_request('allUsers', req.body, (err, results) => {
+    const myData = { topic: 'allUsers' };
+    kafka.make_request('profile', myData, (err, results) => {
         console.log('in result');
         console.log(results);
         if (err) {
@@ -156,18 +175,34 @@ router.get('/profiles', async(req, res) => {
 // @Desc   Get profile by user_id
 // @access Public
 
+// router.get('/user/:user_id', async(req, res) => {
+//     try {
+//         const profile = await UserProfile.findOne({ user: req.params.user_id }).populate('user', ['userName', 'userEmail', 'firstName', 'lastName', 'image']);
+//         if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
+//         res.json(profile);
+
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
 router.get('/user/:user_id', async(req, res) => {
-    try {
-        const profile = await UserProfile.findOne({ user: req.params.user_id }).populate('user', ['userName', 'userEmail', 'firstName', 'lastName', 'image']);
-        if (!profile) return res.status(400).json({ msg: 'There is no profile for this user' });
-        res.json(profile);
+    const myData = { topic: 'getProfileById', userID: req.params.user_id };
+    kafka.make_request('profile', myData, (err, results) => {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            console.log('Inside err');
+            res.status(500).send('System Error, Try Again.');
+        } else {
+            console.log('Inside else');
+            res.status(200).json(results.message);
 
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+            res.end();
+        }
+    });
 });
-
 // Yelp Users
 
 // @route  GET api/profile/searchuser/:word
@@ -189,11 +224,6 @@ router.get('/searchuser/:word', async(req, res) => {
         if (user.length === 0) {
             return res.status(400).json({ msg: 'There are no users with this name' });
         }
-        // const results = [...userFN, ...userNN];
-        // res.json({
-        //     FirstName: userFN,
-        //     NickName: userNN,
-        // });
         res.json(user);
     } catch (err) {
         console.error(err.message);

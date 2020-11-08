@@ -69,7 +69,6 @@ export const getRestaurantsSearchCriteria = (word) => async(dispatch) => {
             type: GET_ALL_REST_PROFILES,
             payload: res.data
         });
-
     } catch (err) {
         dispatch({
             type: REST_PROFILE_ERROR,
