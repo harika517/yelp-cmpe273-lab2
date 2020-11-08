@@ -55,8 +55,10 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
     return loading && restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />
     <div className='container'>
+    
     {restprofile !== null ? <Fragment>
-                    <h4 className="lead">{restprofile.restuser.restName}</h4>
+      <div className="info">
+      <h4 className="lead">{restprofile.restuser.restName}</h4>
                     <h4 className="text-black">{restprofile.cuisine} Cuisine </h4>
                     <h4>
                         <i className="far fa-clock"> </i> {restprofile.timings}
@@ -67,6 +69,9 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                 <h4>
                 <i className="fas fa-envelope-open-text text-dark"> </i> {' '}{restprofile.restuser.restEmail}
                 </h4>
+
+      </div>
+                    
                 <br></br>
                 <Link to="/addmenuitem" className=" btn btn-dark">
                 Add Menu

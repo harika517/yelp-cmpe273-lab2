@@ -162,6 +162,7 @@ router.put('/user/:msg_id', auth, async(req, res) => {
 // @Desc   Add response to a particular conversation from logged in customer.
 // @access Private
 
+
 router.put('/rest/:msg_id', auth, async(req, res) => {
     try {
         const chatMessage = await ChatMessage.find({ _id: req.params.msg_id });
