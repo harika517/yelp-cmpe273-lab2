@@ -1,0 +1,2 @@
+[2020-11-03 09:04:21,914] TRACE [Controller id=0 epoch=2] Received response {error_code=0} for request UPDATE_METADATA with correlation id 0 sent to broker 192.168.0.10:9092 (id: 0 rack: null) (state.change.logger)
+[2020-11-03 09:46:39,060] TRACE [Controller id=0 epoch=3] Received response {error_code=0} for request UPDATE_METADATA with correlation id 0 sent to broker 192.168.0.10:9092 (id: 0 rack: null) (state.change.logger)
