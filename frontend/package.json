@@ -46,7 +46,6 @@
     },
     "proxy": "http://54.183.189.222:3001/",
     "devDependencies": {
-        "eslint": "^7.11.0",
         "eslint-config-airbnb": "^18.2.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jsx-a11y": "^6.3.1",
