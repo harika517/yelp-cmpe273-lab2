@@ -18,11 +18,13 @@ export const createSocialEvent = (formData, history, edit = false) => async(
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
+        console.log("inside try create event action")
         const res = await axios.post(
             '/api/events/restaurant',
             formData,
             config
         );
+        console.log("after query create event action")
         dispatch({
             type: GET_EVENT,
             payload: res.data,

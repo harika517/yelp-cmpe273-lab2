@@ -19,7 +19,7 @@ const insertImage = (image, Email) => async(dispatch) => {
             headers: { "content-type": "multipart/form-data" },
         };
         const res = await axios
-            .post(`http://54.183.189.222:3001/api/addimages/rest/addprofilepic/`, formData, config)
+            .post(`http://localhost:3001/api/addimages/rest/addprofilepic/`, formData, config)
             .then((response) => {
                 alert("Image uploaded successfully");
                 console.log("response is ", response);

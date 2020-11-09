@@ -22,7 +22,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
     const paginate = pg => setCurPg(pg);
 
     let newobj = {};
-    if(!loading || restprofile) {
+    if(!loading && restprofile) {
         // console.log ("rest profile menu items",restprofile.menuitems)
         let uniqCategories = restprofile.menuitems.map((item) => item.itemCategory);
         uniqCategories = [...new Set(uniqCategories)];
@@ -39,7 +39,7 @@ const RestMenuItems = ({getRestProfilebyId, restprofile: { restprofile, loading 
     //   windows reload
     // }
     // console.log('inside rest menu items, new obj is ', newobj);
-    const backendimagesserver = "http://3.101.107.33:3001/api/getdishimages/"
+    const backendimagesserver = "http://localhost:3001/api/getdishimages/"
     return (
         loading || restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />

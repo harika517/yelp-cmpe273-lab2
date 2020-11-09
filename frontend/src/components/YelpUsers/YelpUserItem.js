@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const YelpUserItem = ({ profile: { user: { _id, userName, firstName, lastName, userEmail, image }, headline } }) => {
 
-    const backendimageserver = "http://54.183.189.222:3001/api/userimages/user/"
+    const backendimageserver = "http://localhost:3001/api/userimages/user/"
 
     return ( <
         div className = "profile" >

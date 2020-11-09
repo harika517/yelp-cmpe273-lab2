@@ -59,7 +59,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
         console.log('inside rest menu items, uniqCategories length is', uniqCategories.length)
     }
     console.log('inside rest menu items, new obj is ', newobj);
-    const backendimagesserver = "http://54.183.189.222:3001/api/getdishimages/"
+    const backendimagesserver = "http://localhost:3001/api/getdishimages/"
     
     return loading && restprofile === null ? <Spinner /> : <Fragment>
     <DashboardNav />

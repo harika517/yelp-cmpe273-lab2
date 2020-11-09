@@ -13,7 +13,7 @@ const UserProfile = ({ getUserProfilebyId, userprofile: { yelpuser, loading }, m
             getUserProfilebyId(match.params.id)
         }, [])
 
-        const backendimageserver = "http://54.183.189.222:3001/api/userimages/user/"
+        const backendimageserver = "http://localhost:3001/api/userimages/user/"
         return ( <
                 Fragment > {
                     loading ? < Spinner / > : (yelpuser === null ?
