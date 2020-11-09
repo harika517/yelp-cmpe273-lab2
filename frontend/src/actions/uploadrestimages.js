@@ -19,7 +19,7 @@ const insertRestImage = (image, RestName) => async(dispatch) => {
             headers: { "content-type": "multipart/form-data" },
         };
         const res = await axios
-            .post(`http://3.101.107.33:3001/api/addrestimages/${RestName}`, formData, config)
+            .post(`http://54.183.189.222:3001/api/addrestimages/${RestName}`, formData, config)
             .then((response) => {
                 alert("Image uploaded successfully");
                 console.log("response is ", response);

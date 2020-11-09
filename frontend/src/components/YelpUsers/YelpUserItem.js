@@ -4,15 +4,14 @@ import PropTypes from 'prop-types'
 
 const YelpUserItem = ({ profile: { user: { _id, userName, firstName, lastName, userEmail, image }, headline } }) => {
 
-    const backendimageserver = "http://3.101.107.33:3001/api/userimages/user/"
+    const backendimageserver = "http://54.183.189.222:3001/api/userimages/user/"
 
     return ( <
         div className = "profile" >
         <
         img src = {
             image.file ?
-            `${backendimageserver}${image}` :
-                `${backendimageserver}image`
+            `${backendimageserver}${image}` : `${backendimageserver}image`
         }
         alt = "Profile Picture" /
         >
@@ -34,8 +33,8 @@ const YelpUserItem = ({ profile: { user: { _id, userName, firstName, lastName, u
         br / >
         <
         Link to = { `/yelpuserdetail/${_id}` }
-        className = "btn btn-dark" > Know more.. < /Link> <
-        /div> <
+        className = "btn btn-dark" > Know more.. < /Link> < /
+        div > <
         /div>
     )
 }
