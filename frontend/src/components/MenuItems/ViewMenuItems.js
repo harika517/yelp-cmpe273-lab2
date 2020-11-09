@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getCurrentRestProfile } from '../../actions/restprofile';
 import Spinner from '../layout/spinner';
 import insertDishImage from "../../actions/uploaddishimages"
+import Paginate from '../Paginate'
 
 
 const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loading },insertDishImage })=> {
@@ -24,7 +25,13 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
       fileText: "",
       itemName:""
     })
+    const [curPage, setCurPg] = useState(1);
+    const [dishesPerPage, setDishesPerPage] = useState(1);
 
+    const lastpostidx = curPage * dishesPerPage;
+    const firstpostidx = lastpostidx-dishesPerPage;
+
+    const paginate = pg => setCurPg(pg);
     const dishImageChange = (e)=>{
       console.log("image file name is ",e.target.files[0].name)
       setImage({file:e.target.files[0],fileText: e.target.files[0].name,itemName: e.target.id})
@@ -48,6 +55,8 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
         });
         
         console.log('inside rest menu items, unique categories, ', uniqCategories);
+        console.log('inside rest menu items, newobj is',newobj)
+        console.log('inside rest menu items, uniqCategories length is', uniqCategories.length)
     }
     console.log('inside rest menu items, new obj is ', newobj);
     const backendimagesserver = "http://localhost:3001/api/getdishimages/"
@@ -82,7 +91,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
             <hr/>
             {restprofile.menuitems !==null ?
             <Fragment>
-                {newobj? Object.keys(newobj).map((k, idx) => {
+                {newobj? Object.keys(newobj).slice(firstpostidx,lastpostidx).map((k, idx) => {
                     return (
                     <div>
                        <h3> {k} </h3>
@@ -139,7 +148,7 @@ const ViewMenuItems =({ getCurrentRestProfile, restprofile: { restprofile, loadi
                 } ):"none"}
             </Fragment> : "something"}
             
-           
+            <Paginate itemsPerPage={dishesPerPage} totalItems={3} paginate={paginate}/>
             </Fragment> : <Fragment>
                 <p className='lead text-dark'> This restaurant does not have menuitems yet</p>
                 <Link className='small text-primary' to='#'>Add Menu item ?</Link>
