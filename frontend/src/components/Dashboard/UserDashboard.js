@@ -42,7 +42,7 @@ const UserDashboard = ({ getCurrentUserProfile, auth: { user}, userprofile: { us
       //   console.log ("this is the image file name from userprofile",userprofile.user.image);
       //   console.log("no userprofile yet");
       // }
-      const backendimageserver = "http://localhost:3001/api/userimages/user/"
+      const backendimageserver = "http://54.183.189.222:3001/api/userimages/user/"
       // console.log ("userprofile is {}",userprofile)
   
     return loading && userprofile === null? <Spinner /> : <Fragment>

@@ -19,7 +19,7 @@ const insertDishImage = (image, itemName) => async(dispatch) => {
             headers: { "content-type": "multipart/form-data" },
         };
         const res = await axios
-            .post(`http://localhost:3001/api/adddishimages/${itemName}`, formData, config)
+            .post(`http://54.183.189.222:3001/api/adddishimages/${itemName}`, formData, config)
             .then((response) => {
                 alert("Image uploaded successfully");
                 console.log("response is ", response);

@@ -52,8 +52,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             console.log("this is the image file name from restprofile", restprofile.restuser.image);
             console.log("no restprofile yet");
         }
-        const backendimageserver = "http://localhost:3001/api/images/rest/"
-        const backendimagesserver = "http://localhost:3001/api/restimages/"
+        const backendimageserver = "http://54.183.189.222:3001/api/images/rest/"
+        const backendimagesserver = "http://54.183.189.222:3001/api/restimages/"
         console.log("restprofile is {}", restprofile)
         return loading && restprofile === null ? < Spinner / > : < Fragment >
             <
