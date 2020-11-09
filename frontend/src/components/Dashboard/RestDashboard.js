@@ -52,8 +52,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             console.log("this is the image file name from restprofile", restprofile.restuser.image);
             console.log("no restprofile yet");
         }
-        const backendimageserver = "http://3.101.107.33:3001/api/images/rest/"
-        const backendimagesserver = "http://3.101.107.33:3001/api/restimages/"
+        const backendimageserver = "http://54.183.189.222:3001/api/images/rest/"
+        const backendimagesserver = "http://54.183.189.222:3001/api/restimages/"
         console.log("restprofile is {}", restprofile)
         return loading && restprofile === null ? < Spinner / > : < Fragment >
             <
@@ -65,8 +65,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
             <
             div > {
                 restprofile ? restprofile.restimages.map(image => < img src = { `${backendimagesserver}/${restprofile.restuser.restName}/${image}` }
-                    />):"No Images"} <
-                    /div> <
+                    />):"No Images"} < /
+                    div > <
                     hr / >
                     <
                     div className = 'container' >
@@ -77,11 +77,11 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                     <
                     img src = {
                         image.file ?
-                        `${backendimageserver}${image.file}` :
-                            `${backendimageserver}image`
+                        `${backendimageserver}${image.file}` : `${backendimageserver}image`
                     }
                     alt = "Profile Picture" /
-                    > {
+                    >
+                    {
                         restprofile !== null ? < Fragment >
                         <
                         h1 className = "large text-black" > { restprofile.restuser.restName } < /h1> <
@@ -90,8 +90,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                         Cuisine < /h3> <
                         h4 >
                         <
-                        i className = "far fa-clock" > < /i> {restprofile.timings} <
-                        /h4> <
+                        i className = "far fa-clock" > < /i> {restprofile.timings} < /
+                        h4 > <
                         Link to = "#"
                         className = " btn btn-dark" > < i className = 'fas fa-star' > < /i>
                         Write a Review <
@@ -115,7 +115,8 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                         br / >
                         <
                         form onSubmit = {
-                            (e) => imageSave(e) } >
+                            (e) => imageSave(e)
+                        } >
                         <
                         div className = "file-field input-field" >
                         <
@@ -124,17 +125,18 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                         span > Upload Image < /span> <
                         input type = "file"
                         onChange = {
-                            (e) => imageChange(e) }
-                        /> <
-                        /div> <
+                            (e) => imageChange(e)
+                        }
+                        /> < /
+                        div > <
                         /div> <
                         br / >
                         <
                         button type = "submit"
                         className = "btn btn-dark" >
                         Upload Profile Pic <
-                        /button> <
-                        /form> <
+                        /button> < /
+                        form > <
                         hr / >
                         <
                         h4 > { restprofile.description } <
@@ -187,94 +189,96 @@ const RestDashboard = ({ getCurrentRestProfile, auth: { user }, restprofile: { r
                                 /h3>
                             )
                         } <
-                        /li> <
-                        /ul> <
+                        /li> < /
+                        ul > <
                         /div>
 
                         <
                         hr / >
                         <
                         h2 > Reviews < /h2> {
-                            restprofile.reviews ?
-                                restprofile.reviews.map((item) => ( <
-                                    div >
-                                    <
-                                    h4 > { item.rating } { ' ' } { item.date } <
-                                    br / > { item.review } <
-                                    /h4> <
-                                    hr / >
-                                    <
-                                    /div>
-                                )) :
-                                'No reviews yet'
-                        } <
-                        /Fragment> : <Fragment> <
-                        p className = 'lead text-dark' > This restaurant does not have profile yet < /p> <
-                        Link className = 'small text-primary'
-                        to = '/createprofile' > Create One ? < /Link> <
-                        /Fragment>} <
-                        /div> <
-                        div className = "column2" > {
-                            restprofile ? < Fragment >
+                        restprofile.reviews ?
+                        restprofile.reviews.map((item) => ( <
+                            div >
                             <
-                            div className = "info" >
-                            <
-                            form onSubmit = {
-                                (e) => restImageSave(e) } >
-                            <
-                            div className = "file-field input-field" >
-                            <
-                            div className = "btn #64b5f6 blue darken-1" >
-                            <
-                            span > Upload Restaurant Image < /span> <
-                            input type = "file"
-                            onChange = {
-                                (e) => restImageChange(e) }
-                            /> <
-                            /div> <
-                            /div> <
-                            br / >
-                            <
-                            button type = "submit"
-                            className = "btn btn-dark" >
-                            Add More Images <
-                            /button> <
-                            /form> <
-                            /div> <
-                            div className = "info" >
-                            <
-                            h4 >
-                            <
-                            i className = "fas fa-phone-alt text-dark" > < /i> {' '}{restprofile.contact} <
+                            h4 > { item.rating } { ' ' } { item.date } <
+                            br / > { item.review } <
                             /h4> <
-                            h4 >
+                            hr / >
                             <
-                            i className = "fas fa-map-marked-alt text-dark" > < /i> {' '}{restprofile.restuser.location} <
-                            /h4> <
-                            h4 >
-                            <
-                            i className = "fas fa-envelope-open-text text-dark" > < /i> {' '}{restprofile.restuser.restEmail} <
-                            /h4> <
-                            /div> <
-                            /Fragment>: <p className='lead text-dark'> No Restaurant contact</p >
-                        } <
-                        /div> <
-                        /div> <
-                        /div> <
-                        /Fragment>
+                            /div>
+                        )) : 'No reviews yet'
+                    } <
+                    /Fragment> : <Fragment> <
+                    p className = 'lead text-dark' > This restaurant does not have profile yet < /p> <
+                    Link className = 'small text-primary'
+                    to = '/createprofile' > Create One ? < /Link> < /
+                    Fragment >
+                } <
+                /div> <
+                div className = "column2" > {
+                    restprofile ? < Fragment >
+                    <
+                    div className = "info" >
+                    <
+                    form onSubmit = {
+                        (e) => restImageSave(e)
+                    } >
+                    <
+                    div className = "file-field input-field" >
+                    <
+                    div className = "btn #64b5f6 blue darken-1" >
+                    <
+                    span > Upload Restaurant Image < /span> <
+                    input type = "file"
+                    onChange = {
+                        (e) => restImageChange(e)
                     }
+                    /> < /
+                    div > <
+                    /div> <
+                    br / >
+                    <
+                    button type = "submit"
+                    className = "btn btn-dark" >
+                    Add More Images <
+                    /button> < /
+                    form > <
+                    /div> <
+                    div className = "info" >
+                    <
+                    h4 >
+                    <
+                    i className = "fas fa-phone-alt text-dark" > < /i> {' '}{restprofile.contact} < /
+                    h4 > <
+                    h4 >
+                    <
+                    i className = "fas fa-map-marked-alt text-dark" > < /i> {' '}{restprofile.restuser.location} < /
+                    h4 > <
+                    h4 >
+                    <
+                    i className = "fas fa-envelope-open-text text-dark" > < /i> {' '}{restprofile.restuser.restEmail} < /
+                    h4 > <
+                    /div> < /
+                    Fragment > : < p className = 'lead text-dark' > No Restaurant contact < /p >
+                } <
+                /div> < /
+                div > <
+                /div> < /
+                Fragment >
+            }
 
-                    RestDashboard.propTypes = {
-                        getCurrentRestProfile: PropTypes.func.isRequired,
-                        auth: PropTypes.object.isRequired,
-                        restprofile: PropTypes.object.isRequired,
-                        insertImage: PropTypes.func.isRequired,
-                        insertRestImage: PropTypes.func.isRequired,
-                    }
+        RestDashboard.propTypes = {
+            getCurrentRestProfile: PropTypes.func.isRequired,
+            auth: PropTypes.object.isRequired,
+            restprofile: PropTypes.object.isRequired,
+            insertImage: PropTypes.func.isRequired,
+            insertRestImage: PropTypes.func.isRequired,
+        }
 
-                    const mapStateToProps = state => ({
-                        auth: state.auth,
-                        restprofile: state.restprofile
-                    })
+        const mapStateToProps = state => ({
+            auth: state.auth,
+            restprofile: state.restprofile
+        })
 
-                    export default connect(mapStateToProps, { getCurrentRestProfile, insertImage, insertRestImage })(RestDashboard);
+        export default connect(mapStateToProps, { getCurrentRestProfile, insertImage, insertRestImage })(RestDashboard);

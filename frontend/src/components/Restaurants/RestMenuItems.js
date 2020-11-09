@@ -39,7 +39,7 @@ const RestMenuItems = ({ getRestProfilebyId, restprofile: { restprofile, loading
         //   windows reload
         // }
         // console.log('inside rest menu items, new obj is ', newobj);
-        const backendimagesserver = "http://3.101.107.33:3001/api/getdishimages/"
+        const backendimagesserver = "http://54.183.189.222:3001/api/getdishimages/"
         return (
                 loading || restprofile === null ? < Spinner / > : < Fragment >
                 <
@@ -56,16 +56,16 @@ const RestMenuItems = ({ getRestProfilebyId, restprofile: { restprofile, loading
                     Cuisine < /h4> <
                     h4 >
                     <
-                    i className = "far fa-clock" > < /i> {restprofile.timings} <
-                    /h4> <
+                    i className = "far fa-clock" > < /i> {restprofile.timings} < /
+                    h4 > <
                     h4 >
                     <
-                    i className = "fas fa-map-marked-alt text-dark" > < /i> {' '}{restprofile.restuser.location} <
-                    /h4> <
+                    i className = "fas fa-map-marked-alt text-dark" > < /i> {' '}{restprofile.restuser.location} < /
+                    h4 > <
                     h4 >
                     <
-                    i className = "fas fa-envelope-open-text text-dark" > < /i> {' '}{restprofile.restuser.restEmail} <
-                    /h4>
+                    i className = "fas fa-envelope-open-text text-dark" > < /i> {' '}{restprofile.restuser.restEmail} < /
+                    h4 >
 
                     <
                     /div> <
@@ -85,87 +85,88 @@ const RestMenuItems = ({ getRestProfilebyId, restprofile: { restprofile, loading
                                         div >
                                         <
                                         h3 > { k } < /h3> {
-                                            newobj[k].map((indi) => ( <
-                                                        Fragment >
-                                                        <
-                                                        div className = "card mb-3" >
-                                                        <
-                                                        div className = "row no-gutters" >
-                                                        <
-                                                        div className = "col-md-4" > {
-                                                            indi.dishimages.length > 0 ? indi.dishimages.map(imgname => {
-                                                                    return ( < img src = { `${backendimagesserver}/${indi.itemName}/${imgname}` }
-                                                                        />)}):null} <
-                                                                        /div> <
-                                                                        div class = "col-md-8" >
-                                                                        <
-                                                                        div class = "card-body" >
-                                                                        <
-                                                                        h4 className = "text-dark bold" > { indi.itemName } <
-                                                                        /h4> <
-                                                                        br / >
-                                                                        <
-                                                                        h4 className = "text-black" >
-                                                                        Description: { ' ' } { indi.itemDescription } <
-                                                                        /h4> <
-                                                                        br / >
-                                                                        <
-                                                                        h4 className = "text-black" >
-                                                                        Ingrediants: { ' ' } { indi.itemIngredients } <
-                                                                        /h4> <
-                                                                        br / >
-                                                                        <
-                                                                        h4 className = "text-black" > { indi.itemPrice } < /h4>
+                                        newobj[k].map((indi) => ( <
+                                                Fragment >
+                                                <
+                                                div className = "card mb-3" >
+                                                <
+                                                div className = "row no-gutters" >
+                                                <
+                                                div className = "col-md-4" > {
+                                                    indi.dishimages.length > 0 ? indi.dishimages.map(imgname => {
+                                                            return ( < img src = { `${backendimagesserver}/${indi.itemName}/${imgname}` }
+                                                                />)}):null} < /
+                                                                div > <
+                                                                div class = "col-md-8" >
+                                                                <
+                                                                div class = "card-body" >
+                                                                <
+                                                                h4 className = "text-dark bold" > { indi.itemName } <
+                                                                /h4> <
+                                                                br / >
+                                                                <
+                                                                h4 className = "text-black" >
+                                                                Description: { ' ' } { indi.itemDescription } <
+                                                                /h4> <
+                                                                br / >
+                                                                <
+                                                                h4 className = "text-black" >
+                                                                Ingrediants: { ' ' } { indi.itemIngredients } <
+                                                                /h4> <
+                                                                br / >
+                                                                <
+                                                                h4 className = "text-black" > { indi.itemPrice } < /h4>
 
-                                                                        <
-                                                                        /div> <
-                                                                        br / >
-                                                                        <
-                                                                        div >
-                                                                        <
-                                                                        Link to = { `/orders/create/${restprofile.restuser._id}/${indi._id}` }
-                                                                        className = "btn btn-dark small" >
-                                                                        PlaceOrder <
-                                                                        /Link> <
-                                                                        /div> <
-                                                                        /div> <
-                                                                        /div> <
-                                                                        /div>
+                                                                <
+                                                                /div> <
+                                                                br / >
+                                                                <
+                                                                div >
+                                                                <
+                                                                Link to = { `/orders/create/${restprofile.restuser._id}/${indi._id}` }
+                                                                className = "btn btn-dark small" >
+                                                                PlaceOrder <
+                                                                /Link> < /
+                                                                div > <
+                                                                /div> < /
+                                                                div > <
+                                                                /div>
 
-                                                                        <
-                                                                        br / >
-                                                                        <
-                                                                        /Fragment>
-                                                                    ))
-                                                            } <
-                                                            /div>)
-                                                        }): "none"
-                                                } <
-                                                Paginate itemsPerPage = { dishesPerPage }
-                                            totalItems = { 3 }
-                                            paginate = { paginate }
-                                            /> <
-                                            /Fragment> : <Spinner/ >
-                                        }
+                                                                <
+                                                                br / >
+                                                                <
+                                                                /Fragment>
+                                                            ))
+                                                    } <
+                                                    /div>)
+                                                }): "none"
+                                        } <
+                                        Paginate itemsPerPage = { dishesPerPage }
+                                        totalItems = { 3 }
+                                        paginate = { paginate }
+                                        /> < /
+                                        Fragment >: < Spinner / >
+                                    }
 
-                                        <
-                                        /Fragment> : <Fragment> <
-                                        p className = 'lead text-dark' > This restaurant does not have menuitems yet < /p> <
-                                        /Fragment>} <
-                                        /div>
+                                    <
+                                    /Fragment> : <Fragment> <
+                                    p className = 'lead text-dark' > This restaurant does not have menuitems yet < /p> < /
+                                        Fragment >
+                                } <
+                                /div>
 
-                                        <
-                                        /Fragment>
-                                    )
-                                }
+                                <
+                                /Fragment>
+                            )
+                        }
 
-                                RestMenuItems.propTypes = {
-                                    getRestProfilebyId: PropTypes.func.isRequired,
-                                    restprofile: PropTypes.object.isRequired,
-                                }
+                        RestMenuItems.propTypes = {
+                            getRestProfilebyId: PropTypes.func.isRequired,
+                            restprofile: PropTypes.object.isRequired,
+                        }
 
-                                const mapStateToProps = state => ({
-                                    restprofile: state.restprofile
-                                })
+                        const mapStateToProps = state => ({
+                            restprofile: state.restprofile
+                        })
 
-                                export default connect(mapStateToProps, { getRestProfilebyId })(RestMenuItems);
+                        export default connect(mapStateToProps, { getRestProfilebyId })(RestMenuItems);

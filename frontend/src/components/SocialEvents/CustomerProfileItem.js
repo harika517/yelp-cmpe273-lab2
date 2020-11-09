@@ -6,15 +6,14 @@ import PropTypes from 'prop-types';
 
 const CustomerProfileItem = ({ attendee }) => {
 
-    const backendimageserver = "http://3.101.107.33:3001/api/userimages/user/"
+    const backendimageserver = "http://54.183.189.222:3001/api/userimages/user/"
 
     return ( <
         div className = "profile" >
         <
         img src = {
             attendee.image.file ?
-            `${backendimageserver}${attendee.image}` :
-                `${backendimageserver}image`
+            `${backendimageserver}${attendee.image}` : `${backendimageserver}image`
         }
         alt = "Profile Picture" /
         >
@@ -41,8 +40,8 @@ const CustomerProfileItem = ({ attendee }) => {
         br / >
         <
         Link to = { `/registereduser/${attendee.user}` }
-        className = "btn btn-dark" > View Profile < /Link> <
-        /div> <
+        className = "btn btn-dark" > View Profile < /Link> < /
+        div > <
         /div>
 
     )
