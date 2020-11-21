@@ -1,1 +1,1 @@
-initial content for readme
+# Lab2: Yelp Prototype using React Redux MongoDB Express
