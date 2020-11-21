@@ -1,5 +1,7 @@
 # Lab2: Yelp Prototype using React Redux MongoDB Express
 
+![](public/uploads/ScreenShot.png)
+
 ## Backend : Install dependencies and basic express setup
 npm init </br>
 npm install express express-validator config bcryptjs gravatar jsonwebtoken passport passport-jwt mongoose request </br>
