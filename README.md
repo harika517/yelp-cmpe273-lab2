@@ -2,7 +2,7 @@
 
 ## Backend : Install dependencies and basic express setup
 npm init </br>
-npm install express express-validator config bcryptjs gravatar jsonwebtoken passportjs mongoose request </br>
+npm install express express-validator config bcryptjs gravatar jsonwebtoken passport passport-jwt mongoose request </br>
 npm i -D nodemon </br>
 </br>
 
@@ -25,6 +25,10 @@ RestUser </br>
 SocialEvents </br>
 User </br>
 UserProfile </br>
+
+## Kafka Setup
+npm install kafka-node
+
 
 
 
