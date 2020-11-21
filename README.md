@@ -25,7 +25,7 @@ Database collections are desined in MongoDB Atlas and the appalication is connec
 
 #### Persona
 Restuarant </br>
-![](public/uploads/Picture3.png)
+![](public/uploads/Picture3.png) </br>
 User </br>
 ![](public/uploads/Picture4.png)
 
